@@ -1,0 +1,13 @@
+<div class="col">
+    <div class="card card_base {{ day.card_class }} h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between"><h1 class="card-title fw-bold">{{ day }}</h1><h1 class="">{{ day.user.name }}</h1></div>
+        {% if day.has_description %}
+          <p class="card-text">{{ day.description }}</p>
+        {% endif %}
+        {% for tears in day.day_tears %}
+          {% include "tears/tears.html" with tears=tears %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>

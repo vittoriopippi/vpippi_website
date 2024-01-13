@@ -1,0 +1,67 @@
+{% extends 'tears/base.html' %}
+
+{% block title %}
+  Nuovo Pianto
+{% endblock %}
+
+{% block body %}
+  <div class="col">
+    <div class="card card_base card_bored h-100">
+      <div class="card-body">
+        <form class="row" method="POST">
+            {% csrf_token %}
+          <div class="col-4">
+            <select id="inputDay" class="form-select form-control-lg tears_base_round" name="day">
+              {% for date in dates %}
+                {% if curr_date == date %}
+                  <option selected value="{{ date }}">{{ date }}</option>
+                {% else %}
+                  <option value="{{ date }}">{{ date }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-8">
+            <select id="inputMonth" class="form-select form-control-lg tears_base_round" name="month">
+              {% for month in months %}
+                {% if curr_month == month %}
+                  <option selected value="{{ month }}">{{ month }}</option>
+                {% else %}
+                  <option value="{{ month }}">{{ month }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-12 mt-3 d-flex justify-content-between">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="day_happy" id="inlineRadio1" value="happy" />
+              <label class="form-check-label" for="inlineRadio1">Felice</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="day_bored" id="inlineRadio2" value="bored" />
+              <label class="form-check-label" for="inlineRadio2">Normale</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="day_sad" id="inlineRadio3" value="sad" />
+              <label class="form-check-label" for="inlineRadio3">Triste</label>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label for="exampleFormControlTextarea1" class="form-label tears_base_round">Descrizione della giornata</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="day_desc"></textarea>
+          </div>
+
+          <div class="col-12">
+            {% include 'tears/create_tears.html' %}
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary mt-3 w-100 tears_base_round">Salva</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

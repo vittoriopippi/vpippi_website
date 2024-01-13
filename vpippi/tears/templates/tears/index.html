@@ -1,0 +1,12 @@
+{% extends "tears/base.html" %}
+
+{% block title %}Wrappiantino{% endblock title %}
+
+{% block body %}
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    {% for day in days %}
+        {% include "tears/day.html" with day=day%}
+    {% endfor %}
+</div>
+<a href="{% url "tears_create" username=username %}" class="btn plus_button">➕</a>
+{% endblock body %}
