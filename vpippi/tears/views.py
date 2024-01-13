@@ -62,5 +62,6 @@ def create(request, username):
         'curr_date': datetime.now().day,
         'months': ITA_MONTHS,
         'curr_month': ITA_MONTHS[datetime.now().month - 1],
+        'username': username,
     }
     return render(request, "tears/create.html", context)

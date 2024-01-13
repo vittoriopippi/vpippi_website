@@ -8,5 +8,7 @@
         {% include "tears/day.html" with day=day%}
     {% endfor %}
 </div>
+{% if username %}
 <a href="{% url "tears_create" username=username %}" class="btn plus_button">➕</a>
+{% endif %}
 {% endblock body %}
