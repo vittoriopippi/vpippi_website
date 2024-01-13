@@ -27,6 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
+    'vpippi.com',
     'www.vpippi.com',
 ]
 
