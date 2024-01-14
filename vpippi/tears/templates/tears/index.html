@@ -3,7 +3,7 @@
 {% block title %}Wrappiantino{% endblock title %}
 
 {% block body %}
-<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 6em;">
     {% for day in days %}
         {% include "tears/day.html" with day=day%}
     {% endfor %}
