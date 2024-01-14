@@ -1,7 +1,7 @@
 <div class="col">
     <div class="card card_base {{ day.card_class }} h-100">
       <div class="card-body">
-        <div class="d-flex justify-content-between"><h1 class="card-title fw-bold">{{ day }}</h1><h1 class="">{{ day.user.name }}</h1></div>
+        <div class="d-flex justify-content-between"><h2 class="card-title fw-bold">{{ day }}</h2><h2 class="">{{ day.user.name }}</h2></div>
         {% if day.has_description %}
           <p class="card-text">{{ day.description }}</p>
         {% endif %}
