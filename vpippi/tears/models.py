@@ -35,6 +35,9 @@ class Tears(models.Model):
             return "😭"
         else:
             return "😵‍💫"
+        
+    def __str__(self):
+        return f"{self.status_str()} {self.quantity_str()} {self.description[:16]}"
 
 class Day(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
