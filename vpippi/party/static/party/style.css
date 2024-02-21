@@ -237,6 +237,15 @@ body {
     height: 1.2em;
 }
 
+.fuorisede_card {
+    width: 100%;
+    padding: 1.0em;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
+    margin-bottom: 1em;
+
+}
+
 .ticket_bottom {
     display: flex;
 }
