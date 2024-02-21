@@ -1,0 +1,66 @@
+{% extends "party/base.html" %}
+
+{% block title %}Lista{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container ticket_container p-3">
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+    <div class="ticket px-4 pt-2 pb-4">
+        <h1 class="card-title circus">STATS</h1>
+        <div class="w-100 d-flex justify-content-between"><span>Totali:</span><span>{{ stats.total }}</span></div>
+        <div class="w-100 d-flex justify-content-between"><span>Vengono: <span class="badge rounded-pill bg-success">Viene</span></span><span>{{ stats.yes }}</span></div>
+        <div class="w-100 d-flex justify-content-between"><span>Non vengono: <span class="badge rounded-pill bg-danger">Nope</span></span><span>{{ stats.no }}</span></div>
+        <div class="w-100 d-flex justify-content-between"><span>Vengono +1: <span class="badge rounded-pill bg-info">Viene +1</span></span><span>{{ stats.plus }}</span></div>
+        <div class="w-100 d-flex justify-content-between"><span>Attesa: <span class="badge rounded-pill bg-warning">Attesa</span></span><span>{{ stats.pending }}</span></div>
+        <div class="w-100 pt-3"><span>Ultima modifica:</span></div>
+        <div class="w-100 pb-3"><span>{{ stats.last_update }}</span></div>
+
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: {{ stats.yes_percent }}%" aria-valuenow="{{ stats.yes }}" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ stats.no_percent }}%" aria-valuenow="{{ stats.no }}" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-info" role="progressbar" style="width: {{ stats.plus_percent }}%" aria-valuenow="{{ stats.plus }}" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ stats.pending_percent }}%" aria-valuenow="{{ stats.pending }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+    <div class="ticket px-4 pt-2 pb-1">
+        <form class="pb-3 d-flex justify-content-between filter-form" method="POST">
+            {% csrf_token %}
+            <select class="form-select" name="filter">
+                <option value="all">Tutti</option>
+                <option value="yes">Vengono</option>
+                <option value="no">Non vengono</option>
+                <option value="plus">Vengono +1</option>
+                <option value="pending">Attesa</option>
+                <option value="sort_name">Ordina (nome)</option>
+                <option value="sort_date">Ordina (data)</option>
+                <option value="sort_state">Ordina (stato)</option>
+            </select>
+            <input class="btn btn-outline-primary" type="submit" value="Filtra">
+        </form>
+        {% for invite in invites %}
+        <div class="invite d-flex justify-content-between">
+            <a href="{% url 'from_phone' invite.phone %}">{{ invite.name }}</a>
+            <div>
+                <a href="https://wa.me/{{ invite.phone_suffix }}{{ invite.phone }}"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="25" alt="WhatsApp" class="img-fluid"></a>
+                {% if invite.state == "YE" %}
+                    <span class="badge rounded-pill bg-success">Viene</span>
+                {% elif invite.state == "NO" %}
+                    <span class="badge rounded-pill bg-danger">Nope</span>
+                {% elif invite.state == "+1" %}
+                    <span class="badge rounded-pill bg-info">Viene +1</span>
+                {% else %}
+                    <span class="badge rounded-pill bg-warning">Attesa</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+{% endblock %}

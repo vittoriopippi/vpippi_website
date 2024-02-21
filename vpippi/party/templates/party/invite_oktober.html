@@ -1,0 +1,140 @@
+{% extends "party/base.html" %}
+{% load static %}
+
+{% block title %}Invito {{ invite.name }}{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container oktober_container p-3">
+    <div class="vitto-toast d-none">
+      <div class="vitto-toast-body">
+        Grazie per la risposta! 
+      </div>
+    </div>
+
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+    <div class="oktober px-4 pt-0 pb-1">
+
+        <img src="{% static 'party/aprilfest.png' %}" class="aprilfest_img pb-4">
+
+        {% if invite.name %}
+          <h1 class="card-title circus pb-3">{{ invite.name }}</h1>
+        {% endif %}
+
+        <p class="card-text">
+          Here we go again!
+        </p>
+          <p class="card-text">
+          Sei stat&#601; ufficialmente invitat&#601; al mio evento. 
+          Si terrà a Foligno il <strong>12 Aprile 2023</strong> alle ore 21:30 presso Casa Pippi in <a href="https://goo.gl/maps/k4jq3pL7XDrAudHj7">Via del Roccolo 4</a>. 
+        </p>
+        {% if invite.fuorisede %}
+        <p class="card-text">
+          Per chi viene da fuori quest’anno si attacca. :)
+        </p>
+        {% endif %}
+        <p class="card-text">
+          Nonostante mi fossi ripromesso di smetterala, ci son cascato di nuovo... Anche quest’anno sono stato convinto dalle persone a me care
+          ad organizzare una festa così da salutarvi tutti nel migliore dei modi prima di partire alla volta della Germania. 
+        </p>
+        <p class="card-text">
+          Per prepararmi al meglio ho deciso che l'evento di sarà a tema <strong>Oktoberfest</strong>, motivo per cui, se vuoi partecipare, dovrai vestirti a modo! 
+          <strong>Mi raccomando, senza un vestito non si entra ;)</strong>
+        </p>
+        <p class="card-text">
+          Prost 🍻
+        </p>
+
+        <p class="collapse-p pb-3">
+          <button class="collapse-btn" type="button" data-bs-toggle="collapse" onclick="$(this).toggleClass('active')"
+          data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            MAGGIORI INFORMAZIONI
+          </button>
+        </p>
+
+        <div class="collapse p-0 pb-3" id="collapseExample">
+          <div class="collapse-card pb-0">
+            <p class="card-text mt-0">
+              Alla festa sarà presente un <strong>set fotografico professionale</strong> sponsorizzato da <a href="https://www.instagram.com/matteociri/">@matteociri</a> (dicono che è bravo).
+            </p>
+            <p class="card-text mt-4">
+              Quest'anno non vi verrà richiesto niente di particolare, se non la <strong>vostra presenza</strong>, la voglia di divertirvi ed ovviamente un vestito appropriato.
+            </p>
+            <div class="three-stars d-flex justify-content-center mb-2">
+              {% include "party/star5.svg" %}
+              {% include "party/star5.svg" %}
+              {% include "party/star5.svg" %}
+            </div>
+          </div>
+        </div>
+
+        {% if not fake %}
+        <p class="card-text">
+          <strong>Rispondi qua sotto</strong>, non è vincolante, però mi aiuterà a organizzare tutto al meglio ❤️  
+        </p>
+        {% endif %}   
+    </div>
+
+    {% if not fake %}
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+    <div class="oktober px-4 ticket_bottom">
+      <div class="left">
+        <div>
+          <img src="{% static 'party/aprilfest.png' %}" class="w-100">
+        </div>
+      </div>
+      <div class="ticket_form right">
+          <h3 class="mb-2">Quindi?</h3>
+          <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
+            <div class="box">
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+            </div>
+            <div class="text" data-value="YE">CI SONO!</div></div>
+          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
+          </div><div class="text" data-value="NO">NON POSSO</div></div>
+          <div class="checkbox  {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+            <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
+          </div><div class="text" data-value="+1">CI SIAMO! +1</div></div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  function set_partecipation(partecipation) {
+    console.log(partecipation);
+    $.post(window.location, {attending: partecipation});
+  }
+
+  function show_toast(msg) {
+    $('.vitto-toast').removeClass('d-none');
+    $('.vitto-toast').addClass('show');
+  
+    setTimeout(function() {
+      $('.vitto-toast').removeClass('show');
+    }, 2000);
+  }
+
+  $(document).ready(function() {
+    $('.checkbox').click(function() {
+      if ($(this).hasClass('active')) {
+        set_partecipation('PD');
+      } else {
+        show_toast('Salvato!');
+        set_partecipation($(this).find('.text').data('value'));
+        $('.checkbox').removeClass('active');
+      }
+      $(this).toggleClass('active');
+    });
+  });
+</script>
+{% endblock %}

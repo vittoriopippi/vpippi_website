@@ -1,0 +1,558 @@
+@font-face {
+    font-family: "QuentinCaps";
+    src: url('QuentinCaps.ttf');
+}
+
+@font-face {
+    font-family: "Rye-Regular";
+    src: url('Rye-Regular.ttf');
+}
+
+@font-face {
+    font-family: "OldLondon";
+    src: url('OldLondon.ttf');
+}
+
+.bg_pattern {
+    background-color: #f3f2dc;
+    opacity: 0.8;
+    background-image:  linear-gradient(135deg, #71afd5 25%, transparent 25%), linear-gradient(225deg, #71afd5 25%, transparent 25%), linear-gradient(45deg, #71afd5 25%, transparent 25%), linear-gradient(315deg, #71afd5 25%, #f3f2dc 25%);
+    background-position:  24px 0, 24px 0, 0 0, 0 0;
+    background-size: 24px 24px;
+    background-repeat: repeat;
+
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
+}
+
+.ticket_container {
+    max-width: 480px;
+    display: block;
+    z-index: 2;
+}
+
+.ticket_container>svg {
+    fill: #ef7a63;
+    z-index: 1;
+    margin-bottom: -1px;
+    margin-top: -1px;
+}
+
+.oktober_container {
+    max-width: 480px;
+    display: block;
+    z-index: 2;
+}
+
+.oktober_container>svg {
+    fill: #fa6b69;
+    z-index: 1;
+    margin-bottom: -1px;
+    margin-top: -1px;
+}
+
+.aprilfest_img {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 0%;
+}
+
+.circus {
+    font-family: 'OldLondon';
+    text-align: center;
+    font-size: 3.5rem;
+    color: #2f3542;
+}
+
+.cls-1 {
+    fill: #ffffdd;
+}
+
+.star-title {
+    position: relative;
+    fill: #ef7a63;
+}
+
+.star-title > svg {
+    position: absolute;
+    top: 0.6em;
+    left: 0.7em;
+    width: 4em;
+    fill: #ef7a63;
+}
+
+.star-title > h1 {
+    position: relative;
+}
+
+.ticket {
+    background: #ffffdd;
+    border-left: 0.6rem solid #ef7a63;
+    border-right: 0.6rem solid #ef7a63;
+    width: 100%;
+    /* position: relative; */
+}
+
+.ticket>div {
+    font-weight: 500;
+}
+
+.oktober {
+    background: #ffffdd;
+    border-left: 0.6rem solid #fa6b69;
+    border-right: 0.6rem solid #fa6b69;
+    width: 100%;
+    /* position: relative; */
+}
+
+.oktober>div {
+    font-weight: 500;
+}
+
+body {
+    /* background: #970246; */
+    font-family: 'Work Sans', sans-serif;
+}
+
+.bg {
+    background-image: url('bg_green.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
+}
+.bg-colored {
+    fill: #2f3542 !important;
+}
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    -webkit-animation: rotating 40s linear infinite;
+}
+
+.notify-ball {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+.ticket_form {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    font-size: 1.2rem;
+}
+
+.ticket_form>button {
+    width: 100%;
+}
+
+.ticket_form>h3 {
+    font-size: 2.6rem;
+    font-weight: 500;
+    color: #2f3542;
+    font-family: 'OldLondon';
+}
+
+.checkbox {
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+}
+
+.checkbox>.box {
+    margin-top: 0.2em;
+    margin-right: 0.5em;
+    width: 1em;
+    height: 1em;
+    border: 0.1em solid #ef7a63;
+}
+
+.checkbox>.box>svg {
+    position: relative;
+    fill: #970246;
+    display: none;
+}
+
+.checkbox.active>.box>svg {
+    display: flex;
+}
+
+.shrink {
+    display: inline-block;
+    transform: scale(1, 0.85);
+    /* Safari and Chrome */
+    -webkit-transform: scale(1, 0.85);
+    /* Firefox */
+    -moz-transform: scale(1, 0.85);
+    /* IE 9+ */
+    -ms-transform: scale(1, 0.85);
+    /* Opera */
+    -o-transform: scale(1, 0.85);
+}
+
+.single-tick {
+    left: 3%;
+    top: -32%;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.cross {
+    left: 8%;
+    top: 8%;
+    width: 0.7em;
+    height: 0.7em;
+}
+
+.double-tick {
+    left: 10%;
+    top: -26%;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.ticket_bottom {
+    display: flex;
+}
+
+.ticket_bottom > .left {
+    width: 40%;
+    border-right: 2px solid #ef7a63;
+    padding: 0 !important;
+    padding: 0 !important;
+    position: relative;
+}
+
+.ticket_bottom > .left > div {
+    width: 91%;
+    padding-top: 15%;
+    padding-left: 13%;
+    position: relative;
+}
+
+.ticket_bottom > .left .star {
+    position: absolute;
+    left: -7%;
+    top: -17%;
+    width: 80%;
+    fill: #ef7a63;
+}
+
+.ticket_bottom > .left .date {
+    position: absolute;
+}
+
+.ticket_bottom > .right {
+    /* padding: 0; */
+    padding-right: 0% !important;
+    width: 60%;
+}
+
+.collapse-p {
+    margin-left: -10%;
+    margin-right: -10%;
+    width: 120%;
+}
+
+.collapse-btn {
+    width: 83%;
+    margin-left: 8.5%;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border: 2px solid #2f3542;
+    background: #2f3542;
+    font-size: 1.2em;
+    font-weight: 800;
+    color: white;
+    border-radius: 1em;
+    transition: 0.3s;
+}
+
+.collapse-btn.active {
+    background: transparent;
+    color: #2f3542;
+    transition: 0.3s;
+}
+
+.collapse-card {
+    padding-bottom: 1em;
+}
+
+.invite {
+    width: 100%;
+    font-size: 1.2em;
+    padding-bottom: 0.6em;
+}
+
+.invite .badge {
+    min-width: 6em;
+}
+
+.invite>a {
+    text-decoration: none;
+    color: #2f3542;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 65%;
+}
+
+a {
+    color: #ef7a63;
+}
+
+.filter-form {
+    width: 100%;
+}
+
+.filter-form input {
+    width: 30%;
+}
+
+.filter-form select {
+    width: 65%;
+}
+
+.youtube {
+    width: 100%;
+    height: 8em;
+    display: flex;
+    border-radius: 1em;
+    position: relative;
+}
+
+.youtube > .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+    border-radius: 1em;
+}
+
+.youtube > .overlay:hover {
+    opacity: 0.6;
+    transition: .3s;
+}
+
+.youtube > svg {
+    position: absolute;
+    fill: #ef7a63;
+    width: 10%;
+    top: 35%;
+    left: 45%;
+}
+
+.tom {
+    background-image: url('https://i.ytimg.com/vi/jPCJIB1f7jk/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC7MVLvakMDhLAEaZHYmbYARybmIg');
+}
+.neil {
+    background-image: url('https://i.ytimg.com/vi/JAw9dDL9fjk/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDZQbstmz0-7tQw217-3tJChnymoA');
+}
+.tatum {
+    background-image: url('https://i.ytimg.com/vi/OFoogpXEVoY/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBja9QRikIZSTidFsyD0cey7iSDNw');
+}
+
+.three-stars {
+    width: 100%;
+    height: 1.2em;
+    padding: 0 1em;
+    margin-bottom: -1em;
+}
+
+.three-stars > svg {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    fill: #2f3542;
+}
+
+.outside-star {
+    position: absolute;
+}
+
+.outside-star svg {
+    fill: #ef7a63;
+    width: 1.6em;
+    position: absolute;
+}
+
+.star-tl {
+    top: 1%;
+    left: 1%;
+}
+
+.star-tr {
+    top: 1%;
+    left: 92%;
+}
+
+.star-bl {
+    top: 92%;
+    left: 1%;
+}
+
+.star-br {
+    top: 92%;
+    left: 92%;
+}
+
+.vitto-toast {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3em;
+    background: #ef7a63;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    z-index: 999;
+    opacity: 0;
+    transition: .9s;
+}
+
+.vitto-toast.show {
+    opacity: 1;
+    transition: .3s;
+}
+
+/* iPhone XR & Pixel 6a & Galaxy S20 Ultra */
+@media screen and (max-width: 414px) {
+    .notify-ball {
+        background-color: blueviolet;
+    }
+    .ticket_bottom > .left > svg {
+        padding-top: 1.9em;
+    }
+    .ticket_bottom > .left > div {
+        padding-top: 22%;
+    }
+    .invite>a {
+        width: 60%;
+    }
+}
+/* iPhone 12 Pro */
+@media screen and (max-width: 390px) {
+    .notify-ball {
+        background-color: blue;
+    }
+    .ticket_bottom > .left .star {
+        top: 30%;
+    }
+    .ticket_bottom > .left > div {
+        padding-top: 40%;
+    }
+    .ticket_bottom > .left {
+        width: 33%;
+    }
+    .ticket_bottom > .right {
+        width: 66%;
+    }
+    .invite>a {
+        width: 55%;
+    }
+}
+/* iPhone SE */
+@media screen and (max-width: 375px) {
+    .notify-ball {
+        background-color: green;
+    }
+    .ticket_bottom > .left {
+        width: 33%;
+    }
+    .ticket_bottom > .right {
+        width: 66%;
+    }
+    .ticket_bottom > .left > div {
+        width: 92%;
+        padding-top: 35%;
+        padding-left: 0%;
+    }
+    .ticket_bottom > .left .star {
+        left: -12%;
+        top: 27%;
+    }
+    .invite>a {
+        width: 55%;
+    }
+}
+/* Galaxy S8+ */
+@media screen and (max-width: 360px) {
+    .notify-ball {
+        background-color: red;
+    }
+    .ticket_bottom > .left > div {
+        padding-top: 49%;
+    }
+    .ticket_bottom > .left .star {
+        top: 50%;
+    }
+    .ticket_bottom > .left {
+        width: 30%;
+    }
+    .ticket_bottom > .right {
+        width: 70%;
+    }
+    .invite>a {
+        width: 50%;
+    }
+}
+/* Galaxy Fold */
+@media screen and (max-width: 280px) {
+    .notify-ball {
+        background-color: darkorange;
+    }
+    .ticket_bottom > .left {
+        display: none;
+    }
+    .ticket_bottom > .right {
+        width: 100%;
+    }
+    .circus {
+        font-size: 2rem;
+    }
+    .ticket_form {
+        padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
+        padding-left: 1rem !important;
+        padding-right: 0rem !important;
+    }
+    .invite>a {
+        width: 45%;
+    }
+    .invite .badge {
+        min-width: 4em;
+    }
+}
