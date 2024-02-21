@@ -107,6 +107,13 @@
     /* position: relative; */
 }
 
+.oktober > .left > img {
+    margin-top: 1em;
+    margin-left: 10%;
+    width: 80%;
+    /* position: relative; */
+}
+
 .oktober>div {
     font-weight: 500;
 }
