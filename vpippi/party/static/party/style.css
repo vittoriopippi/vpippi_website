@@ -9,8 +9,8 @@
 }
 
 @font-face {
-    font-family: "OldLondon";
-    src: url('OldLondon.ttf');
+    font-family: "Bastarda";
+    src: url('Bastarda.ttf');
 }
 
 .bg_pattern {
@@ -60,7 +60,7 @@
 }
 
 .circus {
-    font-family: 'OldLondon';
+    font-family: 'Bastarda';
     text-align: center;
     font-size: 3.5rem;
     color: #2f3542;
@@ -183,7 +183,7 @@ body {
     font-size: 2.6rem;
     font-weight: 500;
     color: #2f3542;
-    font-family: 'OldLondon';
+    font-family: 'Bastarda';
 }
 
 .checkbox {
