@@ -9,8 +9,8 @@
 }
 
 @font-face {
-    font-family: "Bastarda";
-    src: url('Bastarda.ttf');
+    font-family: "Germanika";
+    src: url('Germanika.ttf');
 }
 
 .bg_pattern {
@@ -60,7 +60,7 @@
 }
 
 .circus {
-    font-family: 'Bastarda';
+    font-family: 'Germanika';
     text-align: center;
     font-size: 3.5rem;
     color: #2f3542;
@@ -183,7 +183,7 @@ body {
     font-size: 2.6rem;
     font-weight: 500;
     color: #2f3542;
-    font-family: 'Bastarda';
+    font-family: 'Germanika';
 }
 
 .checkbox {
