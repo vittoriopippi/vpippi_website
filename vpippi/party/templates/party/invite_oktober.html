@@ -41,41 +41,30 @@
           Prost 🍻
         </p>
 
-        <p class="collapse-p pb-3">
-          <button class="collapse-btn" type="button" data-bs-toggle="collapse" onclick="$(this).toggleClass('active')"
-          data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            MAGGIORI INFORMAZIONI
-          </button>
+        <p class="card-text mt-0">
+          Alla festa sarà presente un <strong>set fotografico</strong> sponsorizzato da <a href="https://www.instagram.com/matteociri/">@matteociri</a> (dicono che è bravo).
         </p>
-
-        <div class="collapse p-0 pb-3" id="collapseExample">
-          <div class="collapse-card pb-0">
-            <p class="card-text mt-0">
-              Alla festa sarà presente un <strong>set fotografico</strong> sponsorizzato da <a href="https://www.instagram.com/matteociri/">@matteociri</a> (dicono che è bravo).
-            </p>
-            <p class="card-text mt-4">
-              Quest'anno non vi verrà richiesto niente di particolare, se non la <strong>vostra presenza</strong>, la voglia di divertirvi e ovviamente un vestito appropriato.
-            </p>
-            {% if invite.fuorisede %}
-            <div class="fuorisede_card pb-3">
-              <p class="card-text">
-                Per chi viene da fuori: purtroppo quest'anno non potrò ospitarvi, altrimenti rischio di venire dato in pasto ai cani.
-              </p>
-                <p class="card-text">
-                In compenso, ho controllato e ci sono delle case nelle vicinanze (<a href="https://www.airbnb.it/rooms/673671675826405407?check_in=2024-04-12&check_out=2024-04-13&guests=1&adults=8&s=67&unique_share_id=f4ab5d7f-950d-468a-a762-701ddd9f7767">tipo questa</a>) che potrebbero ospitare fino a 8 persone a un costo contenuto (22€ a persona a notte).
-              </p>
-              <p class="card-text">
-                Per coordinarsi sugli spostamenti ed eventuali pernottamenti, vi invito a entrare in <a href="https://chat.whatsapp.com/HkaoNUEtAbHIkbWqV0lp98">questo gruppo WhatsApp</a> che ho creato per l'occasione.
-              </p>
-            </div>
-            {% endif %}
-            {% comment %} <p class="card-text mt-4">
-              <strong>P.S.:</strong> Matteo mi ha chiesto di aggiungere <a href="https://chat.whatsapp.com/E1qIhppVBbX55o6OOLIFEf">questo link</a>, che io non posso aprire ma che voi siete invitati a usare 👀
-            </p> {% endcomment %}
-            <div class="three-stars d-flex justify-content-center mb-2">
-              🍺🍺🍺
-            </div>
-          </div>
+        <p class="card-text mt-4">
+          Quest'anno non vi verrà richiesto niente di particolare, se non la <strong>vostra presenza</strong>, la voglia di divertirvi e ovviamente un vestito appropriato.
+        </p>
+        {% if invite.fuorisede %}
+        <div class="fuorisede_card pb-3">
+          <p class="card-text">
+            Per chi viene da fuori: purtroppo quest'anno non potrò ospitarvi, altrimenti rischio di venire dato in pasto ai cani.
+          </p>
+            <p class="card-text">
+            In compenso, ho controllato e ci sono delle case nelle vicinanze (<a href="https://www.airbnb.it/rooms/673671675826405407?check_in=2024-04-12&check_out=2024-04-13&guests=1&adults=8&s=67&unique_share_id=f4ab5d7f-950d-468a-a762-701ddd9f7767">tipo questa</a>) che potrebbero ospitare fino a 8 persone a un costo contenuto (22€ a persona a notte).
+          </p>
+          <p class="card-text">
+            Per coordinarsi sugli spostamenti ed eventuali pernottamenti, vi invito a entrare in <a href="https://chat.whatsapp.com/HkaoNUEtAbHIkbWqV0lp98">questo gruppo WhatsApp</a> che ho creato per l'occasione.
+          </p>
+        </div>
+        {% endif %}
+        {% comment %} <p class="card-text mt-4">
+          <strong>P.S.:</strong> Matteo mi ha chiesto di aggiungere <a href="https://chat.whatsapp.com/E1qIhppVBbX55o6OOLIFEf">questo link</a>, che io non posso aprire ma che voi siete invitati a usare 👀
+        </p> {% endcomment %}
+        <div class="three-stars d-flex justify-content-center mb-2">
+          🍺🍺🍺
         </div>
 
         {% if not fake %}
