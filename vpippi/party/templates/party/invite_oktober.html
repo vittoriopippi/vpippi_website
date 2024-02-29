@@ -37,10 +37,6 @@
           Per prepararmi al meglio ho deciso che l'evento sarà a tema <strong>Oktoberfest</strong>, motivo per cui, se vuoi partecipare, dovrai vestirti a modo! 
           <strong>Mi raccomando, senza un vestito non si entra ;)</strong>
         </p>
-        <p class="card-text">
-          Prost 🍻
-        </p>
-
         <p class="card-text mt-0">
           Alla festa sarà presente un <strong>set fotografico</strong> sponsorizzato da <a href="https://www.instagram.com/matteociri/">@matteociri</a> (dicono che è bravo).
         </p>
@@ -63,9 +59,14 @@
         {% comment %} <p class="card-text mt-4">
           <strong>P.S.:</strong> Matteo mi ha chiesto di aggiungere <a href="https://chat.whatsapp.com/E1qIhppVBbX55o6OOLIFEf">questo link</a>, che io non posso aprire ma che voi siete invitati a usare 👀
         </p> {% endcomment %}
-        <div class="three-stars d-flex justify-content-center mb-2">
+        {% comment %} <div class="three-stars d-flex justify-content-center mb-2">
           🍺🍺🍺
-        </div>
+        </div> {% endcomment %}
+
+        
+        <p class="card-text">
+          Prost 🍻
+        </p>
 
         {% if not fake %}
         <p class="card-text">
@@ -79,7 +80,7 @@
     {% include "party/mid_smholes.svg" %}
     <div class="oktober px-4 ticket_bottom">
       <div class="left mt-4">
-        <img src="{% static 'party/aprilfest.png' %}" class="">
+        <img src="{% static 'party/beer.png' %}" class="">
       </div>
       <div class="ticket_form right">
           <h3 class="mb-2">Quindi?</h3>
