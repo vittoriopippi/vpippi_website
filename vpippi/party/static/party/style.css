@@ -13,13 +13,58 @@
     src: url('Germanika.ttf');
 }
 
+@font-face {
+    font-family: "Neons_demo";
+    src: url('Neons_demo.otf');
+}
+
+@font-face {
+    font-family: "Icklips";
+    src: url('Icklips_.ttf');
+}
+
+body {
+    color: #ff4ee5;
+    background-color: black;
+}
+  
+.grid {
+    z-index: -1;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 0;
+    left: -50%;
+    background-color: #0a0324;
+    background-image: linear-gradient(90deg, transparent 0%, transparent 85%, #11dfdc 90%, transparent 95%), linear-gradient(0deg, transparent 0%, transparent 85%, #11dfdc 90%, transparent 95%);
+    background-size: 12px 12px;
+    width: 200vw;
+    height: 100vh;
+    transform: translate3D(0, 0, 0) perspective(150px) rotateX(45deg) ;
+    perspective-origin: top;
+
+    animation-name: movement;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.grid:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, transparent, black);
+}
+
+@keyframes movement {
+    0% {background-position: 0% 0%;}
+    100% {background-position: 0% 100%;}
+}
+
 .bg_pattern {
-    background-color: #f3f2dc;
-    opacity: 0.8;
-    background-image:  linear-gradient(135deg, #71afd5 25%, transparent 25%), linear-gradient(225deg, #71afd5 25%, transparent 25%), linear-gradient(45deg, #71afd5 25%, transparent 25%), linear-gradient(315deg, #71afd5 25%, #f3f2dc 25%);
-    background-position:  24px 0, 24px 0, 0 0, 0 0;
-    background-size: 24px 24px;
-    background-repeat: repeat;
+    background-color: #0a0324;
 
     height: 100vh;
     width: 100vw;
@@ -47,27 +92,29 @@
 }
 
 .oktober_container>svg {
-    fill: #fa6b69;
+    fill: #d445b0;
     z-index: 1;
     margin-bottom: -1px;
     margin-top: -1px;
 }
 
 .aprilfest_img {
-    width: 90%;
-    margin-left: 5%;
+    width: 80%;
+    margin-left: 10%;
     margin-top: 0%;
 }
 
 .circus {
-    font-family: 'Germanika';
+    font-family: 'Icklips';
     text-align: center;
     font-size: 3.5rem;
-    color: #2f3542;
+    color: #11dfdc;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px #11dfdc;
 }
 
 .cls-1 {
-    fill: #ffffdd;
+    fill: #00020a;
 }
 
 .star-title {
@@ -88,9 +135,9 @@
 }
 
 .ticket {
-    background: #ffffdd;
-    border-left: 0.6rem solid #ef7a63;
-    border-right: 0.6rem solid #ef7a63;
+    background: #00020a;
+    border-left: 0.6rem solid #d445b0;
+    border-right: 0.6rem solid #d445b0;
     width: 100%;
     /* position: relative; */
 }
@@ -100,10 +147,11 @@
 }
 
 .oktober {
-    background: #ffffdd;
-    border-left: 0.6rem solid #fa6b69;
-    border-right: 0.6rem solid #fa6b69;
+    background: #00020a;
+    border-left: 0.6rem solid #d445b0;
+    border-right: 0.6rem solid #d445b0;
     width: 100%;
+    /* box-shadow: 0 0 50px 15px #d445b0; */
     /* position: relative; */
 }
 
@@ -181,9 +229,10 @@ body {
 
 .ticket_form>h3 {
     font-size: 2.6rem;
-    font-weight: 500;
-    color: #2f3542;
-    font-family: 'Germanika';
+    color: #11dfdc;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px #11dfdc;
+    font-family: 'Icklips';
 }
 
 .checkbox {
@@ -197,12 +246,12 @@ body {
     margin-right: 0.5em;
     width: 1em;
     height: 1em;
-    border: 2px solid #ef7a63;
+    border: 2px solid #ff4ee5;
 }
 
 .checkbox>.box>svg {
     position: relative;
-    fill: #970246;
+    fill: #fded80;
     display: none;
 }
 
@@ -247,10 +296,28 @@ body {
 .fuorisede_card {
     width: 100%;
     padding: 1.0em;
-    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 1em;
+    border: 2px solid #11dfdc;
     margin-bottom: 1em;
+}
 
+.fuorisede_card strong {
+    color: #11dfdc !important;
+    text-shadow: 0px 0px 6px #11dfdc !important;
+}
+
+.fuorisede_card a {
+    color: #11dfdc !important;
+    text-shadow: 0px 0px 6px #11dfdc !important; 
+}
+
+.no_oktoberfest {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.card-text-muted {
+    opacity: 0.5;
 }
 
 .ticket_bottom {
@@ -259,7 +326,7 @@ body {
 
 .ticket_bottom > .left {
     width: 40%;
-    border-right: 2px solid #ef7a63;
+    border-right: 2px solid #ff4ee5;
     padding: 0 !important;
     padding: 0 !important;
     position: relative;
@@ -277,7 +344,7 @@ body {
     left: -7%;
     top: -17%;
     width: 80%;
-    fill: #ef7a63;
+    fill: #ff4ee5;
 }
 
 .ticket_bottom > .left .date {
@@ -333,15 +400,31 @@ body {
 
 .invite>a {
     text-decoration: none;
-    color: #2f3542;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 65%;
+    box-shadow: none !important;
+    color: #fded80 !important;
 }
 
 a {
-    color: #ef7a63;
+    color: #fded80;
+    font-weight: bold;
+    text-shadow: 0px 0px 6px #fded80;
+}
+
+a:hover {
+    transition: 0.3s;
+    color: #fded80;
+    font-weight: bold;
+    text-shadow: 0px 0px 16px #fded80;
+}
+
+strong {
+    color: #fded80;
+    text-shadow: 0px 0px 6px #fded80;
+
 }
 
 .filter-form {
@@ -382,7 +465,7 @@ a {
 
 .youtube > svg {
     position: absolute;
-    fill: #ef7a63;
+    fill: #ff4ee5;
     width: 10%;
     top: 35%;
     left: 45%;
@@ -447,8 +530,8 @@ a {
     left: 0;
     width: 100%;
     height: 3em;
-    background: #ef7a63;
-    color: white;
+    background: #ff4ee5;
+    color: #00020a;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -457,6 +540,7 @@ a {
     z-index: 999;
     opacity: 0;
     transition: .9s;
+    box-shadow: 0 0 10px 5px #ff4ee5;
 }
 
 .vitto-toast.show {
