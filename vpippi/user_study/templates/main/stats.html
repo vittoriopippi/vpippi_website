@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+  <section class="vh-100 gradient-custom">
+    <div class="container-fluid py-2 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="card bg-dark text-white w-75" style="border-radius: 1rem;">
+          <div class="card-body p2">
+            <div class="py-2 mb-5">
+              <h5 class="mb-2">Total</h5>
+              {% for value, perc, name in total_data %}
+              <div class="progress mb-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-success" style="width: {{ perc }}%">{{ name }}: {{ value }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            {% for prompt, prompts_values in prompts_data %}
+            <div class="py-2">
+              <h5 class="mb-2">{{ prompt }}</h5>
+              {% for value, perc, name in prompts_values %}
+              <div class="progress mb-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-success" style="width: {{ perc }}%">{{ name }}: {{ value }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

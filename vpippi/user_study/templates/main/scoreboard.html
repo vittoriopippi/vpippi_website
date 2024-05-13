@@ -1,0 +1,42 @@
+{% extends "main/base.html" %}
+
+{% block body %}
+  <section class="vh-100 gradient-custom">
+    <div class="container-fluid py-2 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p2 text-center">
+              <div style="max-height: 80vh; overflow-y: scroll;">
+                <table class="table table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Punteggio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for player in players %}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                          {{ player.name }} <span class="muted">#{{ player.pk|stringformat:'03d' }}</span> 
+                          {% if player.in_progress %}
+                            <span class="badge rounded-pill text-bg-warning">in corso</span>
+                          {% endif %}
+                        </td>
+                        <td>{{ player.accuracy }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 align-items_start mt-3">Riprova</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
