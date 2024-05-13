@@ -126,11 +126,11 @@ def generate_questions(request):
     # Question.objects.all().filter(is_control=False).delete()
     competitors = Competitor.objects.all().filter(available=True)
 
-    lcm_competitors = [c for c in competitors if c.name.startswith('lcm')]
-    other_competitors = [c for c in competitors if not c.name.startswith('lcm')]
+    lcm_competitors = [c for c in competitors if 'lcm' in c.name]
+    ldm_competitors = [c for c in competitors if 'lcm' not in c.name]
 
     prompts = Prompt.objects.all()
-    for competitors in (lcm_competitors, other_competitors):
+    for competitors in (lcm_competitors, ldm_competitors):
         for competitor_a, competitor_b in combinations(competitors, 2):
             for prompt in prompts:
                 for _ in range(QUESTIONS_PER_PAIR):
