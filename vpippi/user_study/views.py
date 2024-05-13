@@ -108,7 +108,7 @@ def import_images(request):
     if os.name == 'nt':
         root = Path(r'D:\Work\Projects\BugUserStudy\images_jpg')
     else:
-        root = Path('/home/vpippi/vpippi_website/vpippi/user_study')
+        root = Path('/home/vpippi/vpippi_website/vpippi/user_study_images')
 
     for img_path in root.rglob('*'):
         if not img_path.is_file() and not img_path.suffix in ('.png', '.jpg'):
