@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
-from user_study.models import Competitor, Prompt, SampleImage, Player, Answer, Question
+from user_study_mad.models import Competitor, Prompt, SampleImage, Player, Answer, Question
 from itertools import combinations
 from pathlib import Path
 import random
@@ -33,7 +33,7 @@ def login(request):
     avg_time = sorted(times)[len(times) // 2] if len(times) > 0 else 'N/A'
     if avg_time != 'N/A':
         avg_time = str(timedelta(seconds=avg_time)).split('.')[0][2:]
-    return render(request, 'main/login.html', {'avg_time': avg_time})
+    return render(request, 'user_study_mad/login.html', {'avg_time': avg_time})
 
 def index(request):
     player_id = request.session.get('player_id')
@@ -68,14 +68,14 @@ def index(request):
         'total_questions': len(control_questions) + QUESTIONS_PER_PLAYER,
         'answered_questions': answered_questions,
         }
-    return render(request, 'main/index.html', context)
+    return render(request, 'user_study_mad/index.html', context)
 
 def scoreboard(request):
     players = Player.objects.all().filter(visible=True, finished=True).order_by('-accuracy')
     context = {
         'players': players,
         }
-    return render(request, 'main/scoreboard.html', context)
+    return render(request, 'user_study_mad/scoreboard.html', context)
 
 @csrf_exempt
 def post_answer(request):
@@ -200,4 +200,4 @@ def stats(request):
         'prompts_data': prompts_data,
         'total_data': list(zip(total_values, total_values_perc, total_competitors)),
         }
-    return render(request, 'main/stats.html', context)
+    return render(request, 'user_study_mad/stats.html', context)

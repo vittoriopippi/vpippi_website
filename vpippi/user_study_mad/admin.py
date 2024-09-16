@@ -1,5 +1,5 @@
 from django.contrib import admin
-from user_study import models
+from user_study_mad import models
 
 @admin.action(description="Enable selected competitors")
 def enable_competitors(modeladmin, request, queryset):

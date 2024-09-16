@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'user_study_vatrpp/base.html' %}
 
 {% block body %}
   <section class="vh-100 gradient-custom">
@@ -21,8 +21,12 @@
                   </div>
                 </div>
 
-                <img src="{{ first_question.sample_a.img.url }}" alt="" id="img_a" style="width: 100%;" class="mb-3" />
-                <img src="{{ first_question.sample_b.img.url }}" alt="" id="img_b" style="width: 100%;" class="mb-3" />
+                <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-3" />
+                <hr>
+                {% for first_competitor in first_competitors %}
+                <div><img src="{{ first_competitor.img.url }}" alt="" id="img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}" style="height: 3em;" class="img_option mb-3" /></div>
+                {% endfor %}
+                
                 <div class="progress position-relative" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                   <div id="progress_load" class="progress-bar position-absolute h-100" style="width: 0%;"></div>
                   <div id="progress_survey" class="progress-bar position-absolute" style="width: 0%"></div>
@@ -72,29 +76,29 @@
         const total_questions = {{ total_questions}};
 
         var answered_questions = {{ answered_questions }};
-        var loaded_pairs = 0;
+        var loaded_images = 0;
         
         var index = 0;
-        const img_pairs = [
-          {% for question in questions %}
-          ["{{ question.sample_a.img.url }}","{{ question.sample_b.img.url }}"],
-          {% endfor %}
-        ];
-        const prompt_eng_texts = [
-          {% for question in questions %}
-          "{{ question.sample_a.prompt.eng_text|safe }}",
-          {% endfor %}
-        ];
-        const prompt_ita_texts = [
-          {% for question in questions %}
-          "{{ question.sample_a.prompt.ita_text|safe }}",
-          {% endfor %}
-        ];
-        const question_ids = [
-          {% for question in questions %}
-          "{{ question.id }}",
-          {% endfor %}
-        ];
+
+        const references = [
+        {% for reference in references %}
+          '{{ reference.img.url }}',
+        {% endfor %}];
+
+        const competitors = [
+        {% for images in competitors %}
+          [{% for image in images %}'{{ image.img.url }}',{% endfor %}],
+        {% endfor %}];
+
+        const references_ids = [
+        {% for reference in references %}
+          '{{ reference.id }}',
+        {% endfor %}];
+
+        const competitors_ids = [
+        {% for images in competitors %}
+          [{% for image in images %}'{{ image.id }}',{% endfor %}],
+        {% endfor %}];
 
         function ensure_buffer_is_not_full(timeout){
           var start = Date.now();
@@ -107,50 +111,30 @@
                 reject(new Error("timeout"));
             else
                 setTimeout(wait_for_buffer.bind(this, resolve, reject), 30);
-        }
-        }
-        
-        // Function to preload images sequentially
-        function preloadSequentially(imagePairs, index) {
-          if (index < imagePairs.length) {
-            const pair = imagePairs[index];
-            const img1 = new Image();
-            const img2 = new Image();
-            
-            img1.onload = function() {
-              console.log("Loaded image " + pair[0]);
-              // Image 1 loaded, preload Image 2
-              img2.src = pair[1];
-              img2.onload = function() {
-                      loaded_pairs += 1;
-                      console.log("Loaded image " + pair[1]);
-                      // Image 2 loaded, continue to the next pair
-                      ensure_buffer_is_not_full(10000000).then(function(){
-                        preloadSequentially(imagePairs, index + 1);
-                      });
-                    };
-                  };
-                  
-                  // Start loading Image 1
-                  img1.src = pair[0];
-                } else {
-                  // All images preloaded
-                  console.log("All images preloaded");
-                }
+          }
         }
 
-        
-        
-        // Start preloading images
-        preloadSequentially(img_pairs, 0);
+        function preloadImages(imageUrls) {
+          let images = [];
+          for (let i = 0; i < imageUrls.length; i++) {
+            images[i] = new Image();
+            images[i].src = imageUrls[i];
+            loaded_images += 1
+          }
+          console.log('All images preloaded')
+        }
+
+        preloadImages(references.concat(competitors.flat()));
         
         function next_question() {
           index += 1;
-          if (index < img_pairs.length) {
-            $('#img_a').attr('src', img_pairs[index][0]);
-            $('#img_b').attr('src', img_pairs[index][1]);
-            $('#prompt_ita').text(prompt_ita_texts[index]);
-            $('#prompt_eng').text(prompt_eng_texts[index]);
+          if (index < references.length) {
+            $('#img_ref').attr('src', references[index]);
+            $('#img_ref').data('id', references_ids[index]);
+            for (let i = 0; i < competitors[index].length; i++) {
+              $(`#img_${i + 1}`).attr('src', competitors[index][i]);
+              $(`#img_${i + 1}`).data('id', competitors_ids[index][i]);
+            }
           }
         }
 
@@ -160,7 +144,7 @@
             progress = 100;
           }
           $('#progress_survey').css('width', progress + '%');
-          let load_progress = ((answered_questions + loaded_pairs) / total_questions) * 100;
+          let load_progress = ((answered_questions + loaded_images) / total_questions) * 100;
           if (load_progress > 100) {
             load_progress = 100;
           }
@@ -176,7 +160,6 @@
             type: 'POST',
             url: '{% url "post_answer" %}',
             data: {
-              'question_id': question_ids[index],
               'answer': answer,
               'player_id': '{{ player.pk }}',
             },
@@ -192,21 +175,9 @@
           });
         }
         
-        $('img').click(function () {
-          post_answer($(this).attr('id'))
+        $('.img_option').click(function () {
+          post_answer($(this).data('id'))
           next_question()
-        })
-
-        $(document).keydown(function (e) {
-          if (e.which == 38) {
-            // up arrow
-            post_answer('img_a')
-            next_question()
-          } else if (e.which == 40) {
-            // down arrow
-            post_answer('img_b')
-            next_question()
-          }
         })
       })
     </script>

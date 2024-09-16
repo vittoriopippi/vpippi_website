@@ -37,7 +37,8 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     # 'game.apps.GameConfig',
-    'user_study.apps.UserStudyConfig',
+    # 'user_study_mad.apps.UserStudyMadConfig',
+    'user_study_vatrpp.apps.UserStudyVatrppConfig',
     'party.apps.PartyConfig',
     'main.apps.MainConfig',
     'tears.apps.TearsConfig',
