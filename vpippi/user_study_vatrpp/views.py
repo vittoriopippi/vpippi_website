@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
-from user_study_vatrpp.models import Competitor, SampleImage, Player, Answer
+from user_study_vatrpp.models import Competitor, SampleImage, Player, Answer, Skipped
 from itertools import combinations
 from pathlib import Path
 import random
@@ -41,7 +41,7 @@ def index(request):
         return redirect('login')
 
     player = Player.objects.get(pk=player_id)
-    answered_questions = Answer.objects.all().filter(player=player).count() 
+    answered_questions = Answer.objects.all().filter(player=player).count() + Skipped.objects.filter(player=player).count()
     if answered_questions >= QUESTIONS_PER_PLAYER:
         player.finished = True
         player.save()
@@ -50,7 +50,7 @@ def index(request):
     if player.finished:
         return redirect('login')
 
-    references = SampleImage.objects.filter(competitor__reference=True).order_by('?')[:QUESTIONS_PER_PLAYER - answered_questions]
+    references = SampleImage.objects.filter(competitor__reference=True, available=True).order_by('?')[:QUESTIONS_PER_PLAYER - answered_questions]
     competitors = [SampleImage.objects.filter(competitor__reference=False, iam_id=ref.iam_id).order_by('?') for ref in references]
     
     context = {
@@ -78,12 +78,16 @@ def post_answer(request):
         if player_id is None or not Player.objects.filter(pk=player_id).exists():
             return HttpResponse('ERROR')
         player = Player.objects.get(pk=player_id)
-        winner = SampleImage.objects.get(pk=int(request.POST['answer']))
-        Answer.objects.create(player=player, winner=winner)
+        if request.POST['answer'].startswith('skip'):
+            iam_id = int(request.POST['answer'].split('_')[1])
+            Skipped.objects.create(player=player, iam_id=iam_id)
+        else:
+            winner = SampleImage.objects.get(pk=int(request.POST['answer']))
+            Answer.objects.create(player=player, winner=winner)
         player.update_accuracy()
         player.update_correct_control_answers()
 
-        answered_questions = Answer.objects.all().filter(player=player).count() 
+        answered_questions = Answer.objects.all().filter(player=player).count() + Skipped.objects.filter(player=player).count()
         remaining_questions = QUESTIONS_PER_PLAYER - answered_questions
         if remaining_questions == 0:
             player.finished = True

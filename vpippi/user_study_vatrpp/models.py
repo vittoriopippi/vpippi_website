@@ -22,7 +22,7 @@ def content_file_name(instance, filename):
 class SampleImage(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=content_file_name, max_length=1024)
-    exclude_from_study = models.BooleanField(default=False)
+    available = models.BooleanField(default=True)
     iam_id = models.IntegerField()
 
     class Meta:
@@ -79,3 +79,8 @@ class Answer(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     winner = models.ForeignKey(SampleImage, on_delete=models.CASCADE, related_name='winner', null=True)
+
+class Skipped(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    iam_id = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
