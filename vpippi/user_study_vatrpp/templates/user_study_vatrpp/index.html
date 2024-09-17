@@ -24,7 +24,7 @@
                 <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-1" />
                 <hr>
                 {% for first_competitor in first_competitors %}
-                <div class="w-100 div_img_option mb-3 p-1 img_option" id="img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}"><img src="{{ first_competitor.img.url }}" alt="" style="height: 3em;"/></div>
+                <div class="w-100 div_img_option mb-3 p-1 img_option" id="div_img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}"><img src="{{ first_competitor.img.url }}" id="img_{{ forloop.counter }}" alt="" style="height: 3em;"/></div>
                 {% endfor %}
                 <div class="w-100 div_img_option mb-3 p-1" style="height: 3em;" id="skip" data-id="{{ first_reference.iam_id }}"><h3 class="p-1">Skip</h3></div>
                 
@@ -134,10 +134,10 @@
           index += 1;
           if (index < references.length) {
             $('#img_ref').attr('src', references[index]);
-            $('#img_ref').data('id', references_ids[index]);
+            $('#div_img_ref').data('id', references_ids[index]);
             for (let i = 0; i < competitors[index].length; i++) {
               $(`#img_${i + 1}`).attr('src', competitors[index][i]);
-              $(`#img_${i + 1}`).data('id', competitors_ids[index][i]);
+              $(`#div_img_${i + 1}`).data('id', competitors_ids[index][i]);
             }
             $('#skip').data('id', iam_ids[index]);
           }
