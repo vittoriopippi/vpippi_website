@@ -126,9 +126,8 @@ def dump_answers(request):
         headers={"Content-Disposition": f'attachment; filename="dump_{now_str}.csv"'},
     )
 
-    good_players = Player.objects.all().filter(correct_control_answers__gte=0)
-    answers = Answer.objects.all().filter(player__in=good_players)
-    data = answers.values('player__name', 'question__is_control', 'question__sample_a__competitor__name', 'question__sample_b__competitor__name', 'question__sample_a__prompt__eng_text', 'winner__competitor__name')
+    answers = Answer.objects.all()
+    data = answers.values('date', 'player__name', 'winner__competitor__name', 'winner__iam_id')
     df = pd.DataFrame(data)
     df.to_csv(path_or_buf=response)
     return response
@@ -141,20 +140,13 @@ def update_players(request):
     return redirect('scoreboard')
 
 def stats(request):
-    prompts = Prompt.objects.all()
-    prompt_dicts = [prompt.answer_count_by_competitor() for prompt in prompts]
-    prompt_values = [list(prompt_value.values()) for prompt_value in prompt_dicts]
-    prompt_competitors = [list(prompt_value.keys()) for prompt_value in prompt_dicts]
-    prompt_total = [sum(prompt_value.values()) for prompt_value in prompt_dicts]
-    prompt_values_perc = [[round(value / total * 100, 2) for value in prompt_value] for prompt_value, total in zip(prompt_values, prompt_total)]
+    competitors = Competitor.objects.all().filter(available=True, reference=False)
+    answers = [Answer.objects.filter(winner__competitor=competitor).count() for competitor in competitors]
+    total_answers = sum(answers)
+    perc = [answer / total_answers * 100 if total_answers > 0 else 0 for answer in answers]
 
-    total_values = [sum(prompt_value) for prompt_value in zip(*prompt_values)]
-    total_values_perc = [sum(prompt_value) / len(prompt_values_perc) for prompt_value in zip(*prompt_values_perc)]
-    total_competitors = prompt_competitors[0]
-
-    prompts_data = list(zip(list(prompts), [list(zip(*a))for a in list(zip(prompt_values, prompt_values_perc, prompt_competitors))]))
     context = {
-        'prompts_data': prompts_data,
-        'total_data': list(zip(total_values, total_values_perc, total_competitors)),
+        'competitors': zip(competitors, answers, perc),
+        'total_answers': total_answers,
         }
     return render(request, 'user_study_vatrpp/stats.html', context)
