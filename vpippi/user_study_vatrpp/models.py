@@ -25,6 +25,11 @@ class SampleImage(models.Model):
     exclude_from_study = models.BooleanField(default=False)
     iam_id = models.IntegerField()
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['competitor', 'iam_id'], name='unique_competitor_iamid')
+        ]
+
     @property
     def size(self):
         with self.img.open() as img:

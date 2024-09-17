@@ -101,7 +101,7 @@ def upload_question(request):
                 img_id = int(image.name)
                 SampleImage.objects.create(competitor=competitor, img=File(f, name=name), iam_id=img_id)
         return JsonResponse({'status': 'OK'})
-    return HttpResponse(f'Not implemented the method {request.method}')
+    return HttpResponse(f'Not implemented the method {request.method}', status=405)
 
 @staff_member_required 
 def delete_competitors(request):

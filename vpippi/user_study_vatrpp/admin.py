@@ -36,8 +36,8 @@ class CompetitorAdmin(admin.ModelAdmin):
     max_height.short_description = 'Max height'
 
 class SampleImageAdmin(admin.ModelAdmin):
-    list_display = ('competitor', 'img', 'exclude_from_study')
-    list_filter = ('competitor', 'exclude_from_study')
+    list_display = ('competitor', 'img', 'exclude_from_study', 'iam_id')
+    list_filter = ('competitor', 'exclude_from_study', 'iam_id')
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ('date', 'player', 'winner')
