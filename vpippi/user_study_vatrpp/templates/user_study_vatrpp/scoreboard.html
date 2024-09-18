@@ -12,8 +12,8 @@
                   <thead>
                     <tr>
                       <th scope="col"></th>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Punteggio</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Score</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -23,7 +23,7 @@
                         <td>
                           {{ player.name }} <span class="muted">#{{ player.pk|stringformat:'03d' }}</span> 
                           {% if player.in_progress %}
-                            <span class="badge rounded-pill text-bg-warning">in corso</span>
+                            <span class="badge rounded-pill text-bg-warning">playing</span>
                           {% endif %}
                         </td>
                         <td>{{ player.accuracy }}</td>
@@ -32,7 +32,7 @@
                   </tbody>
                 </table>
               </div>
-              <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 align-items_start mt-3">Riprova</a>
+              <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 align-items_start mt-3">Retry</a>
             </div>
           </div>
         </div>
