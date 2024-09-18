@@ -13,8 +13,7 @@ from datetime import timedelta, datetime
 from django.conf import settings
 import pandas as pd
 
-QUESTIONS_PER_PLAYER = 60
-QUESTIONS_PER_PAIR = 60
+QUESTIONS_PER_PLAYER = 504
 
 def login(request):
     if request.POST:
@@ -59,7 +58,7 @@ def index(request):
         'first_competitors': competitors[0],
         'references': references,
         'competitors': competitors,
-        'total_questions': len(references),
+        'total_questions': QUESTIONS_PER_PLAYER,
         'answered_questions': answered_questions,
         }
     return render(request, 'user_study_vatrpp/index.html', context)

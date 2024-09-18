@@ -51,8 +51,8 @@ class SkippedAdmin(admin.ModelAdmin):
     actions = [exclude_from_study]
 
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('username', 'accuracy', 'answers_count', 'correct_control_answers', 'time_delta', 'created_at', 'finished', 'visible')
-    list_filter = ('visible', 'correct_control_answers', 'finished', 'created_at')
+    list_display = ('username', 'accuracy', 'answers_count', 'time_delta', 'created_at', 'finished', 'visible')
+    list_filter = ('visible', 'finished', 'created_at')
     actions = [set_finished, set_not_finished]
 
     def answers_count(self, obj):

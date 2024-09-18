@@ -6,7 +6,9 @@ from tqdm import tqdm
 import time
 
 def get_id_from_path(path):
-    return int(path.stem.split('_')[-1])
+    author_id = int(path.parent.stem)
+    sample_id = int(path.stem.split('_')[-1])
+    return author_id * 1000 + sample_id
 
 parser = argparse.ArgumentParser(description='Upload an image to the server')
 parser.add_argument('csv_paths', type=Path, nargs='+', help='Paths to the CSV files to upload')
@@ -28,5 +30,5 @@ for img_id, img_paths in tqdm(images.items()):
     response = requests.post(args.url, files=files)
     for file in files.values():
         file[1].close()
-    time.sleep(1)
+    # time.sleep(1)
     assert response.status_code == 200, f"Failed to upload image {img_id}. Status code: {response.status_code}"
