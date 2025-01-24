@@ -5,18 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Python Debugger: Current File with Arguments",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "D:\\Work\\Projects\\vpippi_website\\vatrpp\\reference_imgs_list.csv",
-                "D:\\Work\\Projects\\vpippi_website\\vatrpp\\hwt_imgs_list.csv",
-                "D:\\Work\\Projects\\vpippi_website\\vatrpp\\vatr_imgs_list.csv",
-                "D:\\Work\\Projects\\vpippi_website\\vatrpp\\vatrpp_imgs_list.csv",
+                "D:\\Work\\Projects\\vpippi_website\\emuru_data\\reference_imgs_list.csv",
+                "D:\\Work\\Projects\\vpippi_website\\emuru_data\\diffusionpen_imgs_list.csv",
+                "D:\\Work\\Projects\\vpippi_website\\emuru_data\\emuru_font2_tune_imgs_list.csv",
+                "D:\\Work\\Projects\\vpippi_website\\emuru_data\\vatrpp_imgs_list.csv",
                 "--img_root",
-                "D:\\Work\\Projects\\vpippi_website\\vatrpp\\"
+                "D:\\Work\\Projects\\vpippi_website\\"
             ]
         },
         {

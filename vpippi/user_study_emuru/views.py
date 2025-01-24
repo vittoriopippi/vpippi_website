@@ -100,9 +100,8 @@ def upload_question(request):
         for competitor_name, image in request.FILES.items():
             competitor, _ = Competitor.objects.get_or_create(name=competitor_name)
             with image.open() as f:
-                name = f'{int(image.name):03d}.png'
-                img_id = int(image.name)
-                SampleImage.objects.create(competitor=competitor, img=File(f, name=name), iam_id=img_id)
+                name = f'{image.name}.png'
+                SampleImage.objects.create(competitor=competitor, img=File(f, name=name), shtg_key=image.name)
         return JsonResponse({'status': 'OK'})
     return HttpResponse(f'Not implemented the method {request.method}', status=405)
 

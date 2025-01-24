@@ -6,22 +6,22 @@ from tqdm import tqdm
 import time
 
 def get_id_from_path(path):
-    author_id = int(path.parent.stem)
-    sample_id = int(path.stem.split('_')[-1])
-    return author_id * 1000 + sample_id
+    return path.stem
 
 parser = argparse.ArgumentParser(description='Upload an image to the server')
 parser.add_argument('csv_paths', type=Path, nargs='+', help='Paths to the CSV files to upload')
-parser.add_argument('--url', type=str, default='https://www.vpippi.com/user_study/upload_question')
-# parser.add_argument('--url', type=str, default='http://127.0.0.1:8000/user_study/upload_question')
+# parser.add_argument('--url', type=str, default='https://www.vpippi.com/user_study/upload_question')
+parser.add_argument('--url', type=str, default='http://127.0.0.1:8000/user_study/upload_question')
 parser.add_argument('--img_root', type=Path, default=Path())
 args = parser.parse_args()
 
 images = defaultdict(dict)
 for csv_path in args.csv_paths:
     name = csv_path.stem.replace('_imgs_list', '')
-    for img_path in csv_path.read_text().splitlines():
+    for img_path in tqdm(csv_path.read_text().splitlines()):
         img_id = get_id_from_path(Path(img_path))
+        if img_id in images:
+            assert name not in images[img_id], f"Image {img_id} already has a {name} image"
         images[img_id][name] = args.img_root / img_path
         assert images[img_id][name].exists(), f"Image {images[img_id][name]} does not exist"
 

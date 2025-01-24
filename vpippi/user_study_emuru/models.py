@@ -23,11 +23,11 @@ class SampleImage(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=content_file_name, max_length=1024)
     available = models.BooleanField(default=True)
-    iam_id = models.IntegerField()
+    shtg_key = models.CharField(max_length=256, default='')
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['competitor', 'iam_id'], name='unique_competitor_iamid')
+            models.UniqueConstraint(fields=['competitor', 'shtg_key'], name='unique_competitor_shtg_key')
         ]
 
     @property
@@ -38,7 +38,7 @@ class SampleImage(models.Model):
         return size
     
     def __str__(self):
-        return f'{self.competitor.name} - {self.iam_id}'
+        return f'{self.competitor.name} - {self.shtg_key}'
 
 class Player(models.Model):
     name = models.CharField(max_length=100)
@@ -82,5 +82,5 @@ class Answer(models.Model):
 
 class Skipped(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    iam_id = models.IntegerField()
+    shtg_key = models.CharField(max_length=256, default='')
     date = models.DateTimeField(auto_now_add=True)

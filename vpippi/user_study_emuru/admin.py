@@ -19,8 +19,8 @@ def set_not_finished(modeladmin, request, queryset):
 
 @admin.action(description="Exclude selected images from study")
 def exclude_from_study(modeladmin, request, queryset):
-    iam_ids = queryset.values_list('iam_id', flat=True)
-    models.SampleImage.objects.filter(iam_id__in=iam_ids).update(available=False)
+    shtg_keys = queryset.values_list('shtg_key', flat=True)
+    models.SampleImage.objects.filter(shtg_key__in=shtg_keys).update(available=False)
 
 class CompetitorAdmin(admin.ModelAdmin):
     list_display = ('name', 'reference', 'winner', 'available', 'images_count', 'max_width', 'max_height')
@@ -40,14 +40,14 @@ class CompetitorAdmin(admin.ModelAdmin):
     max_height.short_description = 'Max height'
 
 class SampleImageAdmin(admin.ModelAdmin):
-    list_display = ('competitor', 'img', 'available', 'iam_id')
-    list_filter = ('competitor', 'available', 'iam_id')
+    list_display = ('competitor', 'img', 'available', 'shtg_key')
+    list_filter = ('competitor', 'available', 'shtg_key')
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ('date', 'player', 'winner')
 
 class SkippedAdmin(admin.ModelAdmin):
-    list_display = ('date', 'player', 'iam_id')
+    list_display = ('date', 'player', 'shtg_key')
     actions = [exclude_from_study]
 
 class PlayerAdmin(admin.ModelAdmin):
