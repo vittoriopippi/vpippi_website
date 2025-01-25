@@ -99,11 +99,18 @@ def upload_question(request):
     if request.method == 'POST':
         for competitor_name, image in request.FILES.items():
             competitor, _ = Competitor.objects.get_or_create(name=competitor_name)
-            with image.open() as f:
-                name = f'{image.name}.png'
-                SampleImage.objects.create(competitor=competitor, img=File(f, name=name), shtg_key=image.name)
+            # Check if a SampleImage with the same shtg_key already exists
+            if not SampleImage.objects.filter(shtg_key=image.name).exists():
+                with image.open() as f:
+                    name = f'{image.name}.png'
+                    SampleImage.objects.create(
+                        competitor=competitor,
+                        img=File(f, name=name),
+                        shtg_key=image.name
+                    )
         return JsonResponse({'status': 'OK'})
     return HttpResponse(f'Not implemented the method {request.method}', status=405)
+
 
 @staff_member_required 
 def delete_competitors(request):

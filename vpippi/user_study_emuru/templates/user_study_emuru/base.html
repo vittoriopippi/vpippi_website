@@ -95,6 +95,19 @@
         object-fit: cover; /* Ensures the image fills the container */
         mix-blend-mode: normal !important;
       }
+
+      .div_img_option {
+        display: block; /* Shrink to fit the image size */
+        padding: 0; /* Remove padding that might add extra space */
+        margin: 0; /* Remove margin if you want exact dimensions */
+        width: auto; /* Let the div's width adjust to the image */
+        height: auto; /* Let the div's height adjust to the image */
+      }
+      
+      .div_img_option img {
+        display: block; /* Prevent inline space below the image */
+      }
+      
     </style>
   </head>
   <body class="text-center">

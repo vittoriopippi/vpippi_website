@@ -2,7 +2,7 @@
 
 {% block body %}
   <section class="vh-100 gradient-custom">
-    <div class="container-sm py-2 h-100" style="max-width: 600px;">
+    <div class="container-lg py-2 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card bg-light text-dark" style="border-radius: 1rem;">
@@ -21,11 +21,15 @@
                   </div>
                 </div>
 
-                <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-1" />
-                <hr>
-                {% for first_competitor in first_competitors %}
-                <div class="w-100 div_img_option mb-3 p-1 img_option" id="div_img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}"><img src="{{ first_competitor.img.url }}" id="img_{{ forloop.counter }}" alt="" style="height: 3em;"/></div>
-                {% endfor %}
+                <div class="w-100" style="overflow-x: hidden;">
+                  <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-1" />
+                  <hr>
+                  {% for first_competitor in first_competitors %}
+                  <div class="div_img_option mb-3 p-1 img_option" id="div_img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}">
+                    <img src="{{ first_competitor.img.url }}" id="img_{{ forloop.counter }}" alt="" style="height: 3em;"/>
+                  </div>                  
+                  {% endfor %}
+                </div>
                 <div class="w-100 div_img_option mb-3 p-1" style="height: 3em; text-align: center;" id="skip" data-id="{{ first_reference.iam_id }}"><h3>Skip</h3></div>
                 
                 <div class="progress position-relative" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">

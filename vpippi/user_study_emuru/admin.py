@@ -23,7 +23,7 @@ def exclude_from_study(modeladmin, request, queryset):
     models.SampleImage.objects.filter(shtg_key__in=shtg_keys).update(available=False)
 
 class CompetitorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'reference', 'winner', 'available', 'images_count', 'max_width', 'max_height')
+    list_display = ('name', 'reference', 'winner', 'available', 'images_count', 'max_width', 'max_height', 'max_ratio')
     list_filter = ('winner', 'available')
     actions = [enable_competitors, disable_competitors]
 
@@ -38,6 +38,10 @@ class CompetitorAdmin(admin.ModelAdmin):
     def max_height(self, obj):
         return max([img.size[1] for img in models.SampleImage.objects.filter(competitor=obj)])
     max_height.short_description = 'Max height'
+
+    def max_ratio(self, obj):
+        return max([img.size[0] / img.size[1] for img in models.SampleImage.objects.filter(competitor=obj)])
+    max_ratio.short_description = 'Max ratio'
 
 class SampleImageAdmin(admin.ModelAdmin):
     list_display = ('competitor', 'img', 'available', 'shtg_key')
