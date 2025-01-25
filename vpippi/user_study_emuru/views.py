@@ -50,7 +50,7 @@ def index(request):
         return redirect('login')
 
     references = SampleImage.objects.filter(competitor__reference=True, available=True).order_by('?')[:QUESTIONS_PER_PLAYER - answered_questions]
-    competitors = [SampleImage.objects.filter(competitor__reference=False, iam_id=ref.iam_id).order_by('?') for ref in references]
+    competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key).order_by('?') for ref in references]
     
     context = {
         'player': player,
@@ -78,8 +78,8 @@ def post_answer(request):
             return HttpResponse('ERROR')
         player = Player.objects.get(pk=player_id)
         if request.POST['answer'].startswith('skip'):
-            iam_id = int(request.POST['answer'].split('_')[1])
-            Skipped.objects.create(player=player, iam_id=iam_id)
+            shtg_key = int(request.POST['answer'].split('_')[1])
+            Skipped.objects.create(player=player, shtg_key=shtg_key)
         else:
             winner = SampleImage.objects.get(pk=int(request.POST['answer']))
             Answer.objects.create(player=player, winner=winner)
@@ -129,7 +129,7 @@ def dump_answers(request):
     )
 
     answers = Answer.objects.all()
-    data = answers.values('date', 'player__name', 'winner__competitor__name', 'winner__iam_id')
+    data = answers.values('date', 'player__name', 'winner__competitor__name', 'winner__shtg_key')
     df = pd.DataFrame(data)
     df.to_csv(path_or_buf=response)
     return response
