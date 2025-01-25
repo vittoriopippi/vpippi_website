@@ -17,6 +17,8 @@ data = defaultdict(list)
 for img_path in root.rglob('*.png'):
     _, dataset, method, author, img_name = img_path.parts
     # rename every image to have a unique name composed by dataset + img_name
+    if img_name.startswith(dataset):
+        continue
     new_img_name = f'{dataset}_{img_name}'
     img_path.rename(img_path.with_name(new_img_name))
 

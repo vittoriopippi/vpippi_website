@@ -23,6 +23,7 @@ class SampleImage(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=content_file_name, max_length=1024)
     available = models.BooleanField(default=True)
+    dataset = models.CharField(max_length=256, null=True)
     shtg_key = models.CharField(max_length=256, default='')
 
     class Meta:

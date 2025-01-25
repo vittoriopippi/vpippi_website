@@ -48,8 +48,17 @@ def index(request):
     
     if player.finished:
         return redirect('login')
+    
+    distinct_datasets = SampleImage.objects.values_list('dataset', flat=True).distinct()
 
-    references = SampleImage.objects.filter(competitor__reference=True, available=True).order_by('?')[:QUESTIONS_PER_PLAYER - answered_questions]
+    references = []
+    for dset in distinct_datasets:
+        # Randomly order by '?' and get first 10
+        random_samples = SampleImage.objects.filter(competitor__reference=True, available=True, dataset=dset).order_by('?')[:10]
+        references.extend(random_samples)
+
+    references = references[:QUESTIONS_PER_PLAYER - answered_questions]
+    random.shuffle(references)
     competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key).order_by('?') for ref in references]
     
     context = {
@@ -100,11 +109,12 @@ def upload_question(request):
         for competitor_name, image in request.FILES.items():
             competitor, _ = Competitor.objects.get_or_create(name=competitor_name)
             # Check if a SampleImage with the same shtg_key already exists
-            if not SampleImage.objects.filter(shtg_key=image.name).exists():
+            if not SampleImage.objects.filter(competitor=competitor, shtg_key=image.name).exists():
                 with image.open() as f:
                     name = f'{image.name}.png'
                     SampleImage.objects.create(
                         competitor=competitor,
+                        dataset='_'.join(image.name.split('_')[:2]),
                         img=File(f, name=name),
                         shtg_key=image.name
                     )

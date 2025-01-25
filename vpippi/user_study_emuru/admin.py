@@ -44,7 +44,7 @@ class CompetitorAdmin(admin.ModelAdmin):
     max_ratio.short_description = 'Max ratio'
 
 class SampleImageAdmin(admin.ModelAdmin):
-    list_display = ('competitor', 'img', 'available', 'shtg_key')
+    list_display = ('competitor', 'img', 'available', 'dataset', 'shtg_key')
     list_filter = ('competitor', 'available', 'shtg_key')
 
 class AnswerAdmin(admin.ModelAdmin):
