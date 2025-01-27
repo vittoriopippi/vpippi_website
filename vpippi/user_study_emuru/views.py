@@ -48,18 +48,12 @@ def index(request):
     
     if player.finished:
         return redirect('login')
-    
-    distinct_datasets = SampleImage.objects.values_list('dataset', flat=True).distinct()
 
-    references = []
-    for dset in distinct_datasets:
-        # Randomly order by '?' and get first 10
-        random_samples = SampleImage.objects.filter(competitor__reference=True, available=True, dataset=dset).order_by('?')[:10]
-        references.extend(random_samples)
-
-    references = references[:QUESTIONS_PER_PLAYER - answered_questions]
-    random.shuffle(references)
-    competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key).order_by('?') for ref in references]
+    # Get all SampleImages that are references and the payer didn't aswer yet
+    answers = Answer.objects.all().filter(player=player)
+    shtg_keys = [answer.winner.shtg_key for answer in answers]
+    references = SampleImage.objects.filter(competitor__reference=True, shtg_key__in=shtg_keys).order_by('?')
+    competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key) for ref in references]
     
     context = {
         'player': player,
