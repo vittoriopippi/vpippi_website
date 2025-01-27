@@ -13,7 +13,7 @@ from datetime import timedelta, datetime
 from django.conf import settings
 import pandas as pd
 
-QUESTIONS_PER_PLAYER = 60
+QUESTIONS_PER_PLAYER = 36
 
 def login(request):
     if request.POST:
@@ -51,9 +51,10 @@ def index(request):
 
     # Get all SampleImages that are references and the payer didn't aswer yet
     answers = Answer.objects.all().filter(player=player)
-    shtg_keys = [answer.winner.shtg_key for answer in answers]
-    references = SampleImage.objects.filter(competitor__reference=True, shtg_key__in=shtg_keys).order_by('?')
-    competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key) for ref in references]
+    shtg_keys = {answer.winner.shtg_key for answer in answers}
+    references = SampleImage.objects.filter(competitor__reference=True).order_by('?')
+    references = [ref for ref in references if ref.shtg_key not in shtg_keys]
+    competitors = [SampleImage.objects.filter(competitor__reference=False, shtg_key=ref.shtg_key).order_by('?') for ref in references]
     
     context = {
         'player': player,
@@ -81,7 +82,7 @@ def post_answer(request):
             return HttpResponse('ERROR')
         player = Player.objects.get(pk=player_id)
         if request.POST['answer'].startswith('skip'):
-            shtg_key = int(request.POST['answer'].split('_')[1])
+            shtg_key = request.POST['answer'].split('_')[1]
             Skipped.objects.create(player=player, shtg_key=shtg_key)
         else:
             winner = SampleImage.objects.get(pk=int(request.POST['answer']))

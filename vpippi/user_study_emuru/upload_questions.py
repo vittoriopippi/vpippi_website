@@ -10,8 +10,8 @@ def get_id_from_path(path):
 
 parser = argparse.ArgumentParser(description='Upload an image to the server')
 parser.add_argument('csv_paths', type=Path, nargs='+', help='Paths to the CSV files to upload')
-parser.add_argument('--url', type=str, default='https://www.vpippi.com/user_study/upload_question')
-# parser.add_argument('--url', type=str, default='http://127.0.0.1:8000/user_study/upload_question')
+# parser.add_argument('--url', type=str, default='https://www.vpippi.com/user_study/upload_question')
+parser.add_argument('--url', type=str, default='http://127.0.0.1:8000/user_study/upload_question')
 parser.add_argument('--img_root', type=Path, default=Path())
 args = parser.parse_args()
 
