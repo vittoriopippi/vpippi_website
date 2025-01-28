@@ -13,7 +13,7 @@
                     <button type="button" class="bug-btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-info-lg" style="color: black;"></i></button>
                   </div>
                   <div class="col-md-6 col-10" style="text-align: center;">
-                    <h2 class="fw-bold text-uppercase">{{ player.name }}#{{ player.pk|stringformat:'03d' }}</h2>
+                    <h2 class="fw-bold text-uppercase" style="color: #6419cf;">{{ player.name }}#{{ player.pk|stringformat:'03d' }}</h2>
                   </div>
                   <div class="col-md-3 col-12 text-md-end text-center pt-md-0 pt-3">
                     <p class="mb-0" id="prompt_ita">{{ first_question.sample_a.prompt.ita_text }}</p>
@@ -21,7 +21,7 @@
                   </div>
                 </div>
 
-                <h3>Reference:</h3>
+                <h4 style="color: #6419cf;">Reference:</h4>
                 <div class="w-100" style="overflow-x: hidden;">
                   <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-1" />
                   <hr>
