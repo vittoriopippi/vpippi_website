@@ -13,7 +13,7 @@ from datetime import timedelta, datetime
 from django.conf import settings
 import pandas as pd
 
-QUESTIONS_PER_PLAYER = 36
+QUESTIONS_PER_PLAYER = 48
 
 def login(request):
     if request.POST:
