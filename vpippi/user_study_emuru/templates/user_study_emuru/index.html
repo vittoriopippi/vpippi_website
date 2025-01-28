@@ -21,10 +21,11 @@
                   </div>
                 </div>
 
-                <h4 style="color: #6419cf;">Reference:</h4>
+                <h4 style="color: #6419cf; opacity: 0.4">Reference:</h4>
                 <div class="w-100" style="overflow-x: hidden;">
                   <img src="{{ first_reference.img.url }}" alt="" id="img_ref" data-id="{{ first_reference.id }}" style="height: 3em;" class="mb-1" />
                   <hr>
+                  <h4 style="color: #6419cf; opacity: 0.4">Generated:</h4>
                   {% for first_competitor in first_competitors %}
                   <div class="div_img_option mb-3 p-1 img_option" id="div_img_{{ forloop.counter }}" data-id="{{ first_competitor.id }}">
                     <img src="{{ first_competitor.img.url }}" id="img_{{ forloop.counter }}" alt="" style="height: 3em;"/>
