@@ -154,13 +154,41 @@ def update_players(request):
     return redirect('scoreboard')
 
 def stats(request):
-    competitors = Competitor.objects.all().filter(available=True, reference=False)
-    answers = [Answer.objects.filter(winner__competitor=competitor).count() for competitor in competitors]
+    # 1. Get all relevant competitors
+    competitors = Competitor.objects.filter(available=True, reference=False)
+
+    # 2. Calculate the total number of answers per competitor (existing logic)
+    answers = [
+        Answer.objects.filter(winner__competitor=competitor).count()
+        for competitor in competitors
+    ]
     total_answers = sum(answers)
-    perc = [answer / total_answers * 100 if total_answers > 0 else 0 for answer in answers]
+    perc = [
+        (answer / total_answers) * 100 if total_answers else 0
+        for answer in answers
+    ]
+    
+    # 3. For dataset-specific stats, get all distinct dataset names
+    datasets = SampleImage.objects.values_list('dataset', flat=True).distinct()
+
+    dataset_competitors = []
+    for dataset in datasets:
+        # All answers that belong to this dataset
+        dataset_answers = Answer.objects.filter(winner__dataset=dataset)
+        total_dataset_answers = dataset_answers.count()
+
+        competitor_data = []
+        for competitor in competitors:
+            c_count = dataset_answers.filter(winner__competitor=competitor).count()
+            c_perc = (c_count / total_dataset_answers) * 100 if total_dataset_answers else 0
+            competitor_data.append((competitor.name, c_count, c_perc))
+
+        # Save each dataset's name, competitor data, and total answers for display
+        dataset_competitors.append((dataset, competitor_data, total_dataset_answers))
 
     context = {
         'competitors': zip(competitors, answers, perc),
         'total_answers': total_answers,
-        }
+        'dataset_competitors': dataset_competitors,
+    }
     return render(request, 'user_study_emuru/stats.html', context)
