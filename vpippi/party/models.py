@@ -19,6 +19,7 @@ class Invite(models.Model):
     state = models.CharField(max_length=2, choices=STATES, default=PENDING)
     date_modified = models.DateTimeField(auto_now=True)
     fuorisede = models.BooleanField(default=False)
+    foreign = models.BooleanField(default=False)
 
     @staticmethod
     def phone_to_base64(phone):

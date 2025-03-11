@@ -1,0 +1,136 @@
+{% extends "party/base.html" %}
+{% load static %}
+
+{% block title %}Invito {{ invite.name }}{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container oktober_container p-3">
+    <div class="vitto-toast d-none">
+      <div class="vitto-toast-body">
+        Grazie per la risposta! 
+      </div>
+    </div>
+
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+    <div class="oktober px-4 pt-0 pb-1">
+
+        {% comment %} <img src="{% static 'party/bunny_2.png' %}" class="aprilfest_img pb-4"> {% endcomment %}
+
+        <div class="sanremo_title pb-3"><h1>SAN<stem style="color: #F81A97ff;">VITTO</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
+        
+        {% if invite.name %}
+          <h1 class="card-title circus pb-3">{{ invite.name | upper }}</h1>
+        {% endif %}
+
+        <p class="card-text">
+          E il vincitore è... te che sei stato invitatə!
+        </p>
+        <p class="card-text">
+          Sei stat&#601; ufficialmente invitat&#601; al mio party esclusivo a tema <strong>Sanremo</strong>! 
+          Si terrà a Foligno il <strong>sabato 12 Aprile 2025</strong> alle ore 21:30 presso Casa Pippi in <a href="https://goo.gl/maps/k4jq3pL7XDrAudHj7">Via del Roccolo 4</a>. 
+        </p>
+        <p class="card-text">
+          Anche quest'anno ho ceduto alle pressioni del pubblico e ho deciso di organizzare una serata da standing ovation, 
+          perché in fondo, cosa sarebbe la vita senza un po’ di spettacolo?
+        </p>
+        <p class="card-text">
+          Il tema della serata sarà <strong>Sanremo</strong>, quindi vestiti come se dovessi salire sul palco dell'Ariston! 
+          <br><strong>Dress code: look da star o outfit da Festival!</strong>
+        </p>
+        <p class="card-text">
+          Durante la serata, ogni partecipante è incoraggiato a portare una <strong>canzone</strong> con tanto di outfit e performance! 
+          Le esibizioni saranno valutate dal <strong>voto del pubblico</strong> e da una <strong>giuria d’eccezione</strong>, quindi dai il massimo!
+        </p>
+        <p class="card-text">
+          E per rendere tutto ancora più divertente, sarà presente il <strong>FantaSanvitto</strong>! Prepara la tua squadra e accumula punti con gesti iconici e colpi di scena.
+        </p>
+        <p class="card-text mt-4">
+          Non ti chiederò né fiori né canzoni (ok, forse canzoni sì), ma solo la <strong>tua presenza</strong> e la voglia di divertirti.
+        </p>
+        {% if invite.fuorisede %}
+        <div class="fuorisede_card pb-3">
+          <p class="card-text">
+            Dato il grande numero di partecipanti da fuori città, per evitare di creare attriti e fare preferenze <strong>ho deciso di non ospitare nessuno</strong> quest'anno.
+          </p>
+          <p class="card-text">
+            L'anno scorso avevamo controllato e se prenotati per tempo esistono degli appartamenti in zona a prezzi accessibili (~20€ per notte a persona).
+          </p>
+          <p class="card-text">
+            Se siete interessati a venire nonostante le difficoltà logistiche, fatemelo sapere e vi aiuterò a organizzarvi al meglio!
+          </p>
+        </div>
+        {% endif %}
+        
+        {% if not fake %}
+        <p class="card-text">
+          <strong>Fammi sapere se ci sarai!</strong> Non è vincolante, ma mi aiuterà a organizzare tutto al meglio ❤️  
+        </p>
+        {% endif %}   
+        
+        <p class="card-text">
+          "Grazie a tutti, grazie pubblico, grazie orchestra!" 🎤
+        </p>
+    </div>
+
+    {% if not fake %}
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+    <div class="oktober px-4 ticket_bottom">
+      <div class="left mt-4">
+        <div class="sanremo_title pb-3"><h1>S<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
+      </div>
+      <div class="ticket_form right">
+          <h3 class="mb-2">Quindi?</h3>
+          <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
+            <div class="box">
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+            </div>
+            <div class="text" data-value="YE">CI SONO!</div></div>
+          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
+          </div><div class="text" data-value="NO">NON POSSO</div></div>
+          <div class="checkbox  {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+            <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
+          </div><div class="text" data-value="+1">CI SIAMO! +1</div></div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  function set_partecipation(partecipation) {
+    console.log(partecipation);
+    $.post(window.location, {attending: partecipation});
+  }
+
+  function show_toast(msg) {
+    $('.vitto-toast').removeClass('d-none');
+    $('.vitto-toast').addClass('show');
+  
+    setTimeout(function() {
+      $('.vitto-toast').removeClass('show');
+    }, 2000);
+  }
+
+  $(document).ready(function() {
+    $('.checkbox').click(function() {
+      if ($(this).hasClass('active')) {
+        set_partecipation('PD');
+      } else {
+        show_toast('Salvato!');
+        set_partecipation($(this).find('.text').data('value'));
+        $('.checkbox').removeClass('active');
+      }
+      $(this).toggleClass('active');
+    });
+  });
+</script>
+{% endblock %}

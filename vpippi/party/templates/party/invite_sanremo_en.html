@@ -1,0 +1,136 @@
+{% extends "party/base.html" %}
+{% load static %}
+
+{% block title %}Invitation {{ invite.name }}{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container oktober_container p-3">
+    <div class="vitto-toast d-none">
+      <div class="vitto-toast-body">
+        Thanks for your response!
+      </div>
+    </div>
+
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+    <div class="oktober px-4 pt-0 pb-1">
+
+        {% comment %} <img src="{% static 'party/bunny_2.png' %}" class="aprilfest_img pb-4"> {% endcomment %}
+
+        <div class="sanremo_title pb-3"><h1>SAN<stem style="color: #F81A97ff;">VITTO</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
+        
+        {% if invite.name %}
+          <h1 class="card-title circus pb-3">{{ invite.name | upper }}</h1>
+        {% endif %}
+
+        <p class="card-text">
+          And the winner is... you, who have been invited!
+        </p>
+        <p class="card-text">
+          You have been officially invited to my exclusive <strong>Sanremo</strong>-themed party! 
+          It will take place in Foligno on <strong>Saturday, April 12, 2025</strong> at 9:30 PM at Casa Pippi in <a href="https://goo.gl/maps/k4jq3pL7XDrAudHj7">Via del Roccolo 4</a>. 
+        </p>
+        <p class="card-text">
+          Once again this year, I gave in to public pressure and decided to organize a standing ovation-worthy evening,
+          because after all, what would life be without a bit of spectacle?
+        </p>
+        <p class="card-text">
+          The theme of the night is <strong>Sanremo</strong>, so dress up as if you were stepping onto the Ariston stage! 
+          <br><strong>Dress code: star look or Festival outfit!</strong>
+        </p>
+        <p class="card-text">
+          During the evening, each participant is encouraged to bring a <strong>song</strong> along with a matching outfit and performance! 
+          The performances will be judged by the <strong>public vote</strong> and a <strong>special jury</strong>, so give it your best shot!
+        </p>
+        <p class="card-text">
+          And to make things even more fun, there will be <strong>FantaSanvitto</strong>! Prepare your team and rack up points with iconic moves and dramatic twists.
+        </p>
+        <p class="card-text mt-4">
+          I won’t ask for flowers or songs (okay, maybe songs), just your <strong>presence</strong> and your willingness to have fun.
+        </p>
+        {% if invite.fuorisede %}
+        <div class="fuorisede_card pb-3">
+          <p class="card-text">
+            Given the large number of attendees from out of town, to avoid conflicts and favoritism, <strong>I have decided not to host anyone</strong> this year.
+          </p>
+          <p class="card-text">
+            Last year we checked, and if booked in advance, there are apartments in the area at affordable prices (~€20 per night per person).
+          </p>
+          <p class="card-text">
+            If you’re interested in coming despite the logistical challenges, let me know, and I’ll help you organize!
+          </p>
+        </div>
+        {% endif %}
+        
+        {% if not fake %}
+        <p class="card-text">
+          <strong>Let me know if you’ll be there!</strong> It’s not binding, but it will help me organize everything better ❤️  
+        </p>
+        {% endif %}   
+        
+        <p class="card-text">
+          "Thank you all, thank you audience, thank you orchestra!" 🎤
+        </p>
+    </div>
+
+    {% if not fake %}
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+    <div class="oktober px-4 ticket_bottom">
+      <div class="left mt-4">
+        <div class="sanremo_title pb-3"><h1>S<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
+      </div>
+      <div class="ticket_form right">
+          <h3 class="mb-2">So?</h3>
+          <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
+            <div class="box">
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+            </div>
+            <div class="text" data-value="YE">I’M IN!</div></div>
+          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
+          </div><div class="text" data-value="NO">CAN’T MAKE IT</div></div>
+          <div class="checkbox  {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+            <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
+          </div><div class="text" data-value="+1">WE’RE IN! +1</div></div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  function set_partecipation(partecipation) {
+    console.log(partecipation);
+    $.post(window.location, {attending: partecipation});
+  }
+
+  function show_toast(msg) {
+    $('.vitto-toast').removeClass('d-none');
+    $('.vitto-toast').addClass('show');
+  
+    setTimeout(function() {
+      $('.vitto-toast').removeClass('show');
+    }, 2000);
+  }
+
+  $(document).ready(function() {
+    $('.checkbox').click(function() {
+      if ($(this).hasClass('active')) {
+        set_partecipation('PD');
+      } else {
+        show_toast('Saved!');
+        set_partecipation($(this).find('.text').data('value'));
+        $('.checkbox').removeClass('active');
+      }
+      $(this).toggleClass('active');
+    });
+  });
+</script>
+{% endblock %}

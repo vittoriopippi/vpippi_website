@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    font-family: "GoboldRegular";
+    src: url('Gobold_Regular.otf');
+}
+
+@font-face {
     font-family: "Rye-Regular";
     src: url('Rye-Regular.ttf');
 }
@@ -23,9 +28,15 @@
     src: url('Icklips_.ttf');
 }
 
+/* --school-bus-yellow: #F9DA07ff;
+--deep-pink: #F81A97ff;
+--white: #FEFEFEff;
+--palatinate-blue: #1344F4ff; */
+
 body {
-    color: #ff4ee5;
-    background-color: black;
+    color: #dfe6e9;
+    background-image: url('sanremo_bg.jpg');
+    background-size: cover;
 }
   
 .grid {
@@ -35,7 +46,7 @@ body {
     bottom: 0;
     left: -50%;
     background-color: #0a0324;
-    background-image: linear-gradient(90deg, transparent 0%, transparent 85%, #11dfdc 90%, transparent 95%), linear-gradient(0deg, transparent 0%, transparent 85%, #11dfdc 90%, transparent 95%);
+    background-image: linear-gradient(90deg, transparent 0%, transparent 85%, #F9DA07ff 90%, transparent 95%), linear-gradient(0deg, transparent 0%, transparent 85%, #F9DA07ff 90%, transparent 95%);
     background-size: 12px 12px;
     width: 200vw;
     height: 100vh;
@@ -92,7 +103,7 @@ body {
 }
 
 .oktober_container>svg {
-    fill: #d445b0;
+    fill: #dfe6e9;
     z-index: 1;
     margin-bottom: -1px;
     margin-top: -1px;
@@ -104,13 +115,35 @@ body {
     margin-top: 0%;
 }
 
-.circus {
-    font-family: 'Icklips';
+.sanremo_title>h1 {
+    font-family: 'GoboldRegular';
     text-align: center;
-    font-size: 3.5rem;
-    color: #11dfdc;
+    font-size: 5.6rem;
+    color: #dfe6e9;
     font-weight: bold;
-    text-shadow: 0px 0px 8px #11dfdc;
+    display: flex;
+    align-items: center;
+}
+
+.sanremo_title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.year {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1; /* Ensures no extra space between lines */
+    font-size: 2.6rem;
+}
+
+.circus {
+    font-family: 'GoboldRegular';
+    text-align: center;
+    font-size: 2.5rem;
+    color: #dfe6e9;
+    font-weight: bold;
 }
 
 .cls-1 {
@@ -136,8 +169,8 @@ body {
 
 .ticket {
     background: #00020a;
-    border-left: 0.6rem solid #d445b0;
-    border-right: 0.6rem solid #d445b0;
+    border-left: 0.6rem solid #dfe6e9;
+    border-right: 0.6rem solid #dfe6e9;
     width: 100%;
     /* position: relative; */
 }
@@ -148,10 +181,10 @@ body {
 
 .oktober {
     background: #00020a;
-    border-left: 0.6rem solid #d445b0;
-    border-right: 0.6rem solid #d445b0;
+    border-left: 0.6rem solid #dfe6e9;
+    border-right: 0.6rem solid #dfe6e9;
     width: 100%;
-    /* box-shadow: 0 0 50px 15px #d445b0; */
+    /* box-shadow: 0 0 50px 15px #dfe6e9; */
     /* position: relative; */
 }
 
@@ -229,10 +262,10 @@ body {
 
 .ticket_form>h3 {
     font-size: 2.6rem;
-    color: #11dfdc;
+    color: #F9DA07ff;
     font-weight: bold;
-    text-shadow: 0px 0px 8px #11dfdc;
-    font-family: 'Icklips';
+    /* text-shadow: 0px 0px 8px #F9DA07ff; */
+    font-family: 'GoboldRegular';
 }
 
 .checkbox {
@@ -246,7 +279,7 @@ body {
     margin-right: 0.5em;
     width: 1em;
     height: 1em;
-    border: 2px solid #ff4ee5;
+    border: 2px solid #F81A97ff;
 }
 
 .checkbox>.box>svg {
@@ -297,18 +330,18 @@ body {
     width: 100%;
     padding: 1.0em;
     border-radius: 1em;
-    border: 2px solid #11dfdc;
+    border: 2px solid #F9DA07ff;
     margin-bottom: 1em;
 }
 
 .fuorisede_card strong {
-    color: #11dfdc !important;
-    text-shadow: 0px 0px 6px #11dfdc !important;
+    color: #F9DA07ff !important;
+    /* text-shadow: 0px 0px 6px #F9DA07ff !important; */
 }
 
 .fuorisede_card a {
-    color: #11dfdc !important;
-    text-shadow: 0px 0px 6px #11dfdc !important; 
+    color: #F9DA07ff !important;
+    text-shadow: 0px 0px 6px #F9DA07ff !important; 
 }
 
 .no_oktoberfest {
@@ -325,8 +358,8 @@ body {
 }
 
 .ticket_bottom > .left {
-    width: 40%;
-    border-right: 2px solid #ff4ee5;
+    width: 60%;
+    border-right: 2px solid #F81A97ff;
     padding: 0 !important;
     padding: 0 !important;
     position: relative;
@@ -344,7 +377,7 @@ body {
     left: -7%;
     top: -17%;
     width: 80%;
-    fill: #ff4ee5;
+    fill: #F81A97ff;
 }
 
 .ticket_bottom > .left .date {
@@ -409,22 +442,21 @@ body {
 }
 
 a {
-    color: #fded80;
+    color: #F81A97ff;
     font-weight: bold;
-    text-shadow: 0px 0px 6px #fded80;
+    /* text-shadow: 0px 0px 6px #fded80; */
 }
 
 a:hover {
     transition: 0.3s;
-    color: #fded80;
+    color: #681c1e;
     font-weight: bold;
-    text-shadow: 0px 0px 16px #fded80;
+    /* text-shadow: 0px 0px 16px #F81A97ff; */
 }
 
 strong {
-    color: #fded80;
-    text-shadow: 0px 0px 6px #fded80;
-
+    color: #F81A97ff;
+    /* text-shadow: 0px 0px 6px #fded80; */
 }
 
 .filter-form {
@@ -465,7 +497,7 @@ strong {
 
 .youtube > svg {
     position: absolute;
-    fill: #ff4ee5;
+    fill: #F81A97ff;
     width: 10%;
     top: 35%;
     left: 45%;
@@ -530,7 +562,7 @@ strong {
     left: 0;
     width: 100%;
     height: 3em;
-    background: #ff4ee5;
+    background: #F81A97ff;
     color: #00020a;
     display: flex;
     justify-content: center;
@@ -540,7 +572,7 @@ strong {
     z-index: 999;
     opacity: 0;
     transition: .9s;
-    box-shadow: 0 0 10px 5px #ff4ee5;
+    box-shadow: 0 0 10px 5px #F81A97ff;
 }
 
 .vitto-toast.show {
