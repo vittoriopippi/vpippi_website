@@ -16,22 +16,6 @@
     {% include "party/top_noholes.svg" %}
     <div class="oktober px-4 pt-0 pb-1">
 
-      <p id="viewport-size"></p>
-
-      <script>
-      function updateViewportSize() {
-          let width = window.innerWidth;
-          let height = window.innerHeight;
-          document.getElementById("viewport-size").innerText = `Viewport: ${width}px × ${height}px`;
-      }
-
-      // Run on load
-      updateViewportSize();
-
-      // Update when window resizes
-      window.addEventListener("resize", updateViewportSize);
-      </script>
-
         {% comment %} <img src="{% static 'party/bunny_2.png' %}" class="aprilfest_img pb-4"> {% endcomment %}
 
         <div class="sanremo_title pb-3"><h1>SAN<stem style="color: #F81A97ff;">VITTO</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
