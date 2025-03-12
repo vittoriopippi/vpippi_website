@@ -115,21 +115,24 @@ body {
     margin-top: 0%;
 }
 
-.sanremo_title>h1 {
-    font-family: 'GoboldRegular';
-    text-align: center;
-    font-size: 5.6rem;
-    color: #dfe6e9;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-}
-
 .sanremo_title {
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 1rem;
 }
+
+.sanremo_title > h1 {
+    font-family: 'GoboldRegular';
+    text-align: center;
+    font-size: 5.6rem; /* Default for large screens */
+    color: #dfe6e9;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: font-size 0.3s ease-in-out; /* Smooth scaling effect */
+}
+
 
 .year {
     display: flex;
@@ -137,6 +140,19 @@ body {
     line-height: 1.1; /* Ensures no extra space between lines */
     font-size: 2.6rem;
 }
+
+
+/* Extra small screens (Mobile phones) */
+@media (max-width: 480px) {
+    .sanremo_title > h1 {
+        font-size: 4.1rem;
+    }
+
+    .year {
+        font-size: 1.9rem;
+    }
+}
+
 
 .circus {
     font-family: 'GoboldRegular';
@@ -358,11 +374,17 @@ body {
 }
 
 .ticket_bottom > .left {
-    width: 60%;
+    width: 50%;
     border-right: 2px solid #F81A97ff;
     padding: 0 !important;
     padding: 0 !important;
     position: relative;
+}
+
+@media screen and (max-width: 480px) {
+    .ticket_bottom > .left {
+        display: none;
+    }
 }
 
 .ticket_bottom > .left > div {
