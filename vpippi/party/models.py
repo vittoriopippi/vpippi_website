@@ -24,19 +24,23 @@ class Invite(models.Model):
     @staticmethod
     def phone_to_base64(phone):
         try:
-            phone = int.to_bytes(int(phone), 6, 'big')
-            phone = base64.b64encode(phone).decode('utf-8')
-        except:
+            # ensure it's a string
+            phone_bytes = phone.encode('utf-8')
+            # URL-safe base64, then strip any '=' padding
+            token = base64.urlsafe_b64encode(phone_bytes).decode('ascii').rstrip('=')
+            return token
+        except (TypeError, UnicodeEncodeError):
             return None
-        return phone
-    
+
     @staticmethod
-    def base64_to_phone(phone):
+    def base64_to_phone(token):
         try:
-            phone = str(int.from_bytes(base64.b64decode(phone), byteorder='big'))
-        except:
+            # restore padding
+            padding = '=' * (-len(token) % 4)
+            phone_bytes = base64.urlsafe_b64decode(token + padding)
+            return phone_bytes.decode('utf-8')
+        except (TypeError, base64.binascii.Error, UnicodeDecodeError):
             return None
-        return phone
 
     def __str__(self):
         return self.name
