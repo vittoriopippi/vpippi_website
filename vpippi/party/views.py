@@ -7,7 +7,7 @@ import base64
 
 def index(request):
     fake_invite = {'name': ''}
-    return render(request, 'party/invite_sanremo.html', {'invite': fake_invite, 'fake': True})
+    return render(request, 'party/invite_defense.html', {'invite': fake_invite, 'fake': True})
 
 @csrf_exempt
 def invite(request, code):    
@@ -18,8 +18,8 @@ def invite(request, code):
         return HttpResponse("ok")
     invite = get_object_or_404(Invite, code=code)
     if invite.foreign:
-        return render(request, 'party/invite_sanremo_en.html', {'invite': invite}) 
-    return render(request, 'party/invite_sanremo.html', {'invite': invite})
+        return render(request, 'party/invite_defense_en.html', {'invite': invite}) 
+    return render(request, 'party/invite_defense.html', {'invite': invite})
 
 def from_phone(request, phone):
     invite = get_object_or_404(Invite, phone=int(phone))
