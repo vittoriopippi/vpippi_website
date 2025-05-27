@@ -1,0 +1,75 @@
+{% extends "party/base.html" %}
+{% load static %}
+
+{% block title %}Registrazione ospite – Difesa di Dottorato{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container oktober_container p-3">
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+
+    <div class="oktober px-4 pt-0 pb-1">
+      <h1 class="card-title circus pb-3">REGISTRAZIONE</h1>
+      <p class="card-text">Compila il modulo con i tuoi dati e premi <strong>“Continua”</strong> per procedere.</p>
+
+      {% if error %}
+        <div class="card text-bg-danger mb-3" style="width: 100%;">
+            <div class="card-body">
+            <p class="card-text">{{ error }}</p>
+            </div>
+        </div>
+      {% endif %}
+    </div>
+    
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+
+    <div class="oktober px-4 pt-0 pb-1">
+      <form method="post" action="{% url 'party_new' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="first_name" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" required>
+          <div class="invalid-feedback">Inserisci il nome.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="last_name" class="form-label">Cognome</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" required>
+          <div class="invalid-feedback">Inserisci il cognome.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="phone" class="form-label">Numero di telefono</label>
+          <input type="tel" pattern="3\d{8,9}" class="form-control" id="phone" name="phone" required>
+          <div class="invalid-feedback">Inserisci un numero di telefono valido.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Continua</button>
+      </form>
+    </div>
+    
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+
+<script>
+  // Bootstrap validation (v5)
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+{% endblock %}
