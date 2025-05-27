@@ -42,7 +42,8 @@ class Invite(models.Model):
             return phone_bytes.decode('utf-8')
         except (TypeError, base64.binascii.Error, UnicodeDecodeError):
             return None
-        
+    
+    @property
     def welcome_msg(self):
         name = self.name.split()[0]
         if self.fuorisede:
