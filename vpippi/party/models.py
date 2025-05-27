@@ -46,10 +46,7 @@ class Invite(models.Model):
     @property
     def welcome_msg(self):
         name = self.name.split()[0]
-        if self.fuorisede:
-            msg = f"Hi {name}!\n\n"
-        else:
-            msg = f'Ciao {name}!\n\n'
+        msg = f'Ciao {name}!\n\n'
         return quote(msg)
 
     def __str__(self):
