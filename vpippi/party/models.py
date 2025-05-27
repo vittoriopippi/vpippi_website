@@ -1,4 +1,5 @@
 from django.db import models
+from urllib.parse import quote
 import base64
 
 class Invite(models.Model):
@@ -41,6 +42,14 @@ class Invite(models.Model):
             return phone_bytes.decode('utf-8')
         except (TypeError, base64.binascii.Error, UnicodeDecodeError):
             return None
+        
+    def welcome_msg(self):
+        name = self.name.split()[0]
+        if self.fuorisede:
+            msg = f"Hi {name}, welcome to the party! We are looking forward to seeing you!"
+        else:
+            msg = f'Ciao {name}, benvenuto alla festa! Non vediamo l\'ora di vederti!'
+        return quote(msg)
 
     def __str__(self):
         return self.name
