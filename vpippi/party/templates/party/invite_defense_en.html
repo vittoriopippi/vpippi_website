@@ -8,7 +8,7 @@
   <div class="container oktober_container p-3">
     <div class="vitto-toast d-none">
       <div class="vitto-toast-body">
-        Thank you for your response!
+        Thanks for your reply!
       </div>
     </div>
 
@@ -24,35 +24,40 @@
         {% endif %}
 
         <p class="card-text">
-          It has been a long journey full of highs and lows, and now we’ve reached the final event: my <strong>PhD defense</strong>! 🎓✨
+          It’s been a long journey with its ups and downs, and now we’ve reached the final event: my <strong>PhD defense</strong>! 🎓✨
         </p>
         <p class="card-text">
-          On <strong>Monday, 30 June 2025</strong> I will defend my thesis at the <a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">National Institute of Higher Mathematics “Francesco Severi”, Rome</a>.
-          The defense will start at <strong>14:00</strong> and the proclamation is scheduled for <strong>18:00</strong>.
-          If you’d like to drop by and keep me company, I’d be absolutely delighted to see you! 🥳💜
+          On <strong>Monday, 30 June 2025</strong> I’ll defend my thesis at the <a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">“Francesco Severi” National Institute of High Mathematics, Rome</a>.  
+          The defense starts at <strong>14:00</strong> and the proclamation is scheduled for <strong>18:00</strong>.  
+          If you feel like dropping by to keep me company I’ll be thrilled to see you! 🥳💜
         </p>
 
-        <!-- COLLAPSIBLE – Trip details to Rome -->
+        <!-- COLLAPSIBLE – Trip details for Rome -->
         <button class="btn btn-outline-secondary mb-3" style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#romaTrip" aria-expanded="false" aria-controls="romaTrip">
-          🚄 Info on coming to Rome
+          🚄 Info on getting to Rome
         </button>
         <div class="collapse" id="romaTrip">
           <div class="card card-body text-bg-dark">
             <p class="card-text mb-2"><strong>My train tickets</strong> 🎫</p>
             <ul class="mb-3">
-              <li>Outbound: <em>Modena</em> 07:42 → <em>Roma Termini</em> 10:35 – Frecciarossa 1000 9303, carriage 5, seat 17D.</li>
-              <li>Return: <em>Roma Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa 1000 9330, carriage 7, seat 6D.</li>
+              <li>Outbound: <em>Modena</em> 07:42 → <em>Rome Termini</em> 10:35 – Frecciarossa 1000 9303, carriage 5, seat 17D.</li>
+              <li>Return: <em>Rome Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa 1000 9330, carriage 7, seat 6D.</li>
             </ul>
             <p class="card-text">
-              I also considered renting a <strong>9-seat minivan</strong> (driver + 8 passengers) for the whole day for about <strong>€320</strong> + <strong>€60</strong> in tolls round-trip, i.e. roughly <strong>€45 per person</strong> return. 🚐💨
-              If you’re interest&#601;, let me know and I’ll send you the agency’s contact right away!
+              I also considered renting a <strong>9-seat minivan</strong> (driver + 8 passengers) for the entire day at a total cost of about <strong>€320</strong> plus <strong>€60</strong> round-trip tolls – roughly <strong>€45 per person</strong> there and back. 🚐💨<br/>
+              <em>The quote covers the <strong>Modena ↔ Rome</strong> route; if you’re leaving from <strong>Foligno</strong> you’re in luck, because the journey is even shorter!</em><br/>
+              If you’re interested, let me know and I’ll send you the agency’s contact right away.
             </p>
           </div>
         </div>
 
         <p class="card-text mt-2">
-          I’m also organising a <strong>celebratory aperitif</strong> on the evening of <strong>Tuesday, 1 July</strong>. 🥂
-          I’d like to offer something to everyone, so please let me know as soon as possible if you can make it by selecting an option below!
+          If you’re coming from out of town and will stay in Rome for the aperitif on <strong>1 July</strong>, I can host you for the night – just give me a heads-up so I can organise! 🛏️
+        </p>
+
+        <p class="card-text mt-2">
+          I’m also organising a <strong>celebratory aperitif</strong> on the evening of <strong>Tuesday, 1 July</strong>. 🥂  
+          I’d love to offer something to everyone, so please let me know as soon as possible whether you can come by selecting an option below!
         </p>
     </div>
 
@@ -61,33 +66,21 @@
     {% include "party/mid_smholes.svg" %}
     <div class="oktober px-4 ticket_bottom">
       <div class="left mt-4">
-        <div class="sanremo_title pb-3">
-          <h1>D<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1>
-        </div>
+        <div class="sanremo_title pb-3"><h1>D<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
       </div>
       <div class="ticket_form">
           <h3 class="mb-2">Aperitif 1 July: will you be there?</h3>
-
           <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
             <div class="box">
-              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
             </div>
-            <div class="text" data-value="YE">I'LL BE THERE!</div>
-          </div>
-
-          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}">
-            <div class="box">
-              <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
-            </div>
-            <div class="text" data-value="NO">I CAN'T</div>
-          </div>
-
-          <div class="checkbox {% if invite.state == "+1" %}active{% endif %}">
-            <div class="box">
-              <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
-            </div>
-            <div class="text" data-value="+1">WE'LL BE THERE! +1</div>
-          </div>
+            <div class="text" data-value="YE">I’LL BE THERE!</div></div>
+          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
+          </div><div class="text" data-value="NO">CAN’T MAKE IT</div></div>
+          <div class="checkbox  {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+            <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
+          </div><div class="text" data-value="+1">WE’LL BE THERE! +1</div></div>
       </div>
     </div>
     {% endif %}
@@ -95,6 +88,7 @@
     {% include "party/bottom_noholes.svg" %}
   </div>
 </div>
+
 {% endblock %}
 
 {% block script %}
@@ -108,13 +102,13 @@
     $('.vitto-toast').removeClass('d-none');
     $('.vitto-toast').addClass('show');
   
-    setTimeout(function () {
+    setTimeout(function() {
       $('.vitto-toast').removeClass('show');
     }, 2000);
   }
 
-  $(document).ready(function () {
-    $('.checkbox').click(function () {
+  $(document).ready(function() {
+    $('.checkbox').click(function() {
       if ($(this).hasClass('active')) {
         set_partecipation('PD');
       } else {
