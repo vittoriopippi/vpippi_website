@@ -45,7 +45,7 @@
         <div class="invite d-flex justify-content-between">
             <a href="{% url 'from_phone' invite.phone %}">{{ invite.name }}</a>
             <div>
-                <a href="https://api.whatsapp.com/send?phone={{ invite.phone_suffix }}{{ invite.phone }}&text={{ invite.welcome_msg }}%20{% url 'invite' invite.code %}"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="25" alt="WhatsApp" class="img-fluid"></a>
+                <a href="https://api.whatsapp.com/send?phone={{ invite.phone_suffix }}{{ invite.phone }}&text=vpippi.com/{{ invite.welcome_msg }}%20{% url 'invite' invite.code %}"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="25" alt="WhatsApp" class="img-fluid"></a>
                 {% if invite.state == "YE" %}
                     <span class="badge rounded-pill bg-success">Viene</span>
                 {% elif invite.state == "NO" %}
