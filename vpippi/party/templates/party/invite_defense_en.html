@@ -29,7 +29,7 @@
         <p class="card-text">
           On <strong>Monday, 30 June 2025</strong> I’ll defend my thesis at the <a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">“Francesco Severi” National Institute of High Mathematics, Rome</a>.  
           The defense starts at <strong>14:00</strong> and the proclamation is scheduled for <strong>18:00</strong>.  
-          If you feel like dropping by to keep me company I’ll be thrilled to see you! 🥳💜
+          If you feel like dropping by to keep me company, I’ll be thrilled to see you! 🥳💜
         </p>
 
         <!-- COLLAPSIBLE – Trip details for Rome -->
@@ -44,19 +44,21 @@
               <li>Return: <em>Rome Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa 1000 9330, carriage 7, seat 6D.</li>
             </ul>
             <p class="card-text">
-              I also considered renting a <strong>9-seat minivan</strong> (driver + 8 passengers) for the entire day at a total cost of about <strong>€320</strong> plus <strong>€60</strong> round-trip tolls – roughly <strong>€45 per person</strong> there and back. 🚐💨<br/>
+              I also considered renting a <strong>9-seat minivan</strong> (driver + 8 passengers) for the whole day at a total cost of about <strong>€320</strong> plus <strong>€60</strong> in round-trip tolls – roughly <strong>€45 per person</strong> there and back. 🚐💨<br/>
               <em>The quote covers the <strong>Modena ↔ Rome</strong> route; if you’re leaving from <strong>Foligno</strong> you’re in luck, because the journey is even shorter!</em><br/>
               If you’re interested, let me know and I’ll send you the agency’s contact right away.
             </p>
           </div>
         </div>
 
+        <!-- Hosting paragraph – now Modena -->
         <p class="card-text mt-2">
-          If you’re coming from out of town and will stay in Rome for the aperitif on <strong>1 July</strong>, I can host you for the night – just give me a heads-up so I can organise! 🛏️
+          If you’re coming from out of town and will stay in <strong><u>Modena</u></strong> for the aperitif on <strong>1 July</strong>, I can host you for the night – just give me a heads-up so I can organise! 🛏️
         </p>
 
+        <!-- Aperitif paragraph updated -->
         <p class="card-text mt-2">
-          I’m also organising a <strong>celebratory aperitif</strong> on the evening of <strong>Tuesday, 1 July</strong>. 🥂  
+          I’m also organising a <strong>celebratory aperitif</strong> on the evening of <strong>Tuesday, 1 July</strong> in <strong><u>Modena</u></strong>. 🥂  
           I’d love to offer something to everyone, so please let me know as soon as possible whether you can come by selecting an option below!
         </p>
     </div>
@@ -72,13 +74,13 @@
           <h3 class="mb-2">Aperitif 1 July: will you be there?</h3>
           <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
             <div class="box">
-              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
             </div>
             <div class="text" data-value="YE">I’LL BE THERE!</div></div>
           <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
             <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
           </div><div class="text" data-value="NO">CAN’T MAKE IT</div></div>
-          <div class="checkbox  {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+          <div class="checkbox {% if invite.state == "+1" %}active{% endif %}"><div class="box">
             <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
           </div><div class="text" data-value="+1">WE’LL BE THERE! +1</div></div>
       </div>
@@ -88,7 +90,6 @@
     {% include "party/bottom_noholes.svg" %}
   </div>
 </div>
-
 {% endblock %}
 
 {% block script %}
