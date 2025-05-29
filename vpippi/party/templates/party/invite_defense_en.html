@@ -1,14 +1,372 @@
+Skip to content
+You said:
+Alla seguente pagina HTML devo aggiungere alcune infomazioni:
+
+---
+Pagina html da modificare
 {% extends "party/base.html" %}
 {% load static %}
 
-{% block title %}Invitation {{ invite.name }} – PhD Defense{% endblock %}
+{% block title %}Invito {{ invite.name }} - Difesa di Dottorato{% endblock %}
 
 {% block content %}
 <div class="content">
   <div class="container oktober_container p-3">
     <div class="vitto-toast d-none">
       <div class="vitto-toast-body">
-        Thanks for your reply!
+        Grazie per la risposta! 
+      </div>
+    </div>
+
+    <!-- TOP SVG -->
+    {% include "party/top_noholes.svg" %}
+    <div class="oktober px-4 pt-0 pb-1">
+
+        <!-- Titolo custom -->
+        {% comment %} <div class="sanremo_title pb-3"><h1><span style="color: #6e07f3;">DOC</span><stem style="color: #F81A97ff;">TORVITTO</stem> <div class="year"><span>20</span><span>25</span></div></h1></div> {% endcomment %}
+        
+        {% if invite.name %}
+          <h1 class="card-title circus pb-3">{{ invite.name | upper }}</h1>
+        {% endif %}
+
+        <p class="card-text">
+          È stato un lungo percorso fatto di alti e di bassi, e ora siamo arrivati all'evento finale: la mia <strong>difesa di dottorato</strong>! 🎓✨
+        </p>
+        <p class="card-text">
+          Il <strong>lunedì 30 giugno 2025</strong> discuterò la mia tesi presso l'<a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">Istituto Nazionale di Alta Matematica "Francesco Severi", Roma</a>.  
+          La discussione inizierà alle <strong>14:00</strong> e la proclamazione è prevista per le <strong>18:00</strong>.  
+          Se ti va di passare a farmi compagnia sarò felicissimo di vederti! 🥳💜
+        </p>
+
+        <!-- COLLAPSIBLE – Dettagli viaggio a Roma -->
+        <button class="btn btn-outline-secondary mb-3" style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#romaTrip" aria-expanded="false" aria-controls="romaTrip">
+          🚄 Info per venire a Roma
+        </button>
+        <div class="collapse" id="romaTrip">
+          <div class="card card-body text-bg-dark">
+            <p class="card-text mb-2"><strong>I miei biglietti del treno</strong> 🎫</p>
+            <ul class="mb-3">
+              <li>Andata: <em>Modena</em> 07:42 → <em>Roma Termini</em> 10:35 – Frecciarossa 1000 9303, carrozza 5, posto 17D.</li>
+              <li>Ritorno: <em>Roma Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa 1000 9330, carrozza 7, posto 6D.</li>
+            </ul>
+            <p class="card-text">
+              Avevo valutato anche il noleggio di un <strong>minivan 9 posti</strong> (conducente + 8 passeggeri) per l'intera giornata al costo complessivo di circa <strong>320 €</strong> + <strong>60 €</strong> di pedaggio A/R, ovvero ~<strong>45 € a persona</strong> andata e ritorno. 🚐💨<br/>
+              <em>Il preventivo si riferisce alla tratta <strong>Modena ↔ Roma</strong>; se parti da <strong>Foligno</strong> sei avvantaggiatə perché il percorso è ancora più breve!</em><br/>
+              Se sei interessatə fammelo sapere e ti giro subito il contatto dell'agenzia!
+            </p>
+          </div>
+        </div>
+
+        <!-- Paragrafo aperitivo aggiornato -->
+        <p class="card-text mt-2">
+          Inoltre sto organizzando un <strong>aperitivo di festeggiamento</strong> la sera di <strong>martedì 1 luglio</strong> a <strong><u>Modena</u></strong>. 🥂  
+          Mi piacerebbe poter offrire qualcosa a tutti, quindi fammi sapere il prima possibile se riesci a venire selezionando l'opzione qui sotto!
+        </p>
+
+        <!-- Paragrafo ospitalità – ora Modena -->
+        <p class="card-text mt-2">
+          Se verrai da fuori città e rimarrai a <strong><u>Modena</u></strong> per l'aperitivo del <strong>1 luglio</strong>, sappi che posso ospitarti per la notte: fammi sapere così mi organizzo! 🛏️
+        </p>
+    </div>
+
+    {% if not fake %}
+    <!-- MIDDLE SVG -->
+    {% include "party/mid_smholes.svg" %}
+    <div class="oktober px-4 ticket_bottom">
+      <div class="left mt-4">
+        <div class="sanremo_title pb-3"><h1>D<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
+      </div>
+      <div class="ticket_form">
+          <h3 class="mb-2">Aperitivo 1 luglio: ci sarai?</h3>
+          <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
+            <div class="box">
+              <svg class="single-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
+            </div>
+            <div class="text" data-value="YE">CI SARÒ!</div></div>
+          <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
+          </div><div class="text" data-value="NO">NON POSSO</div></div>
+          <div class="checkbox {% if invite.state == "+1" %}active{% endif %}"><div class="box">
+            <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
+          </div><div class="text" data-value="+1">CI SIAMO! +1</div></div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- BOTTOM SVG -->
+    {% include "party/bottom_noholes.svg" %}
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  function set_partecipation(partecipation) {
+    console.log(partecipation);
+    $.post(window.location, {attending: partecipation});
+  }
+
+  function show_toast(msg) {
+    $('.vitto-toast').removeClass('d-none');
+    $('.vitto-toast').addClass('show');
+  
+    setTimeout(function() {
+      $('.vitto-toast').removeClass('show');
+    }, 2000);
+  }
+
+  $(document).ready(function() {
+    $('.checkbox').click(function() {
+      if ($(this).hasClass('active')) {
+        set_partecipation('PD');
+      } else {
+        show_toast('Salvato!');
+        set_partecipation($(this).find('.text').data('value'));
+        $('.checkbox').removeClass('active');
+      }
+      $(this).toggleClass('active');
+    });
+  });
+</script>
+{% endblock %}
+
+---
+info 1
+Dear PhD candidates, dear supervisors,
+
+
+
+ the defence will be on 30 June afternoon in Rome.
+
+If you have any requirements on the order of presentations, please let me know.
+
+Here a preliminary schedule.
+
+
+
+Location: "Aula Magna", Istituto Nazionale d'Alta Matematica “Francesco Severi”, Piazzale Aldo Moro 5, 0015, Roma
+
+
+14:00-15:00
+Costanza Alfieri: Ethics and Privacy in the Age of AI: Challenges and Solutions for Human Empowerment
+15:00-16:00
+Daniele Lotito: Associative Networks Beyond Pattern Retrieval
+16:00-17:00
+Vittorio Pippi: Handwritten Text Generation for Recognition: From Visual Archetypes to Autoregressive Models
+17:45-18:15
+Graduation Ceremony 
+
+
+
+@PhD candidates: please find below the last steps of the procedures to follow closely. 
+
+
+Best regards,
+
+Salvatore Ruggieri
+
+
+https://phd-ai-society.di.unipi.it/graduation/
+Final Ph.D. thesis submission
+The reviewers’ reports will be shared with the PhD candidate, who has the opportunity to implement the suggested changes.
+At least three weeks before the defence date, the Ph.D. candidate shall:
+upload the final Ph.D. thesis  in PDF to the ETD system of the theses at the University of Pisa. Strictly follow the instructions and timeline for the final dissertation submission.
+NOTE: A “report of activities” has to be uploaded as well: please merge your three yearly reports of activities into a single PDF using this template, also including any update occurred since your 3rd year report. The list of published papers (not submitted or non-archival) must be inserted in the ARPI system. Credentials to access ARPI can be requested to arpi@unipi.it.
+send the final Ph.D. thesis in PDF and the “report of activities” (see above) to the secretariat-ai-society@phd-ai.it;coordinator-ai-society@phd-ai.it, which will forward it to the defence committee. For large files, please store the file in the cloud (GDrive, OneDrive, etc.) and send a link to it.
+(only if explicitly required by the coordinator) also send to the secretariat-ai-society@phd-ai.it;coordinator-ai-society@phd-ai.it a brief summary of the changes in the manuscript implemented due to recommendations of the reviewers. The summary will be forwarded to the defence committee.
+Defence
+The defence date will be set within three months from receiving the reviewers’ reports. The defence committee is nominated according to the regulations of the University of Pisa.
+Typically, the defence lasts 1h: max 40 minutes for presentation and at least 20 minutes for Q&A.
+The defence committee approves or rejects the defence of the Ph.D. candidate with a motivated written decision. The eligibility to a second defence shall be excluded. The defence may also take place in videoconference session, but this must be explicitely requested and approved by the Coordinator at least three weeks before the defence.
+The thesis final assessment can be one of: sufficient, good or excellent. In case of contributions of exceptional scientific relevance, the awarding of the honors may be assigned by an unanimous vote of the defence committee.
+
+---
+info 2
+L'aperitivo si terrà alle 19 al freedom a modena (https://maps.app.goo.gl/VndALjXubkkmwPqF9)
+ChatGPT said:
+
+Thought for 37 seconds
+Ho inserito:
+
+un nuovo blocco espandibile con il programma dettagliato delle presentazioni e della proclamazione;
+
+l’indicazione esatta dell’Aula Magna come sede;
+
+l’orario e il luogo dell’aperitivo (ore 19:00 al Freedom, Modena, con link alla mappa).
+
+Se vuoi altre modifiche o un diverso layout per queste sezioni, dimmi pure!
+
+You said:
+Adesso mi fai una versione tradotta in inglese?
+ChatGPT said:
+
+Thought for 52 seconds
+
+Answer in chat instead
+Versione inglese aggiunta!
+Se preferisci mantenere sia l’italiano che l’inglese in due file separati oppure fare un layout bilingue nella stessa pagina, fammi sapere.
+
+
+
+
+
+No file chosenNo file chosen
+ChatGPT can make mistakes. Check important info. See Cookie Preferences.
+
+
+Invito Difesa
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+{% extends "party/base.html" %}
+{% load static %}
+
+{% block title %}Invitation {{ invite.name }} – PhD Defence{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container oktober_container p-3">
+    <div class="vitto-toast d-none">
+      <div class="vitto-toast-body">
+        Thanks for your response!
       </div>
     </div>
 
@@ -24,42 +382,59 @@
         {% endif %}
 
         <p class="card-text">
-          It’s been a long journey with its ups and downs, and now we’ve reached the final event: my <strong>PhD defense</strong>! 🎓✨
+          It has been a long journey full of ups and downs, and now we've reached the final event: my <strong>PhD defence</strong>! 🎓✨
         </p>
         <p class="card-text">
-          On <strong>Monday, 30 June 2025</strong> I’ll defend my thesis at the <a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">“Francesco Severi” National Institute of High Mathematics, Rome</a>.  
-          The defense starts at <strong>14:00</strong> and the proclamation is scheduled for <strong>18:00</strong>.  
-          If you feel like dropping by to keep me company, I’ll be thrilled to see you! 🥳💜
+          On <strong>Monday, 30&nbsp;June&nbsp;2025</strong> I will defend my thesis in the <a href="https://maps.app.goo.gl/2kiup5Zx7MxeujWb9" target="_blank">Aula&nbsp;Magna of the “Francesco&nbsp;Severi” National Institute of Higher Mathematics, Rome</a>.  
+          The defence will start at <strong>14:00</strong> and the graduation ceremony is scheduled for <strong>18:00</strong>.  
+          If you'd like to come and keep me company, I'd be delighted to see you! 🥳💜
         </p>
 
-        <!-- COLLAPSIBLE – Trip details for Rome -->
+        <!-- COLLAPSIBLE – Full schedule -->
+        <button class="btn btn-outline-secondary mb-3" style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#defenceSchedule" aria-expanded="false" aria-controls="defenceSchedule">
+          📅 Day schedule
+        </button>
+        <div class="collapse" id="defenceSchedule">
+          <div class="card card-body text-bg-dark">
+            <p class="card-text mb-2"><strong>Full schedule</strong></p>
+            <ul class="mb-3">
+              <li>14:00 – 15:00 — <strong>Costanza&nbsp;Alfieri</strong>: <em>Ethics and Privacy in the Age of AI: Challenges and Solutions for Human Empowerment</em></li>
+              <li>15:00 – 16:00 — <strong>Daniele&nbsp;Lotito</strong>: <em>Associative Networks Beyond Pattern Retrieval</em></li>
+              <li>16:00 – 17:00 — <strong>Vittorio&nbsp;Pippi</strong>: <em>Handwritten Text Generation for Recognition: From Visual Archetypes to Autoregressive Models</em></li>
+              <li>17:45 – 18:15 — 🎓 <strong>Graduation ceremony</strong></li>
+            </ul>
+            <p class="card-text fst-italic small mb-0">If you have any special requirements for the order of the talks, just let me know!</p>
+          </div>
+        </div>
+
+        <!-- COLLAPSIBLE – Trip details -->
         <button class="btn btn-outline-secondary mb-3" style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#romaTrip" aria-expanded="false" aria-controls="romaTrip">
-          🚄 Info on getting to Rome
+          🚄 Info for coming to Rome
         </button>
         <div class="collapse" id="romaTrip">
           <div class="card card-body text-bg-dark">
             <p class="card-text mb-2"><strong>My train tickets</strong> 🎫</p>
             <ul class="mb-3">
-              <li>Outbound: <em>Modena</em> 07:42 → <em>Rome Termini</em> 10:35 – Frecciarossa 1000 9303, carriage 5, seat 17D.</li>
-              <li>Return: <em>Rome Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa 1000 9330, carriage 7, seat 6D.</li>
+              <li>Outbound: <em>Modena</em> 07:42 → <em>Roma&nbsp;Termini</em> 10:35 – Frecciarossa&nbsp;1000&nbsp;9303, carriage&nbsp;5, seat&nbsp;17D.</li>
+              <li>Return: <em>Roma&nbsp;Termini</em> 19:50 → <em>Modena</em> 22:44 – Frecciarossa&nbsp;1000&nbsp;9330, carriage&nbsp;7, seat&nbsp;6D.</li>
             </ul>
             <p class="card-text">
-              I also considered renting a <strong>9-seat minivan</strong> (driver + 8 passengers) for the whole day at a total cost of about <strong>€320</strong> plus <strong>€60</strong> in round-trip tolls – roughly <strong>€45 per person</strong> there and back. 🚐💨<br/>
-              <em>The quote covers the <strong>Modena ↔ Rome</strong> route; if you’re leaving from <strong>Foligno</strong> you’re in luck, because the journey is even shorter!</em><br/>
-              If you’re interested, let me know and I’ll send you the agency’s contact right away.
+              I also looked into renting a <strong>9‑seater minivan</strong> (driver + 8 passengers) for the whole day at a total cost of about <strong>€320</strong> + <strong>€60</strong> tolls round‑trip, i.e. ~<strong>€45 per person</strong> there and back. 🚐💨<br/>
+              <em>The quote refers to the <strong>Modena ↔ Rome</strong> route; if you're coming from <strong>Foligno</strong> the journey is even shorter!</em><br/>
+              If you're interested, let me know and I'll pass you the agency's contact!
             </p>
           </div>
         </div>
 
-        <!-- Hosting paragraph – now Modena -->
+        <!-- Celebration aperitif paragraph -->
         <p class="card-text mt-2">
-          If you’re coming from out of town and will stay in <strong><u>Modena</u></strong> for the aperitif on <strong>1 July</strong>, I can host you for the night – just give me a heads-up so I can organise! 🛏️
+          I'm also organising a <strong>celebration aperitif</strong> on the evening of <strong>Tuesday, 1&nbsp;July</strong> in <strong><u>Modena</u></strong>, <strong>at 19:00 at <a href="https://maps.app.goo.gl/VndALjXubkkmwPqF9" target="_blank">Freedom</a></strong>. 🥂  
+          I'd love to treat everyone, so please let me know as soon as you can by choosing an option below!
         </p>
 
-        <!-- Aperitif paragraph updated -->
+        <!-- Hospitality paragraph -->
         <p class="card-text mt-2">
-          I’m also organising a <strong>celebratory aperitif</strong> on the evening of <strong>Tuesday, 1 July</strong> in <strong><u>Modena</u></strong>. 🥂  
-          I’d love to offer something to everyone, so please let me know as soon as possible whether you can come by selecting an option below!
+          If you're coming from out of town and plan to stay in <strong><u>Modena</u></strong> for the aperitif on <strong>1&nbsp;July</strong>, I can host you for the night – just let me know so I can arrange! 🛏️
         </p>
     </div>
 
@@ -71,18 +446,18 @@
         <div class="sanremo_title pb-3"><h1>D<stem style="color: #F81A97ff;">V</stem> <div class="year"><span>20</span><span>25</span></div></h1></div>
       </div>
       <div class="ticket_form">
-          <h3 class="mb-2">Aperitif 1 July: will you be there?</h3>
+          <h3 class="mb-2">Aperitif 1&nbsp;July: will you be there?</h3>
           <div class="checkbox {% if invite.state == "YE" %}active{% endif %}">
             <div class="box">
               <svg class="single-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"/></svg>
             </div>
-            <div class="text" data-value="YE">I’LL BE THERE!</div></div>
+            <div class="text" data-value="YE">I'LL BE THERE!</div></div>
           <div class="checkbox {% if invite.state == "NO" %}active{% endif %}"><div class="box">
             <svg class="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.13 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(-4.17 10.06) rotate(-45)"/><rect x="-3.16" y="9.06" width="26.45" height="2.01" transform="translate(10.06 -4.17) rotate(45)"/></g></g></svg>
-          </div><div class="text" data-value="NO">CAN’T MAKE IT</div></div>
+          </div><div class="text" data-value="NO">CAN'T MAKE IT</div></div>
           <div class="checkbox {% if invite.state == "+1" %}active{% endif %}"><div class="box">
             <svg class="double-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.81 20.13"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M26,0,8.72,17.28,1.44,10,0,11.44l8,8,.72.69.72-.69,18-18Z"/><path d="M34.37,0,17.09,17.28,9.81,10,8.37,11.44l8,8,.72.69.72-.69,18-18Z"/></g></g></svg>
-          </div><div class="text" data-value="+1">WE’LL BE THERE! +1</div></div>
+          </div><div class="text" data-value="+1">WE'LL BE THERE! +1</div></div>
       </div>
     </div>
     {% endif %}
@@ -122,3 +497,6 @@
   });
 </script>
 {% endblock %}
+
+
+ChatGPT says: Versione inglese aggiunta! Se preferisci mantenere sia l’italiano che l’inglese in due file separati oppure fare un layout bilingue nella stessa pagina, fammi sapere.
