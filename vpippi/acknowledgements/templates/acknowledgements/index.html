@@ -1,0 +1,47 @@
+{% extends "acknowledgements/base.html" %}
+
+{% block body %}
+  <section class="gradient-custom">
+    <div class="container py-2 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+          <div class="card card-vpippi">
+            <div class="card-body">
+              <div class="mb-md-0 mt-md-0 pb-0 text-center">
+                <h4 class="fw-bold mb-2">Acknowledgements</h4>
+                <p class="mb-3 opacity-50"><strong>9 Giugno 2025, Roma Fiumicino</strong></p>
+              </div>
+              <div class="mb-md-0 mt-md-0 pb-0 text-start">
+                <p class="mb-3">Stavo facendo i controlli di sicurezza per attendere la conferenza CVPR a Nashville quando ho ricevuto una mail dall'Università di Pisa che mi comunicava che avrei dovuto consegnare la versione finale della mia tesi di dottorato il giorno stesso. Non sono mai stato un bravissimo scrittore, né tantomeno una persona particolarmente sentimentale. In compenso, sono bravo a procrastinare e creare siti web inutili.</p>
+                <p class="mb-3">Quindi, invece di dedicare un'oretta delle successive 10 ore di volo a scrivere i ringraziamenti, ho deciso inserire un QR-code nella mia tesi e di dedicarle tutte e 10 alla realizzazione di un sito web che mi permettesse di aggiungere i ringraziamenti più in là. Mica scemo.</p>
+                <hr>
+                <p class="mb-3"><strong>Vuoi sapere se sei stato ringraziato?</strong><br>Inserisci il tuo nome e cognome qua sotto e vediamo cosa viene fuori!</p>
+                <form class="form-outline form-white mb-0" method="post">
+                  {% csrf_token %}
+                  <input type="text" autocomplete="off" name="name_surname" id="username" class="form-control form-control-lg mb-3" placeholder="Nome e Cognome"/>               
+                  <button class="btn btn-light btn-lg px-5 w-100" id="ack_button" type="submit" disabled>Ringraziami</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+      $(document).ready(function () {
+        const $input = $('#username');
+        const $button = $('#ack_button');
+
+        $input.on('input', function() {
+            $button.prop('disabled', $input.val().trim() === '');
+        });
+
+        // Initialize button state
+        $button.prop('disabled', $input.val().trim() === '');
+      })
+    </script>
+{% endblock %}

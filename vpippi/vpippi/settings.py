@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 'user_study_mad.apps.UserStudyMadConfig',
     # 'user_study_vatrpp.apps.UserStudyVatrppConfig',
     'user_study_emuru.apps.UserStudyEmuruConfig',
+    'acknowledgements.apps.AcknowledgementsConfig',
     'party.apps.PartyConfig',
     'main.apps.MainConfig',
     'tears.apps.TearsConfig',

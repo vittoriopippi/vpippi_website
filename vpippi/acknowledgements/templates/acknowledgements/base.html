@@ -1,0 +1,147 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#7952b3" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Acknowledgements</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+
+    <style>
+      @font-face {
+          font-family: "Montserrat";
+          src: url("{% static 'acknowledgements/Montserrat-VariableFont_wght.ttf' %}");
+      }
+
+      .gradient-custom {
+        /* fallback for old browsers */
+        background: white;
+      }
+      
+      img {
+        mix-blend-mode: multiply;
+        border-radius: 0.5rem;
+      }
+      
+      .div_img_option:hover {
+        border-radius: 0.5rem;
+        background-color: rgb(241, 196, 15, 0.2);
+        cursor: pointer;
+      }
+
+      #skip {
+        background-color: rgb(189, 195, 199, 0.2);
+        border-radius: 0.5rem;
+      }
+      
+      #skip:hover {
+        background-color: rgb(189, 195, 199, 1.0);
+        transition: background-color 0.2s;
+      }
+      
+      .progress {
+        background-color: rgb(189, 195, 199, 0.5);
+        height: 1rem;
+        border-radius: 0.5rem;
+      }
+      
+      #progress_survey {
+        background-color: #3263f4;
+        height: 100%;
+      }
+
+      #progress_load {
+        background-color: rgb(189, 195, 199, 1.0);
+        opacity: 0.2;
+      }
+
+      .bug-btn-info {
+        border: 2px solid black;
+        text-align: center;
+        font-size: 1.5em;
+        background-color: transparent;
+        border-radius: 0.5em;
+        width: 2em;
+        height: 2em;
+        opacity: 0.2;
+        transition: opacity 0.2s;
+      }
+
+      .bug-btn-info:hover {
+        opacity: 1;
+        transition: opacity 0.2s;
+      }
+
+      .text-accent {
+        color:  rgba(37, 117, 252, 1);
+      }
+
+      .card-vpippi {
+        border-radius: 2rem;
+        padding: 0.75em;
+        background-color: #eeedec;
+        color: black;
+        font-family: "Montserrat";
+      }
+      
+      .card-vpippi button {
+        color: white;
+        font-weight: 600;
+        background: linear-gradient(to right, #f9bc15, #ea4535, #36a852);
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      }
+
+      .card-vpippi button:disabled {
+        background: #dcdbdb;
+        color: black;
+      }
+
+      .card-vpippi input {
+        background-color: white;
+        color: black;
+      }
+
+      .card-vpippi input:focus {
+        background-color: white;
+        color: black;
+        outline: none;
+        box-shadow: 0 0 0.3rem 0.3rem #dcdbdb;
+        border: black 1px solid;
+      }
+
+      ::-webkit-input-placeholder {
+          color: blue;
+      }
+
+      ::-moz-placeholder {
+          color: blue;
+      }
+
+      :-ms-input-placeholder {
+          color: blue;
+      }
+
+      ::placeholder {
+          color: blue;
+      }
+
+    </style>
+  </head>
+  <body class="text-center">
+    {% block body %}{% endblock body %}
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    {% block script %}{% endblock script %}
+  </body>
+</html>

@@ -23,6 +23,7 @@ urlpatterns = [
     path("", include("main.urls")),
     # path("game/", include("game.urls")),
     path("party/", include("party.urls")),
+    path("acknowledgements/", include("acknowledgements.urls")),
     # path("wrappiantino/", include("tears.urls")),
     # path("user_study/", include("user_study_emuru.urls")),
     path('admin/', admin.site.urls),
