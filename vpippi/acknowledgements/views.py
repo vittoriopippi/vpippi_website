@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views import View
 
-from .models import Acknowledgement
+from .models import Acknowledgement, LinkAcknowledgement
 
 
 class AcknowledgementView(View):
@@ -89,11 +89,14 @@ class AcknowledgementView(View):
         try:
             ack = Acknowledgement.objects.get(name_surname=cleaned)
         except Acknowledgement.DoesNotExist:
-            return render(
-                request,
-                "acknowledgements/no_acknowledgement.html",
-                {"name_surname": name_surname},
-            )
+            try:
+                ack = LinkAcknowledgement.objects.get(alt=cleaned).ack
+            except LinkAcknowledgement.DoesNotExist:
+                return render(
+                    request,
+                    "acknowledgements/no_acknowledgement.html",
+                    {"name_surname": name_surname},
+                )
 
         # Found –> ask for password.
         return render(
