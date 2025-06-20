@@ -1,0 +1,42 @@
+{% extends "acknowledgements/base.html" %}
+
+{% block body %}
+  <section class="gradient-custom">
+    <div class="container py-2 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+          <div class="card card-vpippi">
+            <div class="card-body text-start">
+              <!-- Titolo con il nome -->
+              <h4 class="fw-bold mb-3">Ciao {{ name_surname }},</h4>
+
+              <!-- Il tuo messaggio -->
+              <p class="mb-3">
+                purtroppo non ho nessun ringraziamento speciale per te, però ti ringrazio comunque per aver visitato il sito ed averci provato!
+              </p>
+              <p class="mb-3">
+                Se invece senti proprio di meritarti dei ringraziamenti più sinceri, chiamami pure!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      const $input = $('#username');
+      const $button = $('#ack_button');
+
+      $input.on('input', function() {
+        $button.prop('disabled', $input.val().trim() === '');
+      });
+
+      // Initialize button state
+      $button.prop('disabled', $input.val().trim() === '');
+    })
+  </script>
+{% endblock %}

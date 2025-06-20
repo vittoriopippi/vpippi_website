@@ -46,16 +46,7 @@ class AcknowledgementView(View):
             name, text = ack.name, ack.text
 
         except Acknowledgement.DoesNotExist:
-            try:
-                link_ack = LinkAcknowledgement.objects.get(
-                    alt=cleaned
-                )
-                name, text = link_ack.ack.name, link_ack.ack.text
-
-            except LinkAcknowledgement.DoesNotExist:
-                fake = choice(FakeAcknowledgement.objects.all())
-                name = name_surname.title()
-                text = fake.text.replace('<name>', name)
+            return render(request, 'acknowledgements/no_acknowledgement.html', {'name_surname': name_surname})
 
         return render(request, 'acknowledgements/acknowledgement.html', {
             'name': name,
