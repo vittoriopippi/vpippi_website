@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+  <section class="gradient-custom">
+    <div class="container py-2 h-100">
+      <div class="d-flex flex-column">
+        {% for paper in papers %}
+          <div class="card card-vpippi p-3 mb-4">
+            <div class="card-body p-0">
+              <div class="mb-md-0 mt-md-0 pb-0">
+                <div class="row d-flex justify-content-between align-items-center">
+                  <div class="col-9">
+                    <h4 class="fw-bold mb-2">{{ paper.title }}</h4>
+                    {% for tag in paper.tags.all %}
+                      <span class="badge rounded-pill text-bg-custom">{{ tag.name }}</span>
+                    {% endfor %}
+                    <p class="my-2">
+                      {% for authorship in paper.ordered_authors %}
+                        <a class="author" href="{{ authorship.author.scholar_url }}">{{ authorship.author.name }}</a>{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </p>
+                    <p class="mb-3">Generating synthetic images of handwritten text in a writer-specific style is a challenging task, especially in the case of unseen styles and new words, and even more when these latter contain characters that are rarely encountered during training. While emulating a writer's style has been recently addressed by generative models, the generalization towards rare characters has been disregarded. In this work, we devise a Transformer-based model for Few-Shot styled handwritten text generation and focus on obtaining a robust and informative representation of both the text and the style. In particular, we propose a novel representation of the textual content as a sequence of dense vectors obtained from images of symbols written as standard GNU Unifont glyphs, which can be considered their visual archetypes. This strategy is more suitable for generating characters that, despite having been seen rarely during training, possibly share visual details with the frequently observed ones. As for the style, we obtain a robust representation of unseen writers' calligraphy by exploiting specific pre-training on a large synthetic dataset. Quantitative and qualitative results demonstrate the effectiveness of our proposal in generating words in unseen styles and with rare characters more faithfully than existing approaches relying on independent one-hot encodings of the characters.</p>
+                  </div>
+                  <div class="col-3">
+                    <div class="paper-stack">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhBLEUaqKaCY6L0fvRn-1W6HYetRZXOh2baP_DJzKZj6wzkpWZL3K7AtkzNdVWigbtQVw&usqp=CAU" alt="First page preview" class="img-paper" />
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhBLEUaqKaCY6L0fvRn-1W6HYetRZXOh2baP_DJzKZj6wzkpWZL3K7AtkzNdVWigbtQVw&usqp=CAU" alt="First page preview" class="img-paper" />
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhBLEUaqKaCY6L0fvRn-1W6HYetRZXOh2baP_DJzKZj6wzkpWZL3K7AtkzNdVWigbtQVw&usqp=CAU" alt="First page preview" class="img-paper" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      const $input = $('#username')
+      const $button = $('#ack_button')
+    
+      $input.on('input', function () {
+        $button.prop('disabled', $input.val().trim() === '')
+      })
+    
+      // Initialize button state
+      $button.prop('disabled', $input.val().trim() === '')
+    })
+  </script>
+{% endblock %}

@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render
+from .models import Paper
 
 def index(request):
-    return redirect("https://scholar.google.com/citations?user=OHmt2vUAAAAJ")
+    papers = Paper.objects.select_related('conference').prefetch_related('authors', 'tags').order_by('-publication_date')
+    return render(request, 'main/index.html', {'papers': papers})
