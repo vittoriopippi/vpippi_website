@@ -1,0 +1,75 @@
+{% extends "acknowledgements/base.html" %}
+
+{% block body %}
+  <section class="gradient-custom">
+    <div class="container py-2 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+          <div class="card card-vpippi">
+            
+            <!-- countdown goes here -->
+            <div id="countdown" class="countdown">Loading…</div>
+            
+            <div class="card-body">
+              <div class="mb-md-0 mt-md-0 pb-0 text-center">
+                <h4 class="fw-bold mb-2">Acknowledgements</h4>
+                <p class="mb-3 opacity-50 blurred unselectable">
+                  <strong>Qui ci metterò una data e un posto</strong>
+                </p>
+              </div>
+              <div class="mb-md-0 mt-md-0 pb-0 text-start blurred unselectable">
+                <p class="mb-3">
+                  Questa invece sarà una descrizione del perchè mi sono ritrovato a fare una cosa tanto stupida. Se stai leggendo questo testo probabilmente è perchè hai voluto smanettare con la pagina.
+                </p>
+                <p class="mb-3">Sono lusingato!</p>
+                <p class="mb-3">{% lorem 1 %}</p>
+                <p class="mb-3">{% lorem 2 %}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    const endDate = new Date(2025, 5, 30, 18, 15, 0);
+
+    function updateCountdown() {
+      const now = new Date();
+      let diff = endDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('countdown').textContent = '⏰ Time’s up!';
+        clearInterval(timerInterval);
+        return;
+      }
+
+      // calculate days, hours, minutes, seconds
+      const days    = Math.floor(diff / (1000*60*60*24));
+      diff %= (1000*60*60*24);
+      const hours   = Math.floor(diff / (1000*60*60));
+      diff %= (1000*60*60);
+      const minutes = Math.floor(diff / (1000*60));
+      diff %= (1000*60);
+      const seconds = Math.floor(diff / 1000);
+
+      // format “dd:hh:mm:ss”
+      const fmt = 
+        String(days).padStart(2,'0') + 'd ' +
+        String(hours).padStart(2,'0') + ':' +
+        String(minutes).padStart(2,'0') + ':' +
+        String(seconds).padStart(2,'0');
+
+      document.getElementById('countdown').textContent = fmt;
+    }
+
+    // start it after DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCountdown();
+      timerInterval = setInterval(updateCountdown, 1000);
+    });
+  </script>
+{% endblock %}

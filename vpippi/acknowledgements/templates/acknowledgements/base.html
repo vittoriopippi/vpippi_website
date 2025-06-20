@@ -23,6 +23,7 @@
       .gradient-custom {
         /* fallback for old browsers */
         background: white;
+        min-height: 100vh;
       }
       
       img {
@@ -89,6 +90,7 @@
         background-color: #eeedec;
         color: black;
         font-family: "Montserrat";
+        position: relative;
       }
       
       .card-vpippi button {
@@ -130,6 +132,42 @@
 
       ::placeholder {
           color: blue;
+      }
+
+      .blurred {
+        filter: blur(8px);
+        cursor: not-allowed;     /* optional visual cue */
+      }
+
+      /* make anything with this class unselectable */
+      .unselectable {
+        /* standard */
+        user-select: none;
+        /* vendor prefixes for broader support */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        /* also disable dragging of images/text */
+        -webkit-user-drag: none;
+
+        /* OPTIONALLY, disable all pointer events (no clicks, no hovers) */
+        pointer-events: none;
+      }
+
+      .countdown {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 1.2rem;
+        font-family: monospace;
+        z-index: 20;
+        pointer-events: none;
       }
 
     </style>
