@@ -98,7 +98,7 @@ class AcknowledgementView(View):
                     {"name_surname": name_surname},
                 )
 
-        if ack.password == "" or ack.password is "none" or ack.password is None:
+        if ack.password == "" or ack.password == "none" or ack.password is None:
             # No password set → show the full acknowledgement.
             return render(
                 request,
