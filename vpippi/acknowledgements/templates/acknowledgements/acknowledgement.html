@@ -1,23 +1,10 @@
-{% extends "acknowledgements/base.html" %}
+{% extends 'acknowledgements/base.html' %}
 
 {% block body %}
-  <section class="gradient-custom">
-    <div class="container py-2 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-          <div class="card card-vpippi">
-            <div class="card-body">
-              <div class="mb-md-0 mt-md-0 pb-0 text-start">
-                <h4 class="fw-bold mb-2">Ciao {{ name_surname }},</h4>
-              </div>
-              <div class="mb-md-0 mt-md-0 pb-0 text-start">
-                {{ html|safe }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="card-body">
+    <div class="mb-md-0 mt-md-0 pb-0 text-start">
+      <h4 class="fw-bold mb-2">Ciao {{ name_surname }},</h4>
     </div>
-  </section>
+    <div class="mb-md-0 mt-md-0 pb-0 text-start">{{ html|safe }}</div>
+  </div>
 {% endblock %}
-
