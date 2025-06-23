@@ -32,6 +32,7 @@ class AcknowledgementAdmin(admin.ModelAdmin):
         "name_surname",
         "first_alt",
         "question",
+        "password",
         "link_count",
     )
     search_fields = ("name_surname", "question", "html")
@@ -66,7 +67,7 @@ class AcknowledgementAdmin(admin.ModelAdmin):
         return obj.first_alt
     
     first_alt.short_description = "First Alternative Name"
-    
+
 
 
 @admin.register(LinkAcknowledgement)
