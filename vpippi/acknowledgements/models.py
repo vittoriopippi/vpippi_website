@@ -10,10 +10,14 @@ class Acknowledgement(models.Model):
     question = models.CharField(
         max_length=255,
         help_text="Security question associated with this acknowledgement.",
+        null=True,
+        blank=True,
     )
     password = models.CharField(
         max_length=128,
         help_text="Password for accessing the acknowledgement (consider hashing).",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):

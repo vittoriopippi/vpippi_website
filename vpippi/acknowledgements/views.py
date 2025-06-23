@@ -98,6 +98,17 @@ class AcknowledgementView(View):
                     {"name_surname": name_surname},
                 )
 
+        if ack.password == "" or ack.password is "none" or ack.password is None:
+            # No password set → show the full acknowledgement.
+            return render(
+                request,
+                "acknowledgements/acknowledgement.html",
+                {
+                    "name_surname": ack.name,  # title‑case via property
+                    "html": ack.html,
+                },
+            )
+
         # Found –> ask for password.
         return render(
             request,
