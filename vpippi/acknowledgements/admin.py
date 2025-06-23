@@ -30,6 +30,7 @@ class AcknowledgementAdmin(admin.ModelAdmin):
 
     list_display = (
         "name_surname",
+        "first_alt",
         "question",
         "link_count",
     )
@@ -60,6 +61,12 @@ class AcknowledgementAdmin(admin.ModelAdmin):
         return obj.links.count()
 
     link_count.short_description = "# Links"
+
+    def first_alt(self, obj):
+        return obj.first_alt
+    
+    first_alt.short_description = "First Alternative Name"
+    
 
 
 @admin.register(LinkAcknowledgement)

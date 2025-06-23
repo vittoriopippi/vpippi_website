@@ -22,6 +22,15 @@ class Acknowledgement(models.Model):
     @property
     def name(self):
         return self.name_surname.title()
+    
+    @property
+    def first_alt(self):
+        """Return the first alternative name, if any."""
+        try:
+            links = LinkAcknowledgement.objects.filter(ack=self)
+            return links.first().alt
+        except LinkAcknowledgement.DoesNotExist:
+            return ""
 
 
 class LinkAcknowledgement(models.Model):
