@@ -53,7 +53,7 @@ class AcknowledgementView(View):
             password = request.POST.get("password", "")
             ack = get_object_or_404(Acknowledgement, pk=ack_id)
 
-            if password == ack.password:
+            if password.lower() == ack.password.lower():
                 # Success! Show the full acknowledgement.
                 return render(
                     request,
