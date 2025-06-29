@@ -1,8 +1,28 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
+from django.db.models import Q          #  NEW
 
 from .models import Acknowledgement, LinkAcknowledgement
+
+
+class HasHTMLFilter(admin.SimpleListFilter):          #  NEW
+    """Sidebar filter: Yes / No depending on whether `html` is meaningful."""
+    title = "Has HTML?"
+    parameter_name = "has_html"
+
+    def lookups(self, request, model_admin):
+        return (("yes", "Yes"), ("no", "No"))
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        # treat empty strings or the literal string "none" (case-insensitive) as “no”
+        empty = Q(html__isnull=True) | Q(html__exact="") | Q(html__iexact="none")
+        if value == "yes":
+            return queryset.exclude(empty)
+        if value == "no":
+            return queryset.filter(empty)
+        return queryset
 
 
 class AcknowledgementAdminForm(forms.ModelForm):
@@ -30,12 +50,14 @@ class AcknowledgementAdmin(admin.ModelAdmin):
 
     list_display = (
         "name_surname",
+        "has_html",          #  NEW – ✔ / ✘ flag
         "first_alt",
         "question",
         "password",
         "link_count",
     )
     search_fields = ("name_surname", "question", "html")
+    list_filter = (HasHTMLFilter,)     #  NEW – sidebar filter
     readonly_fields = ("preview_html",)
 
     fieldsets = (
@@ -50,11 +72,24 @@ class AcknowledgementAdmin(admin.ModelAdmin):
 
     inlines = [LinkAcknowledgementInline]
 
+    # ---------- NEW ----------
+    def has_html(self, obj):
+        """Boolean check mark if html is not empty/‘none’."""
+        return bool(obj.html and obj.html.strip().lower() != "none")
+
+    has_html.boolean = True          # show ✔ / ✘ icons
+    has_html.short_description = "Has HTML"
+    has_html.admin_order_field = "html"
+    # --------------------------
+
     def preview_html(self, obj):
         """Safely render the stored HTML for a quick preview inside the admin."""
         if not obj.html:
             return "(no HTML provided)"
-        return format_html('<div style="border:1px solid #ccc;padding:1rem;max-height:400px;overflow:auto;">{}</div>', obj.html)
+        return format_html(
+            '<div style="border:1px solid #ccc;padding:1rem;max-height:400px;overflow:auto;">{}</div>',
+            obj.html,
+        )
 
     preview_html.short_description = "Preview"
 
@@ -65,9 +100,8 @@ class AcknowledgementAdmin(admin.ModelAdmin):
 
     def first_alt(self, obj):
         return obj.first_alt
-    
-    first_alt.short_description = "First Alternative Name"
 
+    first_alt.short_description = "First Alternative Name"
 
 
 @admin.register(LinkAcknowledgement)
