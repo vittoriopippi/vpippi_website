@@ -27,4 +27,8 @@ urlpatterns = [
     # path("wrappiantino/", include("tears.urls")),
     # path("user_study/", include("user_study_emuru.urls")),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# Development-only: let runserver serve MEDIA_URL
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

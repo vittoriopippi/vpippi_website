@@ -3,6 +3,7 @@ from django import forms
 from django.utils.html import format_html
 from django.db.models import Q          #  NEW
 
+from .models import Media
 from .models import Acknowledgement, LinkAcknowledgement
 
 
@@ -109,3 +110,15 @@ class LinkAcknowledgementAdmin(admin.ModelAdmin):
     list_display = ("alt", "ack")
     search_fields = ("alt", "ack__name_surname")
     autocomplete_fields = ["ack"]
+
+
+@admin.register(Media)
+class MediaAdmin(admin.ModelAdmin):
+    list_display = ("title", "uploaded_at", "file_link")
+
+    # handy download link right inside the changelist
+    def file_link(self, obj):
+        if obj.file:
+            return format_html('<a href="{}" target="_blank">Download</a>', obj.file.url)
+        return "—"
+    file_link.short_description = "File"
