@@ -27,8 +27,6 @@ class AcknowledgementView(View):
     # ------------------------------------------------------------------
     def dispatch(self, request, *args, **kwargs):
         # Show countdown until the Go‑Live time, unless the user is staff.
-        if self._should_countdown(request):
-            return render(request, "acknowledgements/countdown.html")
         return super().dispatch(request, *args, **kwargs)
 
     # ------------------------------------------------------------------
