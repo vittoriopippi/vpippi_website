@@ -29,6 +29,17 @@
     <div class="round-selector">
         <h2>Select Round to Start</h2>
         <div class="round-buttons">
+            {% if 1 in completed_rounds %}
+            <div class="btn btn-round" style="opacity: 0.5; cursor: not-allowed; pointer-events: none;">
+                <div class="round-title">Round 1 - Open Description ✓</div>
+                <div class="round-rules">
+                    <div>✔️ Speak freely</div>
+                    <div>❌ No name parts</div>
+                    <div>✔️ Unlimited guesses</div>
+                    <div>❌ Cannot pass</div>
+                </div>
+            </div>
+            {% else %}
             <a href="{% url 'timesup:start_round' game.code 1 %}" class="btn btn-round">
                 <div class="round-title">Round 1 - Open Description</div>
                 <div class="round-rules">
@@ -38,7 +49,19 @@
                     <div>❌ Cannot pass</div>
                 </div>
             </a>
+            {% endif %}
             
+            {% if 2 in completed_rounds %}
+            <div class="btn btn-round" style="opacity: 0.5; cursor: not-allowed; pointer-events: none;">
+                <div class="round-title">Round 2 - One Word ✓</div>
+                <div class="round-rules">
+                    <div>✔️ Only ONE word</div>
+                    <div>✔️ Can repeat word</div>
+                    <div>🎯 ONE guess only</div>
+                    <div>✔️ Can pass</div>
+                </div>
+            </div>
+            {% else %}
             <a href="{% url 'timesup:start_round' game.code 2 %}" class="btn btn-round">
                 <div class="round-title">Round 2 - One Word</div>
                 <div class="round-rules">
@@ -48,7 +71,19 @@
                     <div>✔️ Can pass</div>
                 </div>
             </a>
+            {% endif %}
             
+            {% if 3 in completed_rounds %}
+            <div class="btn btn-round" style="opacity: 0.5; cursor: not-allowed; pointer-events: none;">
+                <div class="round-title">Round 3 - The Mime ✓</div>
+                <div class="round-rules">
+                    <div>✔️ Pantomime only</div>
+                    <div>❌ NO WORDS</div>
+                    <div>🎯 ONE guess only</div>
+                    <div>✔️ Can pass</div>
+                </div>
+            </div>
+            {% else %}
             <a href="{% url 'timesup:start_round' game.code 3 %}" class="btn btn-round">
                 <div class="round-title">Round 3 - The Mime</div>
                 <div class="round-rules">
@@ -58,6 +93,7 @@
                     <div>✔️ Can pass</div>
                 </div>
             </a>
+            {% endif %}
         </div>
     </div>
 </div>

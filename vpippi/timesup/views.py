@@ -98,9 +98,22 @@ def lobby(request, code):
     game = get_object_or_404(Game, code=code)
     teams = game.teams.all()
     
+    # Check which rounds have been completed
+    completed_rounds = set()
+    for round_num in [1, 2, 3]:
+        # A round is completed if all cards were guessed in that round
+        round_records = GameRound.objects.filter(game=game, round_number=round_num)
+        if round_records.exists():
+            # Check if all cards have been guessed in this round
+            total_cards = game.cards.count()
+            guessed_in_round = round_records.values('card').distinct().count()
+            if guessed_in_round >= total_cards:
+                completed_rounds.add(round_num)
+    
     return render(request, 'timesup/lobby.html', {
         'game': game,
-        'teams': teams
+        'teams': teams,
+        'completed_rounds': completed_rounds
     })
 
 
@@ -132,29 +145,48 @@ def play(request, code):
 
 
 def get_card(request, code):
-    """API endpoint to get the next card"""
+    """API endpoint to get the next card or all remaining cards"""
     game = get_object_or_404(Game, code=code)
     
-    # Get excluded card IDs if provided (for passing or getting different cards)
+    # Check if requesting all cards
+    if request.GET.get('all') == 'true':
+        # Get excluded card ID if provided
+        exclude_id = request.GET.get('exclude', '')
+        
+        # Get all unguessed cards in shuffled order
+        remaining_cards = game.cards.filter(guessed_in_current_round=False).order_by('round_order')
+        
+        if exclude_id:
+            remaining_cards = remaining_cards.exclude(id=exclude_id)
+        
+        remaining_list = list(remaining_cards)
+        
+        if not remaining_list:
+            return JsonResponse({'complete': True})
+        
+        # Return all cards
+        cards_data = [{'id': c.id, 'name': c.name} for c in remaining_list]
+        return JsonResponse({
+            'cards': cards_data,
+            'complete': False
+        })
+    
+    # Original single card logic (kept for backwards compatibility)
     exclude_ids = request.GET.get('exclude', '')
     exclude_list = [id.strip() for id in exclude_ids.split(',') if id.strip()]
     
-    # Get unguessed cards in shuffled order
     remaining_cards = game.cards.filter(guessed_in_current_round=False).order_by('round_order')
-    
     remaining_list = list(remaining_cards)
     
     if not remaining_list:
         return JsonResponse({'complete': True})
     
-    # Find the first card that's not in the exclude list
     card = None
     for c in remaining_list:
         if str(c.id) not in exclude_list:
             card = c
             break
     
-    # If all cards are excluded (cycled through all), start over
     if not card:
         card = remaining_list[0]
     
@@ -167,7 +199,7 @@ def get_card(request, code):
 
 @require_http_methods(["POST"])
 def card_guessed(request, code):
-    """Mark a card as guessed"""
+    """Mark a card as guessed (legacy endpoint - kept for compatibility)"""
     game = get_object_or_404(Game, code=code)
     data = json.loads(request.body)
     card_id = data.get('card_id')
@@ -193,11 +225,52 @@ def card_guessed(request, code):
     if not remaining_cards:
         return JsonResponse({'complete': True, 'remaining': 0})
     
-    next_card = remaining_cards[0]  # Get first card in the shuffled order
+    next_card = remaining_cards[0]
     return JsonResponse({
         'id': next_card.id,
         'name': next_card.name,
         'remaining': len(remaining_cards)
+    })
+
+
+@require_http_methods(["POST"])
+def submit_turn(request, code):
+    """Submit all guessed cards from a turn at once"""
+    game = get_object_or_404(Game, code=code)
+    data = json.loads(request.body)
+    guessed_card_ids = data.get('guessed_card_ids', [])
+    
+    current_team = game.get_current_team()
+    
+    # Mark all cards as guessed and record scores
+    for card_id in guessed_card_ids:
+        try:
+            card = Card.objects.get(id=card_id, game=game)
+            
+            # Only process if not already guessed (prevent duplicates)
+            if not card.guessed_in_current_round:
+                card.guessed_in_current_round = True
+                card.save()
+                
+                # Record the guess
+                if current_team:
+                    GameRound.objects.create(
+                        game=game,
+                        team=current_team,
+                        round_number=game.current_round,
+                        card=card
+                    )
+                    current_team.add_score(game.current_round, 1)
+        except Card.DoesNotExist:
+            continue
+    
+    # Check if round is complete
+    remaining_cards = game.cards.filter(guessed_in_current_round=False).count()
+    
+    return JsonResponse({
+        'success': True,
+        'remaining': remaining_cards,
+        'complete': remaining_cards == 0
     })
 
 

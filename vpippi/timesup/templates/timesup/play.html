@@ -100,8 +100,12 @@ body {
 let timerInterval = null;
 let timeLeft = {{ game.turn_duration }};
 let currentCard = null;
-let skippedCards = []; // Track cards skipped during this turn
+let allCards = []; // Preloaded cards for this turn
+let cardIndex = 0; // Current position in cards array
+let guessedCards = []; // Cards guessed this turn (with IDs)
+let passedCards = []; // Cards passed this turn (indices)
 let lastGuessedCard = null; // Track last guessed card for undo
+let isProcessing = false; // Prevent double-clicks
 const totalCards = {{ total_cards }};
 const turnDuration = {{ game.turn_duration }};
 const gameCode = '{{ game.code }}';
@@ -119,6 +123,9 @@ if (lastTeamIndex !== null && parseInt(lastTeamIndex) !== currentTeamIndex) {
 }
 
 async function startTurn() {
+    if (isProcessing) return;
+    isProcessing = true;
+    
     document.getElementById('start-turn-btn').style.display = 'none';
     document.getElementById('got-it-btn').style.display = 'inline-block';
     {% if game.current_round > 1 %}
@@ -126,22 +133,41 @@ async function startTurn() {
     {% endif %}
     document.getElementById('end-turn-btn').style.display = 'inline-block';
     
-    // Reset undo button and last guessed card
+    // Reset state
     document.getElementById('undo-btn').disabled = true;
     lastGuessedCard = null;
+    guessedCards = [];
+    passedCards = [];
+    cardIndex = 0;
     
-    // Reset skipped cards for new turn
-    skippedCards = [];
-    
-    // Get first card (excluding the last card from previous turn if different team)
+    // Preload all remaining cards for this turn
+    let url = '{% url "timesup:get_card" game.code %}?all=true';
     if (excludeCardId) {
-        skippedCards.push(excludeCardId);
+        url += `&exclude=${excludeCardId}`;
     }
-    await getNextCard();
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    if (data.complete) {
+        window.location.href = '{% url "timesup:round_complete" game.code %}';
+        return;
+    }
+    
+    allCards = data.cards || [];
+    
+    if (allCards.length === 0) {
+        window.location.href = '{% url "timesup:round_complete" game.code %}';
+        return;
+    }
+    
+    // Show first card
+    showCurrentCard();
     
     // Start timer
     timeLeft = turnDuration;
     startTimer();
+    isProcessing = false;
 }
 
 function startTimer() {
@@ -160,126 +186,174 @@ function startTimer() {
     }, 1000);
 }
 
-async function getNextCard() {
-    let url = '{% url "timesup:get_card" game.code %}';
-    if (skippedCards.length > 0) {
-        url += `?exclude=${skippedCards.join(',')}`;
+function showCurrentCard() {
+    // Find next unguessed, non-passed card
+    let foundCard = false;
+    let attempts = 0;
+    
+    while (!foundCard && attempts < allCards.length) {
+        if (cardIndex >= allCards.length) {
+            // Reset passed cards and start over
+            passedCards = [];
+            cardIndex = 0;
+        }
+        
+        if (!passedCards.includes(cardIndex)) {
+            currentCard = allCards[cardIndex];
+            foundCard = true;
+        } else {
+            cardIndex++;
+        }
+        attempts++;
     }
     
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    if (data.complete) {
-        clearInterval(timerInterval);
-        window.location.href = '{% url "timesup:round_complete" game.code %}';
-        return;
+    if (!foundCard || !currentCard) {
+        // All cards passed or none available
+        if (allCards.length > 0) {
+            currentCard = allCards[0];
+            cardIndex = 0;
+            passedCards = [];
+        } else {
+            return;
+        }
     }
-    
-    currentCard = data;
     
     // Store this card as the last shown card
-    sessionStorage.setItem(lastCardKey, data.id);
+    sessionStorage.setItem(lastCardKey, currentCard.id);
     sessionStorage.setItem(lastTeamKey, currentTeamIndex);
     
     document.getElementById('card-display').innerHTML = `
         <div class="card-content">
-            <h2>${data.name}</h2>
+            <h2>${currentCard.name}</h2>
         </div>
     `;
-    document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
+    
+    const remainingCount = allCards.length - guessedCards.length;
+    document.getElementById('remaining-cards').textContent = `Remaining: ${remainingCount}/${totalCards}`;
 }
 
 async function cardGuessed() {
-    if (!currentCard) return;
+    if (!currentCard || isProcessing) return;
+    isProcessing = true;
     
-    // Store the card we're about to mark as guessed
-    lastGuessedCard = { id: currentCard.id, name: currentCard.name };
+    // Disable button temporarily to prevent double-clicks
+    const btn = document.getElementById('got-it-btn');
+    btn.disabled = true;
     
-    const response = await fetch('{% url "timesup:card_guessed" game.code %}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: JSON.stringify({ card_id: currentCard.id })
-    });
+    // Store the card we're marking as guessed
+    lastGuessedCard = { 
+        id: currentCard.id, 
+        name: currentCard.name,
+        index: cardIndex
+    };
+    guessedCards.push(lastGuessedCard);
     
-    const data = await response.json();
+    // Enable undo button
+    document.getElementById('undo-btn').disabled = false;
     
-    if (data.complete) {
+    // Check if all cards are guessed
+    if (guessedCards.length >= allCards.length) {
         clearInterval(timerInterval);
+        
+        // Disable all buttons
+        btn.disabled = true;
+        const passBtn = document.getElementById('pass-btn');
+        if (passBtn) passBtn.disabled = true;
+        document.getElementById('end-turn-btn').disabled = true;
+        document.getElementById('undo-btn').disabled = true;
+        
+        await submitTurnResults();
         window.location.href = '{% url "timesup:round_complete" game.code %}';
         return;
     }
     
-    // Show undo button
-    document.getElementById('undo-btn').disabled = false;
+    // Move to next card
+    cardIndex++;
+    showCurrentCard();
     
-    // Show next card
-    currentCard = data;
-    
-    // Store this card as the last shown card
-    sessionStorage.setItem(lastCardKey, data.id);
-    sessionStorage.setItem(lastTeamKey, currentTeamIndex);
-    
-    document.getElementById('card-display').innerHTML = `
-        <div class="card-content">
-            <h2>${data.name}</h2>
-        </div>
-    `;
-    document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
+    // Re-enable button
+    btn.disabled = false;
+    isProcessing = false;
 }
 
 async function passCard() {
-    if (!currentCard) return;
+    if (!currentCard || isProcessing) return;
+    isProcessing = true;
     
-    // Check if we've already skipped this card (means we've cycled through all)
-    const currentCardIdStr = currentCard.id.toString();
-    if (skippedCards.includes(currentCardIdStr)) {
-        // Reset to start cycling again
-        skippedCards = [];
-    }
+    // Disable button temporarily
+    const btn = document.getElementById('pass-btn');
+    btn.disabled = true;
     
-    // Add current card to skipped list
-    skippedCards.push(currentCardIdStr);
+    // Mark current card as passed
+    passedCards.push(cardIndex);
     
-    // Get the next card (excluding all skipped cards)
-    await getNextCard();
+    // Move to next card
+    cardIndex++;
+    showCurrentCard();
+    
+    // Re-enable button
+    btn.disabled = false;
+    isProcessing = false;
 }
 
 async function undoLastCard() {
-    if (!lastGuessedCard) return;
+    if (!lastGuessedCard || isProcessing) return;
+    isProcessing = true;
     
-    const response = await fetch('{% url "timesup:undo_card" game.code %}', {
+    // Remove from guessed cards
+    guessedCards = guessedCards.filter(c => c.id !== lastGuessedCard.id);
+    
+    // Show the undone card again
+    currentCard = lastGuessedCard;
+    cardIndex = lastGuessedCard.index;
+    
+    document.getElementById('card-display').innerHTML = `
+        <div class="card-content">
+            <h2>${lastGuessedCard.name}</h2>
+        </div>
+    `;
+    
+    const remainingCount = allCards.length - guessedCards.length;
+    document.getElementById('remaining-cards').textContent = `Remaining: ${remainingCount}/${totalCards}`;
+    
+    // Disable undo button
+    document.getElementById('undo-btn').disabled = true;
+    lastGuessedCard = null;
+    
+    isProcessing = false;
+}
+
+async function submitTurnResults() {
+    // Submit all guessed cards at once
+    const response = await fetch('{% url "timesup:submit_turn" game.code %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({ card_id: lastGuessedCard.id })
+        body: JSON.stringify({ 
+            guessed_card_ids: guessedCards.map(c => c.id)
+        })
     });
     
-    const data = await response.json();
-    
-    if (data.success) {
-        // Show the undone card again
-        currentCard = lastGuessedCard;
-        document.getElementById('card-display').innerHTML = `
-            <div class="card-content">
-                <h2>${lastGuessedCard.name}</h2>
-            </div>
-        `;
-        document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
-        
-        // Hide undo button
-        document.getElementById('undo-btn').disabled = true;
-        lastGuessedCard = null;
-    }
+    return await response.json();
 }
 
 async function endTurn() {
+    if (isProcessing) return;
     clearInterval(timerInterval);
+    isProcessing = true;
     
+    // Disable all buttons
+    document.getElementById('got-it-btn').disabled = true;
+    const passBtn = document.getElementById('pass-btn');
+    if (passBtn) passBtn.disabled = true;
+    document.getElementById('end-turn-btn').disabled = true;
+    
+    // Submit results
+    await submitTurnResults();
+    
+    // Move to next team
     const response = await fetch('{% url "timesup:end_turn" game.code %}', {
         method: 'POST',
         headers: {

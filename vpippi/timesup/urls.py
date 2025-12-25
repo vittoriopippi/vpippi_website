@@ -13,6 +13,7 @@ urlpatterns = [
     path('<str:code>/play/', views.play, name='play'),
     path('<str:code>/get-card/', views.get_card, name='get_card'),
     path('<str:code>/card-guessed/', views.card_guessed, name='card_guessed'),
+    path('<str:code>/submit-turn/', views.submit_turn, name='submit_turn'),
     path('<str:code>/undo-card/', views.undo_card, name='undo_card'),
     path('<str:code>/end-turn/', views.end_turn, name='end_turn'),
     path('<str:code>/round-complete/', views.round_complete, name='round_complete'),
