@@ -6,14 +6,16 @@
     box-sizing: border-box;
 }
 
-html, body {
+html {
     height: 100%;
-    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-repeat: no-repeat;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-repeat: no-repeat;
     min-height: 100vh;
     color: #333;
     overflow-y: auto;
@@ -909,15 +911,21 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    html, body {
-        height: 100vh;
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
+    html {
+        height: 100%;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-repeat: no-repeat;
+    }
+    
+    body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-repeat: no-repeat;
     }
     
     .container {
-        height: 100vh;
+        min-height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         padding: 10px;
