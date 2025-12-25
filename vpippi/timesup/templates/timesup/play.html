@@ -1,0 +1,297 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Playing - Times Up!{% endblock %}
+
+{% block extra_css %}
+<style>
+body {
+    background: {{ current_team.background_gradient }} !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="current-team" style="color: {{ current_team.text_color }};">
+    <h2 class="team-name">{{ current_team.name }} - {{ current_team.total_score }}</h2>
+</div>
+
+<div class="play-container">
+    <div class="game-header">
+        <h1 style="font-size: 1.5rem;">{{ game.get_current_round_display }}</h1>
+        <p class="game-code">Game: {{ game.code }}</p>
+    </div>
+    
+    <div class="round-rules" style="display: none;">
+        {% if game.current_round == 1 %}
+        <h3>Rules: Open Description</h3>
+        <ul>
+            <li>✓ Speak freely and use sentences</li>
+            <li>✗ Cannot say any part of the name</li>
+            <li>✗ Cannot spell or rhyme the name</li>
+            <li>✗ Cannot translate the name</li>
+            <li>⏱️ 30 seconds per turn</li>
+            <li>🎯 Unlimited guesses</li>
+            <li>❌ Cannot pass</li>
+        </ul>
+        {% elif game.current_round == 2 %}
+        <h3>Rules: One Word</h3>
+        <ul>
+            <li>✓ Say only ONE word per card</li>
+            <li>✓ Can repeat the word</li>
+            <li>✓ Gestures allowed after saying word</li>
+            <li>✓ Can pass to next card</li>
+            <li>⏱️ 30 seconds per turn</li>
+            <li>🎯 Only ONE guess allowed</li>
+        </ul>
+        {% elif game.current_round == 3 %}
+        <h3>Rules: The Mime</h3>
+        <ul>
+            <li>✓ Use pantomime and gestures</li>
+            <li>✓ Sound effects allowed</li>
+            <li>✓ Can pass to next card</li>
+            <li>✗ NO WORDS allowed</li>
+            <li>⏱️ 30 seconds per turn</li>
+            <li>🎯 Only ONE guess allowed</li>
+        </ul>
+        {% endif %}
+    </div>
+    
+    <div class="timer-container">
+        <div class="timer-display">
+            <div id="timer" class="timer">{{ game.turn_duration }}</div>
+            <div class="timer-label">seconds</div>
+        </div>
+        <div class="timer-buttons">
+            <button id="undo-btn" class="btn btn-secondary btn-outline-danger" onclick="undoLastCard()" disabled>↶ Undo</button>
+            <button id="end-turn-btn" class="btn btn-outline-danger" onclick="endTurn()" style="display:none;">End Turn</button>
+        </div>
+    </div>
+    
+    <div class="card-display" id="card-display">
+        <div class="card-placeholder">
+            <p>Click "Start Turn" to begin</p>
+        </div>
+    </div>
+    
+    <div class="card-info">
+        <div id="remaining-cards">Remaining: {{ remaining_cards }}/{{ total_cards }}</div>
+    </div>
+    
+    <div class="game-controls">
+        <button id="start-turn-btn" class="btn btn-primary btn-xlarge" onclick="startTurn()">Start Turn</button>
+        {% if game.current_round > 1 %}
+        <button id="pass-btn" class="btn btn-warning btn-xlarge" onclick="passCard()" style="display:none;">Pass →</button>
+        {% endif %}
+        <button id="got-it-btn" class="btn btn-success btn-xlarge" onclick="cardGuessed()" style="display:none;">Got It! ✓</button>
+    </div>
+    
+    <div class="scores-panel" style="display: none;">
+        <h3>Current Scores</h3>
+        {% for team in game.teams.all %}
+        <div class="score-item">
+            <span>{{ team.name }}:</span>
+            <span>{{ team.total_score }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+let timerInterval = null;
+let timeLeft = {{ game.turn_duration }};
+let currentCard = null;
+let skippedCards = []; // Track cards skipped during this turn
+let lastGuessedCard = null; // Track last guessed card for undo
+const totalCards = {{ total_cards }};
+const turnDuration = {{ game.turn_duration }};
+const gameCode = '{{ game.code }}';
+const currentTeamIndex = {{ game.current_team_index }};
+
+// Check if there's a card from the previous turn that we should exclude
+const lastCardKey = `lastCard_${gameCode}_round{{ game.current_round }}`;
+const lastTeamKey = `lastTeam_${gameCode}_round{{ game.current_round }}`;
+let excludeCardId = null;
+
+// If the team has changed, exclude the last card shown
+const lastTeamIndex = sessionStorage.getItem(lastTeamKey);
+if (lastTeamIndex !== null && parseInt(lastTeamIndex) !== currentTeamIndex) {
+    excludeCardId = sessionStorage.getItem(lastCardKey);
+}
+
+async function startTurn() {
+    document.getElementById('start-turn-btn').style.display = 'none';
+    document.getElementById('got-it-btn').style.display = 'inline-block';
+    {% if game.current_round > 1 %}
+    document.getElementById('pass-btn').style.display = 'inline-block';
+    {% endif %}
+    document.getElementById('end-turn-btn').style.display = 'inline-block';
+    
+    // Reset undo button and last guessed card
+    document.getElementById('undo-btn').disabled = true;
+    lastGuessedCard = null;
+    
+    // Reset skipped cards for new turn
+    skippedCards = [];
+    
+    // Get first card (excluding the last card from previous turn if different team)
+    if (excludeCardId) {
+        skippedCards.push(excludeCardId);
+    }
+    await getNextCard();
+    
+    // Start timer
+    timeLeft = turnDuration;
+    startTimer();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = timeLeft;
+        
+        if (timeLeft <= 5) {
+            document.getElementById('timer').classList.add('timer-warning');
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endTurn();
+        }
+    }, 1000);
+}
+
+async function getNextCard() {
+    let url = '{% url "timesup:get_card" game.code %}';
+    if (skippedCards.length > 0) {
+        url += `?exclude=${skippedCards.join(',')}`;
+    }
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    if (data.complete) {
+        clearInterval(timerInterval);
+        window.location.href = '{% url "timesup:round_complete" game.code %}';
+        return;
+    }
+    
+    currentCard = data;
+    
+    // Store this card as the last shown card
+    sessionStorage.setItem(lastCardKey, data.id);
+    sessionStorage.setItem(lastTeamKey, currentTeamIndex);
+    
+    document.getElementById('card-display').innerHTML = `
+        <div class="card-content">
+            <h2>${data.name}</h2>
+        </div>
+    `;
+    document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
+}
+
+async function cardGuessed() {
+    if (!currentCard) return;
+    
+    // Store the card we're about to mark as guessed
+    lastGuessedCard = { id: currentCard.id, name: currentCard.name };
+    
+    const response = await fetch('{% url "timesup:card_guessed" game.code %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ card_id: currentCard.id })
+    });
+    
+    const data = await response.json();
+    
+    if (data.complete) {
+        clearInterval(timerInterval);
+        window.location.href = '{% url "timesup:round_complete" game.code %}';
+        return;
+    }
+    
+    // Show undo button
+    document.getElementById('undo-btn').disabled = false;
+    
+    // Show next card
+    currentCard = data;
+    
+    // Store this card as the last shown card
+    sessionStorage.setItem(lastCardKey, data.id);
+    sessionStorage.setItem(lastTeamKey, currentTeamIndex);
+    
+    document.getElementById('card-display').innerHTML = `
+        <div class="card-content">
+            <h2>${data.name}</h2>
+        </div>
+    `;
+    document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
+}
+
+async function passCard() {
+    if (!currentCard) return;
+    
+    // Check if we've already skipped this card (means we've cycled through all)
+    const currentCardIdStr = currentCard.id.toString();
+    if (skippedCards.includes(currentCardIdStr)) {
+        // Reset to start cycling again
+        skippedCards = [];
+    }
+    
+    // Add current card to skipped list
+    skippedCards.push(currentCardIdStr);
+    
+    // Get the next card (excluding all skipped cards)
+    await getNextCard();
+}
+
+async function undoLastCard() {
+    if (!lastGuessedCard) return;
+    
+    const response = await fetch('{% url "timesup:undo_card" game.code %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ card_id: lastGuessedCard.id })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+        // Show the undone card again
+        currentCard = lastGuessedCard;
+        document.getElementById('card-display').innerHTML = `
+            <div class="card-content">
+                <h2>${lastGuessedCard.name}</h2>
+            </div>
+        `;
+        document.getElementById('remaining-cards').textContent = `Remaining: ${data.remaining}/${totalCards}`;
+        
+        // Hide undo button
+        document.getElementById('undo-btn').disabled = true;
+        lastGuessedCard = null;
+    }
+}
+
+async function endTurn() {
+    clearInterval(timerInterval);
+    
+    const response = await fetch('{% url "timesup:end_turn" game.code %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    });
+    
+    if (response.ok) {
+        // Immediately reload to show next team
+        window.location.reload();
+    }
+}
+</script>
+{% endblock %}

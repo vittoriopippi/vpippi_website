@@ -1,0 +1,51 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Times Up! - Home{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h1>Times Up!</h1>
+    <p class="subtitle">The Ultimate Guessing Game</p>
+    
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+    
+    <div class="home-cards">
+        <div class="home-card">
+            <h2>Start New Game</h2>
+            <p>Create a new game and invite your friends to join</p>
+            <form method="post" action="{% url 'timesup:create_game' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Create New Game</button>
+            </form>
+        </div>
+        
+        <div class="home-card">
+            <h2>Join Existing Game</h2>
+            <p>Enter the game code to join</p>
+            <form method="post" action="{% url 'timesup:join_game' %}" class="join-form">
+                {% csrf_token %}
+                <input type="text" name="code" placeholder="Enter Game Code" maxlength="6" required>
+                <button type="submit" class="btn btn-secondary">Join Game</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="rules-summary">
+        <h2>How to Play</h2>
+        <div class="round-info">
+            <h3>Round 1: Open Description</h3>
+            <p>Describe the person freely (no part of their name!)</p>
+        </div>
+        <div class="round-info">
+            <h3>Round 2: One Word</h3>
+            <p>Use only ONE word to give a clue</p>
+        </div>
+        <div class="round-info">
+            <h3>Round 3: The Mime</h3>
+            <p>Act it out - no words allowed!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

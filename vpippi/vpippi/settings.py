@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'party.apps.PartyConfig',
     'main.apps.MainConfig',
     'tears.apps.TearsConfig',
+    'timesup.apps.TimesupConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

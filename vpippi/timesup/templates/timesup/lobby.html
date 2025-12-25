@@ -1,0 +1,64 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Lobby - Times Up!{% endblock %}
+
+{% block content %}
+<div class="lobby-container">
+    <h1 style="text-align: center;">Game Lobby</h1>
+    <p class="game-code" style="text-align: center; font-size: 1rem; color: #666; margin-bottom: 30px;">Game: {{ game.code }}</p>
+    
+    <div class="teams-display">
+        <h2>Teams</h2>
+        {% for team in teams %}
+        <div class="team-card team-{{ team.color }}">
+            <h3 class="team-{{ team.color }}-title">{{ team.name }}</h3>
+            <ul>
+                {% for player in team.players.all %}
+                <li>{{ player.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="game-info">
+        <p>Total Cards: <strong>{{ game.cards.count }}</strong></p>
+        <p>Total Teams: <strong>{{ teams.count }}</strong></p>
+    </div>
+    
+    <div class="round-selector">
+        <h2>Select Round to Start</h2>
+        <div class="round-buttons">
+            <a href="{% url 'timesup:start_round' game.code 1 %}" class="btn btn-round">
+                <div class="round-title">Round 1 - Open Description</div>
+                <div class="round-rules">
+                    <div>✔️ Speak freely</div>
+                    <div>❌ No name parts</div>
+                    <div>✔️ Unlimited guesses</div>
+                    <div>❌ Cannot pass</div>
+                </div>
+            </a>
+            
+            <a href="{% url 'timesup:start_round' game.code 2 %}" class="btn btn-round">
+                <div class="round-title">Round 2 - One Word</div>
+                <div class="round-rules">
+                    <div>✔️ Only ONE word</div>
+                    <div>✔️ Can repeat word</div>
+                    <div>🎯 ONE guess only</div>
+                    <div>✔️ Can pass</div>
+                </div>
+            </a>
+            
+            <a href="{% url 'timesup:start_round' game.code 3 %}" class="btn btn-round">
+                <div class="round-title">Round 3 - The Mime</div>
+                <div class="round-rules">
+                    <div>✔️ Pantomime only</div>
+                    <div>❌ NO WORDS</div>
+                    <div>🎯 ONE guess only</div>
+                    <div>✔️ Can pass</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,445 @@
+Cristoforo Colombo
+Cleopatra
+Topolino
+Regina Elisabetta
+Vasco Rossi
+Spaghetti
+Statua della Libertà
+Smartphone
+Bicicletta
+Albero di Natale
+Avatar
+Il Re Leone
+Forrest Gump
+Joker
+Ritorno al Futuro
+I Simpson
+Squid Game
+Mare Fuori
+Mercoledì
+The Crown
+Bibbia
+Pinocchio
+I Promessi Sposi
+It
+Il Codice da Vinci
+Napoleone Bonaparte
+Leonardo da Vinci
+Giulio Cesare
+Marilyn Monroe
+Elvis Presley
+Diego Armando Maradona
+Lionel Messi
+Cristiano Ronaldo
+Totò
+Roberto Benigni
+Frida Kahlo
+Marie Curie
+Dante Alighieri
+William Shakespeare
+Albert Einstein
+Freddie Mercury
+Michael Jackson
+Madonna
+Lady Gaga
+Donald Trump
+Vladimir Putin
+Papa Francesco
+Chiara Ferragni
+Fedez
+Fiorello
+Pizza
+Caffè
+Gelato
+Tiramisù
+Cioccolato
+Vino
+Birra
+Pane
+Formaggio
+Pomodoro
+Mela
+Banana
+Fragola
+Aereo
+Treno
+Automobile
+Moto
+Nave
+Orologio
+Occhiali
+Scarpe
+Borsa
+Ombrello
+Chiave
+Letto
+Divano
+Tavolo
+Sedia
+Computer
+Televisione
+Frigorifero
+Lavatrice
+Forno
+Chitarra
+Pallone
+Specchio
+Titanic
+Guerre Stellari
+Harry Potter
+Il Signore degli Anelli
+Pulp Fiction
+La Vita è Bella
+Il Padrino
+Matrix
+Jurassic Park
+Shrek
+Frozen
+Spider-Man
+Batman
+Avengers
+007 James Bond
+La Dolce Vita
+Fantozzi
+Mamma Mia!
+Grease
+Rocky
+Friends
+Il Trono di Spade
+Breaking Bad
+Stranger Things
+La Casa di Carta
+Lost
+The Walking Dead
+Black Mirror
+Grey's Anatomy
+Dr. House
+Gomorra
+Romanzo Criminale
+Don Matteo
+Un Medico in Famiglia
+Il Commissario Montalbano
+Iliade
+Odissea
+Divina Commedia
+Il Piccolo Principe
+1984
+Il Nome della Rosa
+Diario di Anna Frank
+Orgoglio e Pregiudizio
+Guerra e Pace
+Il Grande Gatsby
+Moby Dick
+Cime Tempestose
+Alice nel Paese delle Meraviglie
+Sherlock Holmes
+Dracula
+Frankenstein
+Amleto
+Romeo e Giulietta
+L'Amica Geniale
+Giuseppe Garibaldi
+Silvio Berlusconi
+Sofia Loren
+Luciano Pavarotti
+Francesco Totti
+Valentino Rossi
+Giovanni Paolo II
+Nelson Mandela
+Mahatma Gandhi
+Barack Obama
+Wolfgang Amadeus Mozart
+Ludwig van Beethoven
+Pablo Picasso
+Vincent van Gogh
+Tom Cruise
+Brad Pitt
+Superman
+Wonder Woman
+Paperino
+Super Mario
+Babbo Natale
+La Befana
+Cane
+Gatto
+Leone
+Elefante
+Giraffa
+Delfino
+Colosseo
+Torre di Pisa
+Torre Eiffel
+Piramidi d'Egitto
+Pianoforte
+Violino
+Macchina Fotografica
+Lasagna
+Carbonara
+Sushi
+Hamburger
+Nutella
+Toy Story
+Alla Ricerca di Nemo
+Il Gladiatore
+Braveheart
+Indiana Jones
+E.T. L'Extraterrestre
+Mamma ho perso l'aereo
+Tre uomini e una gamba
+La Grande Bellezza
+Nuovo Cinema Paradiso
+Arancia Meccanica
+Shining
+Psycho
+Pretty Woman
+Dirty Dancing
+Top Gun
+Pirati dei Caraibi
+Hunger Games
+The Big Bang Theory
+How I Met Your Mother
+The Office
+X-Files
+Baywatch
+Beverly Hills 90210
+Dawson's Creek
+Una Mamma per Amica
+Sex and the City
+I Cesaroni
+Boris
+Camera Café
+Peppa Pig
+Dragon Ball
+Lupin III
+I Griffin
+Futurama
+Il Conte di Montecristo
+I Tre Moschettieri
+Ventimila Leghe Sotto i Mari
+Piccole Donne
+Il Diario di una Schiappa
+Geronimo Stilton
+Il Ritratto di Dorian Gray
+Canto di Natale
+Don Chisciotte
+I Viaggi di Gulliver
+Robinson Crusoe
+La Coscienza di Zeno
+Uno Nessuno e Centomila
+Il Gattopardo
+Va' dove ti porta il cuore
+Gomma da cancellare
+Forchetta
+Coltello
+Piatto
+Bicchiere
+Bottiglia
+Asciugacapelli
+Spazzolino da denti
+Dentifricio
+Carta Igienica
+Michelangelo Buonarroti
+Galileo Galilei
+Marco Polo
+Enzo Ferrari
+Gianni Versace
+Giorgio Armani
+Bebe Vio
+Jannik Sinner
+Federica Pellegrini
+Alberto Sordi
+Bud Spencer
+Terence Hill
+Checco Zalone
+Carlo Verdone
+Claudio Baglioni
+Lucio Dalla
+Zorro
+Tarzan
+Barbie
+Hulk
+Iron Man
+Thor
+Capitan America
+Wolverine
+Deadpool
+Grande Muraglia Cinese
+Big Ben
+Taj Mahal
+Cascate del Niagara
+Grand Canyon
+Monte Everest
+Polo Nord
+Foresta Amazzonica
+Venezia
+Pompei
+Risotto
+Polenta
+Arancino
+Cannolo Siciliano
+Panettone
+Pandoro
+Uovo di Pasqua
+Patatine Fritte
+Popcorn
+Coca Cola
+Microfono
+Cuffie
+Ventilatore
+Termosifone
+Cacciavite
+Martello
+Trapano
+Padella
+Frullatore
+Tostapane
+Candela
+Accendino
+Sigaretta
+Passaporto
+Carta di Credito
+Bancomat
+Assegno
+Portafoglio
+Zaino
+Valigia
+Anello
+Collana
+Orecchini
+Cintura
+Cappello
+Sciarpa
+Guanti
+Calzini
+Mutande
+Reggiseno
+La Sirenetta
+Cenerentola
+Biancaneve
+La Bella e la Bestia
+Aladdin
+Mary Poppins
+Ghostbusters
+Rambo
+Terminator
+Alien
+Men in Black
+Mission Impossible
+Fast & Furious
+Prison Break
+Narcos
+Peaky Blinders
+Bridgerton
+La Regina degli Scacchi
+Masterchef
+Grande Fratello
+Festival di Sanremo
+Striscia la Notizia
+Le Iene
+Tex Willer
+Diabolik
+Maria De Filippi
+Paolo Bonolis
+Gerry Scotti
+Pippo Baudo
+Mike Bongiorno
+Barbara D'Urso
+Christian De Sica
+Massimo Boldi
+Lino Banfi
+Renato Zero
+Jovanotti
+Ligabue
+Tiziano Ferro
+Laura Pausini
+Eros Ramazzotti
+Mina
+Adriano Celentano
+Michael Jordan
+Kobe Bryant
+Usain Bolt
+Muhammad Ali
+Ayrton Senna
+Fausto Coppi
+Neil Armstrong
+Carlo Magno
+Tutankhamon
+Rita Levi Montalcini
+Alessandro Manzoni
+Giacomo Leopardi
+SpongeBob
+Scooby-Doo
+Pikachu
+Winnie the Pooh
+Pippo
+Pluto
+Tom & Jerry
+Bugs Bunny
+Daffy Duck
+Wile E. Coyote
+Beep Beep
+Pantera Rosa
+I Puffi
+Braccio di Ferro
+Gatto Silvestro
+Titti
+Cappuccetto Rosso
+Il Gatto con gli Stivali
+Hansel e Gretel
+Pollicino
+La Bella Addormentata
+Vampiro
+Lupo Mannaro
+Strega
+Fantasma
+Zombie
+Mummia
+Orco
+Drago
+Unicorno
+Sirena
+Instagram
+TikTok
+YouTube
+Facebook
+WhatsApp
+Amazon
+Netflix
+Spotify
+Google
+Wikipedia
+Bitcoin
+Wifi
+Tablet
+Caricabatterie
+Chiavetta USB
+Mouse
+Tastiera
+Schermo
+Telecomando
+Ambulanza
+Vigili del Fuoco
+Polizia
+Carabinieri
+Ospedale
+Farmacia
+Scuola
+Stadio
+Cinema
+Teatro
+Museo
+Biblioteca
+Ristorante
+Albergo
+Supermercato
+Semaforo
+Strisce Pedonali
+Patente
+Matrimonio
+Divorzio
+Compleanno
+Capodanno
+Ferragosto
+Carnevale
+Halloween
+San Valentino

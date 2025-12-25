@@ -1,0 +1,50 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Final Scores - Times Up!{% endblock %}
+
+{% block content %}
+<div class="final-scores-container">
+    <h1>Game Complete!</h1>    
+    <div class="winner-announcement">
+        {% with winner=teams.first %}
+        <h2>Winner: {{ winner.name }}!</h2>
+        <div class="winner-score">{{ winner.total_score }} points</div>
+        {% endwith %}
+    </div>
+    
+    <div class="final-scores-table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>R1</th>
+                    <th>R2</th>
+                    <th>R3</th>
+                    <th>Tot</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr class="{% if forloop.first %}winner-row{% endif %}">
+                    <td><strong>
+                        {% if team.color == 'red' %}🔴
+                        {% elif team.color == 'blue' %}🔵
+                        {% elif team.color == 'green' %}🟢
+                        {% elif team.color == 'yellow' %}🟡
+                        {% endif %}
+                    </strong></td>
+                    <td>{{ team.score_round1 }}</td>
+                    <td>{{ team.score_round2 }}</td>
+                    <td>{{ team.score_round3 }}</td>
+                    <td><strong>{{ team.total_score }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="game-actions">
+        <a href="{% url 'timesup:index' %}" class="btn btn-primary">New Game</a>
+    </div>
+</div>
+{% endblock %}

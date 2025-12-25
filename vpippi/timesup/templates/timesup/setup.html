@@ -1,0 +1,307 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Setup - Times Up!{% endblock %}
+
+{% block content %}
+<div class="setup-container">
+    <div class="setup-header">
+        <h1>Game Setup</h1>
+        <p class="game-code">Game Code: <strong>{{ game.code }}</strong></p>
+        <p class="setup-subtitle">Share this code with your friends to let them join!</p>
+    </div>
+    
+    <div class="setup-grid">
+        <div class="setup-card">
+            <div class="setup-card-header">
+                <h2>⚙️ Game Settings</h2>
+                <p class="card-description">Configure game options</p>
+            </div>
+            
+            <div class="add-form">
+                <h3>Turn Duration</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">How many seconds per turn?</p>
+                <select id="turn-duration" class="form-input">
+                    <option value="30" selected>30 seconds (Default)</option>
+                    <option value="45">45 seconds</option>
+                    <option value="60">60 seconds (1 minute)</option>
+                    <option value="90">90 seconds (1.5 minutes)</option>
+                    <option value="120">120 seconds (2 minutes)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="setup-card">
+            <div class="setup-card-header">
+                <h2>👥 Teams</h2>
+                <p class="card-description">Create 2-4 teams with at least 2 players each</p>
+            </div>
+            
+            <div id="teams-list" class="items-list">
+                {% for team in teams %}
+                <div class="team-item team-{{ team.color }}">
+                    <strong>{{ team.name }}</strong>
+                    <ul>
+                        {% for player in team.players.all %}
+                        <li>{{ player.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="add-form">
+                <h3>Add New Team</h3>
+                <select id="team-color" class="form-input">
+                    <option value="">Select Team Color</option>
+                    <option value="red">🔴 Red Team</option>
+                    <option value="blue">🔵 Blue Team</option>
+                    <option value="green">🟢 Green Team</option>
+                    <option value="yellow">🟡 Yellow Team</option>
+                </select>
+                <div id="players-inputs">
+                    <input type="text" class="form-input player-name" placeholder="Player 1 Name">
+                    <input type="text" class="form-input player-name" placeholder="Player 2 Name">
+                </div>
+                <div class="button-row">
+                    <button class="btn btn-secondary btn-small" onclick="addPlayer()">+ Add Player</button>
+                    <button class="btn btn-primary btn-small" onclick="addTeam()">Add Team</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="setup-card">
+            <div class="setup-card-header">
+                <h2>🎭 Cards (Famous People)</h2>
+                <p class="card-description">Add 20-40 cards. Each should be a famous person (real or fictional)</p>
+            </div>
+            
+            <div class="card-count-display">
+                <span class="count-number"><span id="card-count">{{ cards|length }}</span>/40</span>
+                <span class="count-label">cards added</span>
+            </div>
+            
+            <div id="cards-list" class="cards-chips" style="display: none;">
+                {% for card in cards %}
+                <span class="card-chip">{{ card.name }}</span>
+                {% endfor %}
+            </div>
+            
+            <button class="btn btn-secondary btn-small" onclick="toggleCards()" style="width: 100%; margin-bottom: 15px;">
+                <span id="toggle-cards-text">👁️ Show Cards</span>
+            </button>
+            
+            <div class="add-form">
+                <h3>Add New Card</h3>
+                <input type="text" id="card-name" class="form-input" placeholder="Famous Person Name" onkeypress="if(event.key==='Enter') addCard()">
+                <div class="button-row">
+                    <button class="btn btn-secondary btn-small" onclick="addRandomCards()">🎲 Add Random</button>
+                    <button class="btn btn-primary btn-small" onclick="addCard()">Add Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="setup-actions">
+        <button class="btn btn-primary btn-large" onclick="startGame()">🚀 Start Game</button>
+    </div>
+</div>
+
+<script>
+let teams = {{ teams|length }};
+let cards = {{ cards|length }};
+
+const teamsData = [];
+const cardsData = [];
+const usedColors = new Set();
+const availableWords = {{ available_words|safe }};
+
+// Automatically load 40 random words on page load
+window.addEventListener('DOMContentLoaded', function() {
+    if (cards === 0 && availableWords.length > 0) {
+        loadRandomWords(40);
+    }
+});
+
+function loadRandomWords(count) {
+    const shuffled = [...availableWords].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, Math.min(count, shuffled.length));
+    
+    selected.forEach(word => {
+        if (cards < 40) {
+            cardsData.push(word);
+            cards++;
+            
+            const cardsList = document.getElementById('cards-list');
+            const chip = document.createElement('span');
+            chip.className = 'card-chip';
+            chip.textContent = word;
+            cardsList.appendChild(chip);
+        }
+    });
+    
+    document.getElementById('card-count').textContent = cards;
+}
+
+function toggleCards() {
+    const cardsList = document.getElementById('cards-list');
+    const toggleText = document.getElementById('toggle-cards-text');
+    
+    if (cardsList.style.display === 'none') {
+        cardsList.style.display = 'flex';
+        toggleText.textContent = '🙈 Hide Cards';
+    } else {
+        cardsList.style.display = 'none';
+        toggleText.textContent = '👁️ Show Cards';
+    }
+}
+
+function addPlayer() {
+    const container = document.getElementById('players-inputs');
+    const count = container.getElementsByClassName('player-name').length + 1;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'form-input player-name';
+    input.placeholder = `Player ${count} Name`;
+    container.appendChild(input);
+}
+
+function addTeam() {
+    const teamColor = document.getElementById('team-color').value;
+    const playerInputs = document.querySelectorAll('.player-name');
+    const players = [];
+    
+    if (!teamColor) {
+        alert('Please select a team color');
+        return;
+    }
+    
+    if (usedColors.has(teamColor)) {
+        alert('This color is already taken. Please choose another color.');
+        return;
+    }
+    
+    if (teamsData.length >= 4) {
+        alert('Maximum 4 teams allowed');
+        return;
+    }
+    
+    playerInputs.forEach(input => {
+        if (input.value.trim()) {
+            players.push({ name: input.value.trim() });
+        }
+    });
+    
+    if (players.length < 2) {
+        alert('Each team needs at least 2 players');
+        return;
+    }
+    
+    const colorNames = { red: 'Red Team', blue: 'Blue Team', green: 'Green Team', yellow: 'Yellow Team' };
+    teamsData.push({ color: teamColor, players: players });
+    usedColors.add(teamColor);
+    
+    // Add to display
+    const teamsList = document.getElementById('teams-list');
+    const teamDiv = document.createElement('div');
+    teamDiv.className = 'team-item team-' + teamColor;
+    teamDiv.innerHTML = `<strong>${colorNames[teamColor]}</strong><ul>${players.map(p => `<li>${p.name}</li>`).join('')}</ul>`;
+    teamsList.appendChild(teamDiv);
+    
+    // Remove color from dropdown
+    const option = document.querySelector(`#team-color option[value="${teamColor}"]`);
+    if (option) option.remove();
+    
+    // Clear inputs
+    document.getElementById('team-color').value = '';
+    playerInputs.forEach(input => input.value = '');
+}
+
+function addCard() {
+    const cardName = document.getElementById('card-name').value.trim();
+    
+    if (!cardName) {
+        alert('Please enter a name');
+        return;
+    }
+    
+    if (cards >= 40) {
+        alert('Maximum 40 cards reached');
+        return;
+    }
+    
+    cardsData.push(cardName);
+    cards++;
+    
+    // Add to display
+    const cardsList = document.getElementById('cards-list');
+    const chip = document.createElement('span');
+    chip.className = 'card-chip';
+    chip.textContent = cardName;
+    cardsList.appendChild(chip);
+    
+    document.getElementById('card-count').textContent = cards;
+    document.getElementById('card-name').value = '';
+}
+
+function addRandomCards() {
+    const needed = Math.min(40 - cards, 10);
+    
+    // Get words that haven't been added yet
+    const unusedWords = availableWords.filter(word => !cardsData.includes(word));
+    
+    if (unusedWords.length === 0) {
+        alert('All available words have been used!');
+        return;
+    }
+    
+    // Shuffle and select
+    const shuffled = [...unusedWords].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, Math.min(needed, shuffled.length));
+    
+    selected.forEach(word => {
+        cardsData.push(word);
+        cards++;
+        
+        const cardsList = document.getElementById('cards-list');
+        const chip = document.createElement('span');
+        chip.className = 'card-chip';
+        chip.textContent = word;
+        cardsList.appendChild(chip);
+    });
+    
+    document.getElementById('card-count').textContent = cards;
+}
+
+async function startGame() {
+    if (teamsData.length < 2) {
+        alert('You need at least 2 teams to play');
+        return;
+    }
+    
+    if (cardsData.length < 20) {
+        alert('You need at least 20 cards to play (40 recommended)');
+        return;
+    }
+    
+    const turnDuration = parseInt(document.getElementById('turn-duration').value);
+    
+    const response = await fetch('{% url "timesup:setup" game.code %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            teams: teamsData,
+            cards: cardsData,
+            turn_duration: turnDuration
+        })
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+        window.location.href = data.redirect;
+    }
+}
+</script>
+{% endblock %}

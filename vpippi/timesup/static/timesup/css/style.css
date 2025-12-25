@@ -1,0 +1,1212 @@
+/* Times Up! Game Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #333;
+    overflow-y: auto;
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 60px;
+}
+
+/* Home Page */
+.home-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.home-container h1 {
+    font-size: 4rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: #f0f0f0;
+    margin-bottom: 40px;
+}
+
+.home-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.home-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+.home-card h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.home-card p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.home-card form {
+    margin: 0;
+}
+
+.home-card .btn {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+}
+
+.join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.join-form input {
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: border-color 0.3s ease;
+}
+
+.join-form input:focus {
+    outline: none;
+    border-color: #764ba2;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 400px;
+    margin: 0 auto 40px;
+}
+
+.rules-summary {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.rules-summary h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.round-info {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.round-info h3 {
+    color: #764ba2;
+    margin-bottom: 5px;
+}
+
+/* Buttons */
+.btn {
+    padding: 20px 40px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #764ba2;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #63408a;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Setup Page */
+.setup-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.setup-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.setup-header h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+.setup-subtitle {
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+.game-code {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.game-code strong {
+    font-size: 2rem;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 2px solid #667eea;
+    color: #667eea;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+.setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.setup-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.setup-card-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.setup-card-header h2 {
+    color: #667eea;
+    margin-bottom: 8px;
+    font-size: 1.8rem;
+}
+
+.card-description {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.items-list {
+    min-height: 100px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.team-item {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border-left: 4px solid #764ba2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.team-item strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.team-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.team-item li {
+    padding: 4px 0;
+    color: #666;
+}
+
+.team-item.team-red {
+    border-left-color: #e53935;
+    background: linear-gradient(to right, rgba(229, 57, 53, 0.08), white);
+}
+
+.team-item.team-blue {
+    border-left-color: #1e88e5;
+    background: linear-gradient(to right, rgba(30, 136, 229, 0.08), white);
+}
+
+.team-item.team-green {
+    border-left-color: #43a047;
+    background: linear-gradient(to right, rgba(67, 160, 71, 0.08), white);
+}
+
+.team-item.team-yellow {
+    border-left-color: #fdd835;
+    background: linear-gradient(to right, rgba(253, 216, 53, 0.08), white);
+}
+
+.card-count-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.count-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.count-label {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.cards-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 80px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-chip {
+    display: inline-block;
+    padding: 6px 12px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.card-chip:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.add-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.add-form h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-small {
+    padding: 10px 20px;
+    font-size: 1rem;
+    flex: 1;
+}
+
+.btn-large {
+    padding: 20px 50px;
+    font-size: 1.5rem;
+    width: 100%;
+}
+
+.setup-actions {
+    text-align: center;
+    /* padding: 20px; */
+}
+
+.setup-actions .btn {
+    min-width: 300px;
+    min-height: 4em;
+    background: #ff6b35;
+}
+
+.setup-actions .btn:hover {
+    background: #ff5722;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+.card-chip {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 5px 12px;
+    margin: 5px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.card-count {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #667eea;
+}
+
+.setup-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Lobby Page */
+.lobby-container {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 10px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.teams-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.team-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-top: 4px solid #667eea;
+}
+
+.team-card.team-red {
+    background: linear-gradient(to bottom, rgba(229, 57, 53, 0.3), white);
+    border-top-color: #e53935;
+}
+
+.team-card.team-blue {
+    background: linear-gradient(to bottom, rgba(30, 136, 229, 0.3), white);
+    border-top-color: #1e88e5;
+}
+
+.team-card.team-green {
+    background: linear-gradient(to bottom, rgba(67, 160, 71, 0.3), white);
+    border-top-color: #43a047;
+}
+
+.team-card.team-yellow {
+    background: linear-gradient(to bottom, rgba(253, 216, 53, 0.3), white);
+    border-top-color: #fdd835;
+}
+
+.team-card h3 {
+    color: #764ba2;
+    margin-bottom: 10px;
+}
+
+.team-card h3.team-red-title {
+    color: #e53935;
+}
+
+.team-card h3.team-blue-title {
+    color: #1e88e5;
+}
+
+.team-card h3.team-green-title {
+    color: #43a047;
+}
+
+.team-card h3.team-yellow-title {
+    color: #c9a700;
+}
+
+.team-card ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.team-card li {
+    background: #667eea;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.game-info {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 30px 0;
+}
+
+.round-selector {
+    margin-top: 40px;
+}
+
+.round-selector h2 {
+    text-align: center;
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.round-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.btn-round {
+    padding: 15px;
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-round:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.round-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.round-desc {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.round-rules {
+    font-size: 1.15rem;
+    opacity: 0.8;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.round-rules > div {
+    padding: 2px 0;
+}
+
+/* Play Page */
+.play-container {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 10px;
+    max-width: 800px;
+    margin: 20px auto auto auto;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    color: #667eea;
+    font-size: 2.5rem;
+}
+
+.round-rules {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.round-rules h3 {
+    color: #764ba2;
+    margin-bottom: 10px;
+}
+
+.round-rules ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.round-rules li {
+    padding: 5px 0;
+    font-size: 0.95rem;
+}
+
+.current-team {
+    text-align: center;
+    /* margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); */
+}
+
+.team-name {
+    font-size: 2rem;
+    display: block;
+    margin-top: 10px;
+}
+
+.team-score {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.timer-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-display {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.timer-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.timer-buttons .btn {
+    min-width: 100px;
+}
+
+.timer {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #667eea;
+    font-family: 'Courier New', monospace;
+}
+
+.timer-warning {
+    color: #dc3545;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.timer-label {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Outline button styles */
+.btn-outline-danger {
+    background: transparent;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Extra large buttons */
+.btn-xlarge {
+    padding: 35px 60px;
+    font-size: 1.8rem;
+    min-width: 250px;
+}
+
+.card-display {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 40px;
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-content h2 {
+    font-size: 2.5rem;
+    color: #764ba2;
+    text-align: center;
+}
+
+.card-placeholder {
+    text-align: center;
+    color: #999;
+    font-size: 1.3rem;
+}
+
+.card-info {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 15px 0;
+    color: #667eea;
+}
+
+.game-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    /* margin: 10px 0; */
+}
+
+.game-controls .btn {
+    padding: 50px 45px;
+    font-size: 1.5rem;
+    min-width: 180px;
+    flex: 1;
+}
+
+.scores-panel {
+    margin-top: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.scores-panel h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 5px;
+}
+
+/* Round Complete & Final Scores */
+.round-complete-container, .final-scores-container {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 10px;
+    max-width: 900px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.round-complete-container h1, .final-scores-container h1 {
+    color: #667eea;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+}
+
+.scores-table, .final-scores-table {
+    margin: 30px 0;
+}
+
+.scores-table h2, .final-scores-table h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.scores-table table, .final-scores-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 1.3rem;
+}
+
+.scores-table th, .final-scores-table th {
+    background: #667eea;
+    color: white;
+    padding: 20px;
+    font-size: 1.5rem;
+}
+
+.scores-table td, .final-scores-table td {
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+    font-size: 1.3rem;
+}
+
+.scores-table tr:last-child td, .final-scores-table tr:last-child td {
+    border-bottom: none;
+}
+
+.winner-announcement {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.winner-announcement h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.winner-score {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #764ba2;
+}
+
+.winner-row {
+    background: #fff9e6 !important;
+    font-weight: bold;
+}
+
+.round-actions, .game-actions {
+    margin-top: 40px;
+}
+
+.round-actions h3, .game-actions h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.round-actions .btn, .game-actions .btn {
+    padding: 25px 45px;
+    font-size: 1.5rem;
+    min-width: 300px;
+}
+
+/* Error Message */
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+    
+    .container {
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px;
+    }
+    
+    /* Home Page Mobile */
+    .home-container {
+        padding: 20px 10px;
+    }
+    
+    .home-container h1 {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .home-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .home-card {
+        padding: 20px;
+    }
+    
+    .home-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .home-card p {
+        font-size: 1rem;
+    }
+    
+    .rules-summary {
+        padding: 20px;
+    }
+    
+    .rules-summary h2 {
+        font-size: 1.5rem;
+    }
+    
+    .round-info h3 {
+        font-size: 1.1rem;
+    }
+    
+    /* Setup Page Mobile */
+    .setup-container {
+        padding: 10px;
+    }
+    
+    .setup-header h1 {
+        font-size: 2rem;
+    }
+    
+    .setup-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .game-code {
+        font-size: 1rem;
+    }
+    
+    .game-code strong {
+        font-size: 1.5rem;
+        padding: 6px 15px;
+        letter-spacing: 2px;
+    }
+    
+    .setup-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .setup-card {
+        padding: 10px;
+    }
+    
+    .setup-card-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .card-description {
+        font-size: 0.85rem;
+    }
+    
+    .team-item {
+        padding: 12px;
+    }
+    
+    .team-item strong {
+        font-size: 1rem;
+    }
+    
+    .card-count-display {
+        padding: 15px;
+    }
+    
+    .count-number {
+        font-size: 2rem;
+    }
+    
+    .count-label {
+        font-size: 1rem;
+    }
+    
+    .cards-chips {
+        max-height: 150px;
+        padding: 8px;
+    }
+    
+    .card-chip {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+    
+    .add-form {
+        padding: 15px;
+    }
+    
+    .add-form h3 {
+        font-size: 1.1rem;
+    }
+    
+    .form-input {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+    
+    .button-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-small {
+        width: 100%;
+        padding: 12px 20px;
+    }
+    
+    .btn-large {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+    }
+    
+    .setup-actions .btn {
+        min-width: auto;
+        width: 100%;
+        border-radius: 15px;
+    }
+    
+    /* Play Page Mobile */
+    .play-container {
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        /* height: calc(100vh - 2rem - 65px); */
+    }
+    
+    .timer {
+        font-size: 3rem;
+    }
+    
+    .card-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .game-controls {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        position: sticky;
+        bottom: 0;
+        gap: 8px;
+    }
+    
+    .game-controls .btn {
+        flex: 1;
+        padding: 30px 20px;
+        font-size: 1.5rem;
+        min-width: 0;
+        min-height: 7em;
+    }
+    
+    .card-display {
+        padding: 20px;
+    }
+    
+    .timer-display {
+        margin: 15px 0;
+    }
+    
+    /* Lobby Page Mobile */
+    .lobby-container {
+        padding: 10px;
+    }
+    
+    .lobby-container h1 {
+        font-size: 2rem;
+    }
+    
+    .team-card {
+        padding: 15px;
+    }
+    
+    .round-buttons {
+        gap: 15px;
+    }
+    
+    .btn-round {
+        padding: 15px;
+    }
+    
+    .round-title {
+        font-size: 1.2rem;
+    }
+    
+    .round-rules {
+        font-size: 0.85rem;
+    }
+    
+    .round-complete-container h1, .final-scores-container h1 {
+        font-size: 2rem;
+    }
+    
+    .scores-table, .final-scores-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .scores-table table, .final-scores-table table {
+        font-size: 0.85rem;
+        min-width: 100%;
+    }
+    
+    .scores-table th, .final-scores-table th {
+        padding: 10px 5px;
+        font-size: 0.9rem;
+    }
+    
+    .scores-table td, .final-scores-table td {
+        padding: 8px 5px;
+    }
+    
+    .winner-announcement {
+        padding: 20px;
+    }
+    
+    .winner-announcement h2 {
+        font-size: 1.8rem;
+    }
+    
+    .winner-score {
+        font-size: 2rem;
+    }
+}
+
+/* Smaller mobile devices */
+@media (max-width: 480px) {
+    .home-container h1 {
+        font-size: 2rem;
+    }
+    
+    .setup-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .game-code strong {
+        font-size: 1.3rem;
+        padding: 5px 12px;
+    }
+    
+    .setup-card {
+        padding: 15px;
+    }
+    
+    .setup-card-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .btn-large {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+    }
+}

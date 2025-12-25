@@ -1,0 +1,50 @@
+{% extends 'timesup/base.html' %}
+
+{% block title %}Round Complete - Times Up!{% endblock %}
+
+{% block content %}
+<div class="round-complete-container">
+    <h1>Round {{ game.current_round }} Complete!</h1>
+    
+    <div class="scores-table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>R1</th>
+                    <th>R2</th>
+                    <th>R3</th>
+                    <th>Tot</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td><strong>
+                        {% if team.color == 'red' %}🔴
+                        {% elif team.color == 'blue' %}🔵
+                        {% elif team.color == 'green' %}🟢
+                        {% elif team.color == 'yellow' %}🟡
+                        {% endif %}
+                    </strong></td>
+                    <td>{{ team.score_round1 }}</td>
+                    <td>{{ team.score_round2 }}</td>
+                    <td>{{ team.score_round3 }}</td>
+                    <td><strong>{{ team.total_score }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="round-actions">
+        {% if game.current_round < 3 %}
+        <h3>Ready for the next round?</h3>
+        <a href="{% url 'timesup:lobby' game.code %}" class="btn btn-primary">Continue to Round {{ game.current_round|add:1 }}</a>
+        {% else %}
+        <h3>Game Complete!</h3>
+        <a href="{% url 'timesup:final_scores' game.code %}" class="btn btn-primary">View Final Results</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
