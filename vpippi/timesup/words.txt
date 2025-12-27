@@ -443,3 +443,530 @@ Ferragosto
 Carnevale
 Halloween
 San Valentino
+Alpaca
+Anatra dell'Amazzonia
+Pesce pagliaccio
+Formichiere
+Antilope
+Lupo artico
+Elefante asiatico
+Tasso
+Anatra delle Bahamas
+Oca indiana
+Pipistrello
+Orso
+Tigre del Bengala
+Bisonte
+Bonobo
+Anatra di Brewer
+Farfalla
+Gatto
+Ghepardo
+Oca cereopside
+Pollo
+Chihuahua
+Scimpanzé
+Cincillà
+Coati
+Mucca
+Coccodrillo
+Cane
+Delfino
+Asino nano
+Lontra nana
+Pinguino minore
+Gufo reale
+Anguilla elettrica
+Elefante
+Pinguino imperatore
+Emù
+Furetto
+Moretta tabaccata
+Pesce
+Fenicottero
+Volpe
+Rana
+Giraffa
+Capra
+Gorilla
+Oca selvatica
+Pappagallo cenerino
+Grizzly
+Porcellino d'India
+Riccio
+Ippopotamo
+Cavallo
+Asino domestico
+Iena
+Volpe artica
+Giaguaro
+Medusa
+Canguro
+Pitone reale
+Koala
+Leopardo
+Leone
+Lama
+Maine Coon
+Mandrillo
+Suricato
+Topo
+Bue muschiato
+Orango
+Lontra
+Bue
+Panda
+Pappagallo
+Pinguino
+Orso polare
+Coniglio
+Procione
+Volpe rossa
+Renna
+Rinoceronte
+Piccione selvatico
+Tigre reale
+Cavalluccio marino
+Foca
+Squalo
+Cane da pastore
+Chiocciola
+Leopardo delle nevi
+Civetta delle nevi
+Orso dagli occhiali
+Pinguino africano
+Ragno
+Scoiattolo
+Coturnice
+Pesce gatto storione
+Rinoceronte indiano
+Rospo
+Tricheco
+Vespa
+Rinoceronte bianco
+Licaone
+Lupo
+Yak
+Zebra
+Alfa Romeo
+BMW Alpina
+Aston Martin
+Audi
+Bentley
+BMW
+Bugatti
+Buick
+Cadillac
+Chevrolet
+Chrysler
+Citroën
+Corvette
+Dacia
+Daewoo
+DAF
+Daihatsu
+De Lorean
+De Tomaso
+Dodge
+Ferrari
+Fiat
+Ford
+GAZ
+GMC
+Holden
+Honda
+Hummer
+Hyundai
+Infiniti
+Isuzu
+Iveco
+Jaguar
+Jeep
+Kia
+Königsegg
+Lada
+Lamborghini
+Lancia
+Land Rover
+Lexus
+Lincoln
+Lotus
+Maserati
+Maybach
+Mazda
+McLaren
+Mercedes-AMG
+Mercedes-Benz
+MG
+Mini
+Mitsubishi
+Morgan
+Moskvitch
+Nissan
+Oldsmobile
+Opel
+Pagani
+Peugeot
+Piaggio
+Plymouth
+Polaris
+Pontiac
+Porsche
+Renault
+Rolls Royce
+Rover
+Saab
+Seat
+Scania
+Skoda
+Smart
+Subaru
+Suzuki
+Tesla
+Toyota
+Trabant
+Triumph
+TVR
+UAZ
+Vauxhall
+Volvo
+Volkswagen
+Wartburg
+Purea di mele
+Svizzera di manzo
+Bistecca di manzo
+Prosciutto alla birra
+Birra
+Big Mac
+Bratwurst
+Pane nero
+Budweiser
+Burger King
+Burro
+Camembert
+Carlsberg
+Filetto di petto di pollo
+Cioccolato
+Ciabatta
+Salsa cocktail
+Cola
+Cornflakes
+Corona
+Torta alla panna
+Formaggio cremoso
+Budino alla panna
+Panna
+Pane croccante
+Croissant
+Crocchette
+Crème fraîche
+Currywurst
+Ciambella
+Frutta secca
+Anatra
+Dunkin Donuts
+Döner Kebab
+Dürüm
+Uova
+Falafel
+Bastoncini di pesce
+Patatine fritte
+Patate saltate
+Polpetta
+Pizza surgelata
+Verdure surgelate
+Succo di frutta
+Frutta
+Torta di frutta
+Oca
+Gouda
+Insalata verde
+Carne macinata di manzo
+Burro leggero
+Croissant prosciutto e formaggio
+Hamburger
+Heineken
+Formaggio fresco alle erbe
+Filetto di aringa
+Salsa olandese
+Miele
+Hot dog
+Gelato
+Jack Daniels
+Gelatina
+Johnnie Walker
+KFC
+Limonata
+Liquirizia
+Liquore
+Salsiccia di fegato
+Sgombro
+Margarina
+Marmellata
+Marzapane
+Mascarpone
+Maionese
+McDonalds
+Latte
+Carne macinata
+Mousse
+Mozzarella
+Muesli
+Birra analcolica
+Crema alla nocciola
+Nutella
+Noci
+Olive
+Arance
+Pancake
+Pasta
+Pesto
+Pizza Hut
+Merluzzo
+Popcorn
+Costoletta di maiale
+Cotoletta di maiale
+Patatine
+Impasto per gnocchi di patate
+Insalata di patate
+Patate
+Budino
+Pasta sfoglia
+Gallette di riso
+Riso
+Pollo arrosto
+Aringa arrotolata
+Panini
+Condimento per insalata
+Salame
+Salmone
+Cracker salati
+Budino di semolino
+Gamberetti
+Zuppa
+Panna acida
+Spumante
+Quark
+Pan di Spagna
+Spätzle
+Starbucks
+Bistecca
+Subway
+Olio di semi di girasole
+Sushi
+Tiramisù
+Toast Hawaii
+Toast
+Salsa di pomodoro
+Trota
+Verdure
+Whisky
+Pane bianco
+Würstel
+Vino
+Yogurt
+Freno pneumatico
+Dirigibile
+Antenna
+Nebulizzatore
+Zaino
+Teglia
+Cuscinetto a sfera
+Biancheria da letto
+Blu-ray
+Ciotola
+Scopa
+Portaburro
+Avvolgicavo
+Cavo
+Campana per torte
+Pala per torta
+Apriscatole
+Battitappeto
+Tappeto
+Registratore a cassette
+CD
+Centrifuga
+Bacchette
+Secchio per le pulizie
+Filo stendibiancheria
+Molletta
+Gruccia
+Filtro per caffè
+Macchina del caffè
+Caffettiera
+Scolapasta
+Mouse
+Tomografo computerizzato
+Computer
+Lenti a contatto
+Cavatappi
+Carta di credito
+Posate
+Tagliere
+Fotocamera digitale
+Strofinacci
+Stoviglie
+Lavastoviglie
+Panno per la polvere
+Paletta
+DVD
+Dinamo
+Portauovo
+Cuociuova
+Timer da cucina
+Cyclette
+Prolunga
+Termoventilatore
+Ventilatore
+Piumino per la polvere
+Bandiera
+Torcia
+Penna stilografica
+Motore a quattro tempi
+Congelatore
+Schiaccia-aglio
+Turbina a gas
+Motore a benzina
+Contatore Geiger
+Asciugacapelli
+Martello
+Aspirabriciole
+Hard disk
+Termocoperta
+Termoforo
+Elicottero
+Idropulitrice
+Home theater
+Forbici
+Hovercraft
+Umidificatore
+Bomba a idrogeno
+Stampante a getto d'inchiostro
+Ferro da stiro
+Asse da stiro
+Motore a reazione
+Aereo a reazione
+Bollitore
+Tastiera
+Scopa da cucina
+Coltello da cucina
+Bilancia da cucina
+Carta da cucina
+Scala
+Stampante laser
+Cesta del bucato
+Lampadina
+Disco in vinile
+Specchio per il trucco
+Massaggiatore
+Monitor
+Mocio
+Tappetino per mouse
+Presa multipla
+Forbicine per unghie
+Pacemaker
+Lucchetto
+Bilancia pesapersone
+Telefono
+Cuscino
+Sturalavandini
+Pentola
+Schiacciapatate
+Pelapatate
+Ferrovia
+Frigorifero
+Posate da insalata
+Satellite
+Spazzolone
+Ago da cucito
+Filo da cucito
+Lucidascarpe
+Tenda da doccia
+Smartphone
+Cella solare
+Saldatore
+Candela
+Bomboletta spray
+Ferro da stiro a vapore
+Cucchiaio da cucina
+Tram
+Lettino abbronzante
+Tovaglia
+Carro armato
+Teiera
+Colino per tè
+Telegrafo
+Tostapane
+Scopino del water
+Portarotolo
+Portaspazzolini
+Touchpad
+Transistor
+Pattumiera
+Vassoio
+Zaino da trekking
+TV
+Macchina da scrivere
+Cavo USB
+Chiavetta USB
+Aspirapolvere
+Guardaroba
+Lavasciuga
+Lavatrice
+Materasso ad acqua
+Annaffiatoio
+Frusta
+Ad Blocker
+Amazon
+App Store
+Avatar
+Bitcoin
+Blockchain
+Blog
+Browser
+Cloud
+Coinbase
+Dark Web
+Download
+eBay
+eBook
+Emoticon
+Facebook
+Google
+Hacker
+Hype
+Influencer
+Instagram
+Posta indesiderata
+Login
+Logout
+Malware
+Menzione
+Nerd
+Netflix
+Newsletter
+Incontri online
+Password
+PayPal
+Pinterest
+Privacy
+Reddit
+Signal
+Snapchat
+Spam
+Spotify
+Telegram
+Tidal
+Tinder
+Tweet
+Twitch
+Twitter
+Aggiornamento
+Virale
+Virus
+VPN
+Webcam
+WhatsApp
+Wikipedia
+YouTube

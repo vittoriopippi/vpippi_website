@@ -120,6 +120,19 @@ def lobby(request, code):
 def start_round(request, code, round_number):
     """Start a specific round"""
     game = get_object_or_404(Game, code=code)
+
+    if round_number not in (1, 2, 3):
+        return redirect('timesup:lobby', code=game.code)
+
+    # If this round already has guesses recorded, do not allow restarting it via URL.
+    # Restarting would reset card flags but keep scores/records, inflating points beyond deck size.
+    if GameRound.objects.filter(game=game, round_number=round_number).exists():
+        return redirect('timesup:lobby', code=game.code)
+
+    # If the round is already in progress, just continue playing.
+    if game.status == 'playing' and game.current_round == round_number:
+        return redirect('timesup:play', code=game.code)
+
     game.start_round(round_number)
     return redirect('timesup:play', code=game.code)
 
@@ -205,12 +218,17 @@ def card_guessed(request, code):
     card_id = data.get('card_id')
     
     card = get_object_or_404(Card, id=card_id, game=game)
-    card.guessed_in_current_round = True
-    card.save()
+    if not card.guessed_in_current_round:
+        card.guessed_in_current_round = True
+        card.save()
     
     # Record the guess
     current_team = game.get_current_team()
-    if current_team:
+    if current_team and not GameRound.objects.filter(
+        game=game,
+        round_number=game.current_round,
+        card=card,
+    ).exists():
         GameRound.objects.create(
             game=game,
             team=current_team,
@@ -253,7 +271,11 @@ def submit_turn(request, code):
                 card.save()
                 
                 # Record the guess
-                if current_team:
+                if current_team and not GameRound.objects.filter(
+                    game=game,
+                    round_number=game.current_round,
+                    card=card,
+                ).exists():
                     GameRound.objects.create(
                         game=game,
                         team=current_team,

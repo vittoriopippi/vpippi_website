@@ -1,4 +1,5 @@
 {% extends 'timesup/base.html' %}
+{% load static %}
 
 {% block title %}Playing - Times Up!{% endblock %}
 
@@ -96,6 +97,9 @@ body {
     </div>
 </div>
 
+<audio id="sfx-correct" preload="auto" src="{% static 'timesup/audio/correct.mp3' %}"></audio>
+<audio id="sfx-warning" preload="auto" src="{% static 'timesup/audio/analog-time-5.mp3' %}"></audio>
+
 <script>
 let timerInterval = null;
 let timeLeft = {{ game.turn_duration }};
@@ -111,10 +115,148 @@ const turnDuration = {{ game.turn_duration }};
 const gameCode = '{{ game.code }}';
 const currentTeamIndex = {{ game.current_team_index }};
 
+// Sounds (Web Audio) - created only after user gesture (Start Turn)
+let audioCtx = null;
+
+function ensureAudio() {
+    if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return null;
+        audioCtx = new Ctx();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+}
+
+function playTone({ frequency, durationMs, type = 'sine', gain = 0.06 }) {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = frequency;
+
+    g.gain.setValueAtTime(0.0001, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(gain, ctx.currentTime + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (durationMs / 1000));
+
+    osc.connect(g);
+    g.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + (durationMs / 1000) + 0.02);
+}
+
+function playGuessSound() {
+    // Prefer custom audio; fallback to a short tone
+    if (!playAudio('sfx-correct')) {
+        playTone({ frequency: 880, durationMs: 90, type: 'triangle', gain: 0.05 });
+    }
+}
+
+function playTimeUpSound() {
+    // quick double-beep
+    playTone({ frequency: 220, durationMs: 180, type: 'square', gain: 0.07 });
+    setTimeout(() => playTone({ frequency: 165, durationMs: 220, type: 'square', gain: 0.07 }), 200);
+}
+
 // Check if there's a card from the previous turn that we should exclude
 const lastCardKey = `lastCard_${gameCode}_round{{ game.current_round }}`;
 const lastTeamKey = `lastTeam_${gameCode}_round{{ game.current_round }}`;
 let excludeCardId = null;
+let timeUpPlayed = false;
+let warningStarted = false;
+let excludeOnFirstPick = null;
+
+function getAudioEl(id) {
+    return document.getElementById(id);
+}
+
+async function primeAudio() {
+    // Best-effort: unlock audio after the Start Turn click.
+    const els = [getAudioEl('sfx-correct'), getAudioEl('sfx-warning')].filter(Boolean);
+    for (const el of els) {
+        const prevVolume = el.volume;
+        try {
+            el.volume = 0;
+            el.currentTime = 0;
+            await el.play();
+            el.pause();
+            el.currentTime = 0;
+        } catch (e) {
+            // Ignore autoplay restrictions; user may need another gesture.
+        } finally {
+            el.volume = prevVolume;
+        }
+    }
+}
+
+function playAudio(id) {
+    const el = getAudioEl(id);
+    if (!el) return false;
+    try { el.currentTime = 0; } catch (e) {}
+    el.play().catch(() => {});
+    return true;
+}
+
+function stopAudio(id) {
+    const el = getAudioEl(id);
+    if (!el) return;
+    try {
+        el.pause();
+        el.currentTime = 0;
+    } catch (e) {}
+}
+
+function waitForAudioToFinish(id, maxWaitMs = 8000) {
+    const el = getAudioEl(id);
+    if (!el) return Promise.resolve();
+
+    // If it isn't playing (or metadata unknown), don't block.
+    if (el.paused) return Promise.resolve();
+
+    let waitMs = maxWaitMs;
+    if (Number.isFinite(el.duration) && Number.isFinite(el.currentTime)) {
+        const remainingMs = Math.max(0, (el.duration - el.currentTime) * 1000);
+        waitMs = Math.min(maxWaitMs, Math.ceil(remainingMs + 150));
+    }
+
+    return new Promise((resolve) => {
+        let done = false;
+        const finish = () => {
+            if (done) return;
+            done = true;
+            try { el.removeEventListener('ended', finish); } catch (e) {}
+            resolve();
+        };
+
+        try { el.addEventListener('ended', finish, { once: true }); } catch (e) {}
+        setTimeout(finish, waitMs);
+    });
+}
+
+function setWaitingForReloadUI(isWaiting) {
+    const ids = ['got-it-btn', 'pass-btn', 'end-turn-btn', 'undo-btn'];
+    for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (isWaiting) {
+            el.disabled = true;
+            el.style.opacity = '0.5';
+            el.style.cursor = 'not-allowed';
+            el.style.pointerEvents = 'none';
+        }
+    }
+
+    const endBtn = document.getElementById('end-turn-btn');
+    if (isWaiting && endBtn) {
+        endBtn.textContent = 'Waiting for sound…';
+        endBtn.style.display = 'inline-block';
+    }
+}
 
 // If the team has changed, exclude the last card shown
 const lastTeamIndex = sessionStorage.getItem(lastTeamKey);
@@ -125,6 +267,10 @@ if (lastTeamIndex !== null && parseInt(lastTeamIndex) !== currentTeamIndex) {
 async function startTurn() {
     if (isProcessing) return;
     isProcessing = true;
+
+    // Initialize audio on user gesture (required by browsers)
+    ensureAudio();
+    await primeAudio();
     
     document.getElementById('start-turn-btn').style.display = 'none';
     document.getElementById('got-it-btn').style.display = 'inline-block';
@@ -139,12 +285,16 @@ async function startTurn() {
     guessedCards = [];
     passedCards = [];
     cardIndex = 0;
+    timeUpPlayed = false;
+    warningStarted = false;
+    stopAudio('sfx-warning');
+
+    // Only avoid showing the previous team's last card as the *first* card.
+    // Do not exclude it from the whole deck (that can make a 40-card round appear as 39).
+    excludeOnFirstPick = excludeCardId;
     
     // Preload all remaining cards for this turn
     let url = '{% url "timesup:get_card" game.code %}?all=true';
-    if (excludeCardId) {
-        url += `&exclude=${excludeCardId}`;
-    }
     
     const response = await fetch(url);
     const data = await response.json();
@@ -174,6 +324,11 @@ function startTimer() {
     timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').textContent = timeLeft;
+
+        if (timeLeft === 5 && !warningStarted) {
+            warningStarted = true;
+            playAudio('sfx-warning');
+        }
         
         if (timeLeft <= 5) {
             document.getElementById('timer').classList.add('timer-warning');
@@ -181,6 +336,7 @@ function startTimer() {
         
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
+            timeUpPlayed = true;
             endTurn();
         }
     }, 1000);
@@ -190,6 +346,8 @@ function showCurrentCard() {
     // Find next unguessed, non-passed card
     let foundCard = false;
     let attempts = 0;
+
+    const isGuessed = (cardId) => guessedCards.some(c => String(c.id) === String(cardId));
     
     while (!foundCard && attempts < allCards.length) {
         if (cardIndex >= allCards.length) {
@@ -198,9 +356,12 @@ function showCurrentCard() {
             cardIndex = 0;
         }
         
-        if (!passedCards.includes(cardIndex)) {
-            currentCard = allCards[cardIndex];
+        const candidate = allCards[cardIndex];
+        const isExcludedFirst = excludeOnFirstPick && candidate && (String(candidate.id) === String(excludeOnFirstPick));
+        if (!passedCards.includes(cardIndex) && candidate && !isGuessed(candidate.id) && !isExcludedFirst) {
+            currentCard = candidate;
             foundCard = true;
+            excludeOnFirstPick = null;
         } else {
             cardIndex++;
         }
@@ -209,9 +370,10 @@ function showCurrentCard() {
     
     if (!foundCard || !currentCard) {
         // All cards passed or none available
-        if (allCards.length > 0) {
-            currentCard = allCards[0];
-            cardIndex = 0;
+        const fallbackIndex = allCards.findIndex(c => c && !isGuessed(c.id));
+        if (fallbackIndex >= 0) {
+            currentCard = allCards[fallbackIndex];
+            cardIndex = fallbackIndex;
             passedCards = [];
         } else {
             return;
@@ -247,6 +409,8 @@ async function cardGuessed() {
         index: cardIndex
     };
     guessedCards.push(lastGuessedCard);
+
+    playGuessSound();
     
     // Enable undo button
     document.getElementById('undo-btn').disabled = false;
@@ -262,8 +426,23 @@ async function cardGuessed() {
         document.getElementById('end-turn-btn').disabled = true;
         document.getElementById('undo-btn').disabled = true;
         
-        await submitTurnResults();
-        window.location.href = '{% url "timesup:round_complete" game.code %}';
+        const results = await submitTurnResults();
+        if (results && results.complete) {
+            window.location.href = '{% url "timesup:round_complete" game.code %}';
+            return;
+        }
+
+        // Not actually complete (e.g., an excluded/remaining card exists). Advance to next team.
+        const response = await fetch('{% url "timesup:end_turn" game.code %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        });
+        if (response.ok) {
+            window.location.reload();
+        }
         return;
     }
     
@@ -363,7 +542,9 @@ async function endTurn() {
     });
     
     if (response.ok) {
-        // Immediately reload to show next team
+        setWaitingForReloadUI(true);
+        // Let the warning sound finish before reloading (otherwise the reload cuts audio).
+        await waitForAudioToFinish('sfx-warning');
         window.location.reload();
     }
 }
