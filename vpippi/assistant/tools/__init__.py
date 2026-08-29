@@ -7,6 +7,7 @@ WRITE_VALIDATORS -- run immediately when the model calls a mutating tool;
 WRITE_APPLIERS   -- run only when the user confirms a PendingAction.
 """
 from . import cv_content as cvc
+from . import job_content as jobc
 
 
 def _prop(type_, description, enum=None):
@@ -102,11 +103,61 @@ FUNCTION_DECLARATIONS = [
         ),
         'parameters': _obj({'slug': _prop('string', 'The CVVariant slug to lock.')}, ['slug']),
     },
+    # --- job application tools --------------------------------------------
+    {
+        'name': 'list_job_applications',
+        'description': 'List tracked job applications (id, title, company, status, location, applied_date, job_url, updated_at). Optionally filter by status.',
+        'parameters': _obj({
+            'status': _prop('string', 'Only return applications with this status.', enum=jobc.VALID_STATUSES),
+        }, []),
+    },
+    {
+        'name': 'get_job_application',
+        'description': 'Get one job application in full, including its notes.',
+        'parameters': _obj({'id': _prop('integer', 'The job application id.')}, ['id']),
+    },
+    {
+        'name': 'create_job_application',
+        'description': 'Add a new job application to the tracker.',
+        'parameters': _obj({
+            'title': _prop('string', 'Job title.'),
+            'company': _prop('string', 'Company name.'),
+            'status': _prop('string', "Application status. Defaults to 'Applied'.", enum=jobc.VALID_STATUSES),
+            'location': _prop('string', "Job location. Defaults to 'Zurich' if omitted."),
+            'applied_date': _prop('string', "Date applied, ISO format 'YYYY-MM-DD'. Defaults to unset."),
+            'job_url': _prop('string', 'Link to the job posting, if known.'),
+            'notes': _prop('string', 'Any free-text notes about this application.'),
+        }, ['title', 'company']),
+    },
+    {
+        'name': 'update_job_application',
+        'description': 'Update fields of an existing job application (e.g. move it to Interviewing/Offer/Rejected, or add notes). Omit fields you are not changing.',
+        'parameters': _obj({
+            'id': _prop('integer', 'The job application id to update.'),
+            'title': _prop('string', 'New job title.'),
+            'company': _prop('string', 'New company name.'),
+            'status': _prop('string', 'New status.', enum=jobc.VALID_STATUSES),
+            'location': _prop('string', 'New location.'),
+            'applied_date': _prop('string', "New applied date, ISO format 'YYYY-MM-DD'."),
+            'job_url': _prop('string', 'New job posting link.'),
+            'notes': _prop('string', 'New free-text notes (replaces the existing notes).'),
+        }, ['id']),
+    },
+    {
+        'name': 'delete_job_application',
+        'description': (
+            'Delete a job application entirely. Like delete_cv_variant, this does NOT apply immediately '
+            '— it stages the deletion and the user must click Confirm in the chat UI.'
+        ),
+        'parameters': _obj({'id': _prop('integer', 'The job application id to delete.')}, ['id']),
+    },
 ]
 
 READ_HANDLERS = {
     'list_cv_variants': cvc.list_cv_variants,
     'get_cv_variant': cvc.get_cv_variant,
+    'list_job_applications': jobc.list_job_applications,
+    'get_job_application': jobc.get_job_application,
 }
 
 WRITE_VALIDATORS = {
@@ -117,6 +168,9 @@ WRITE_VALIDATORS = {
     'update_cv_variant': cvc.validate_update_cv_variant,
     'delete_cv_variant': cvc.validate_delete_cv_variant,
     'lock_cv_variant': cvc.validate_lock_cv_variant,
+    'create_job_application': jobc.validate_create_job_application,
+    'update_job_application': jobc.validate_update_job_application,
+    'delete_job_application': jobc.validate_delete_job_application,
 }
 
 WRITE_APPLIERS = {
@@ -127,6 +181,9 @@ WRITE_APPLIERS = {
     'update_cv_variant': cvc.apply_update_cv_variant,
     'delete_cv_variant': cvc.apply_delete_cv_variant,
     'lock_cv_variant': cvc.apply_lock_cv_variant,
+    'create_job_application': jobc.apply_create_job_application,
+    'update_job_application': jobc.apply_update_job_application,
+    'delete_job_application': jobc.apply_delete_job_application,
 }
 
 assert set(WRITE_VALIDATORS) == set(WRITE_APPLIERS)

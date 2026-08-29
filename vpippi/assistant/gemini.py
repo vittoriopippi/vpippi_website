@@ -20,10 +20,11 @@ MAX_TOOL_ITERATIONS = 25
 
 # Only these tools stage a PendingAction and wait for an explicit Confirm click in the
 # chat UI. Every other write executes immediately once the model calls it.
-REQUIRES_CONFIRMATION = {'delete_cv_variant'}
+REQUIRES_CONFIRMATION = {'delete_cv_variant', 'delete_job_application'}
 
-SYSTEM_INSTRUCTION = """You help maintain Vittorio Pippi's CV, published as a Django site with multiple \
-CV "variants" (one per URL: the default variant is served at the site root, others at /cv/<slug>/).
+SYSTEM_INSTRUCTION = """You help maintain Vittorio Pippi's CV and job application tracker, published as a \
+Django site with multiple CV "variants" (one per URL: the default variant is served at the site root, \
+others at /cv/<slug>/) and a job board at /jobs/ listing tracked job applications.
 
 Each CV variant is exactly ONE self-contained document: `content_md`. There is nothing else — no separate \
 tables for work experience, education, publications, or contact links. content_md holds the entire visible \
@@ -83,6 +84,20 @@ point them to the admin — don't retry the same edit.
 issue them together in the same turn rather than one call, one reply, one call — you're allowed to call \
 multiple tools at once. You have a limited number of tool-call rounds per message, so batching matters for \
 bulk operations.
+
+Job application tracker (list_job_applications, get_job_application, create_job_application, \
+update_job_application, delete_job_application):
+- The user will typically paste a job posting, an email, or a short note ("applied to X at Y today", \
+"got an interview with Z", "rejected by W") — turn that into the right tool call rather than asking for a \
+rigid form. If the status isn't mentioned, default to 'Applied'; if the location isn't mentioned, default \
+to 'Zurich'; if the applied date isn't mentioned, leave it unset (don't guess a date).
+- Before updating or deleting, call list_job_applications (optionally filtered by status) to find the \
+right id by matching company/title — never guess an id.
+- create_job_application and update_job_application apply IMMEDIATELY when you call them — describe what \
+you did in the past tense, not what you're about to do.
+- delete_job_application is the one exception: it only STAGES the deletion — the user must click Confirm \
+in the chat UI before anything is actually deleted. After calling it, tell the user it's awaiting their \
+confirmation, not that it's already deleted.
 """
 
 

@@ -1,14 +1,15 @@
 from cv.models import CVVariant
 from django.db import transaction
 from django.utils import timezone
+from jobs.models import JobApplication
 
 from .models import PendingAction
 from .tools import WRITE_APPLIERS
 
 
 def _affected_label(tool_name, arguments):
-    """Best-effort label of the CVVariant a write tool touches, resolved
-    BEFORE the write is applied so it still works for delete_cv_variant."""
+    """Best-effort label of the CVVariant/JobApplication a write tool touches,
+    resolved BEFORE the write is applied so it still works for the delete tools."""
     if tool_name == 'create_cv_variant':
         return arguments.get('label')
     if tool_name == 'create_cv_variant_from':
@@ -17,6 +18,11 @@ def _affected_label(tool_name, arguments):
         new_label = (arguments.get('changes') or {}).get('label')
         if new_label:
             return new_label
+    if tool_name == 'create_job_application':
+        return f"{arguments.get('title')} @ {arguments.get('company')}"
+    if tool_name in ('update_job_application', 'delete_job_application'):
+        app = JobApplication.objects.filter(pk=arguments.get('id')).first()
+        return f"{app.title} @ {app.company}" if app else None
     slug = arguments.get('slug')
     if not slug:
         return None

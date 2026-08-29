@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'acknowledgements.apps.AcknowledgementsConfig',
     'party.apps.PartyConfig',
     'cv.apps.CvConfig',
+    'jobs.apps.JobsConfig',
     'assistant.apps.AssistantConfig',
     'tears.apps.TearsConfig',
     'timesup.apps.TimesupConfig',
