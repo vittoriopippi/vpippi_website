@@ -13,6 +13,21 @@
   #content > br.clear { display: none; }
   .main > .content { max-width: none; }
 
+  .cva-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--cva-text);
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+  .cva-menu-btn svg { width: 22px; height: 22px; display: block; }
+
+  .cva-sidebar-backdrop {
+    display: none;
+  }
+
   .cva-app {
     --cva-bg: #212121;
     --cva-sidebar-bg: #171717;
@@ -289,6 +304,49 @@
   }
   #cva-send:disabled { opacity: 0.5; cursor: default; }
   #cva-send svg { width: 16px; height: 16px; }
+
+  @media (max-width: 768px) {
+    .cva-menu-btn { display: block; }
+
+    .cva-sidebar {
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+      width: min(80vw, 300px);
+    }
+    .cva-app.cva-sidebar-open .cva-sidebar { transform: translateX(0); }
+
+    .cva-sidebar-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 15;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .cva-app.cva-sidebar-open .cva-sidebar-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cva-topbar { padding: 10px 12px; gap: 8px; }
+    .cva-topbar .cva-title { font-size: 0.9rem; }
+    .cva-topbar select { font-size: 0.78rem; padding: 5px 6px; max-width: 40vw; }
+    #cva-model-status { display: none; }
+
+    #cva-messages { padding: 16px 12px; }
+    #cva-pending { padding: 0 12px 10px; }
+    .cva-composer { padding: 10px 12px 14px; }
+    .cva-msg .content { max-width: 88%; font-size: 0.95rem; }
+    #cva-input { font-size: 16px; }
+  }
 </style>
 {% endblock %}
 
@@ -320,9 +378,14 @@
     </div>
   </div>
 
+  <div class="cva-sidebar-backdrop"></div>
+
   <div class="cva-main">
     {% csrf_token %}
     <div class="cva-topbar">
+      <button type="button" class="cva-menu-btn" id="cva-menu-btn" aria-label="Toggle conversations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
+      </button>
       <span class="cva-title">CV Assistant</span>
       <select id="cva-model-select">
         {% for m in available_models %}
@@ -369,12 +432,24 @@
 <script>
 (function () {
   const sessionId = {{ session.pk }};
+  const appEl = document.querySelector('.cva-app');
   const messagesEl = document.getElementById('cva-messages');
   const pendingEl = document.getElementById('cva-pending');
   const input = document.getElementById('cva-input');
   const sendBtn = document.getElementById('cva-send');
   const modelSelect = document.getElementById('cva-model-select');
   const modelStatus = document.getElementById('cva-model-status');
+  const menuBtn = document.getElementById('cva-menu-btn');
+  const sidebarBackdrop = document.querySelector('.cva-sidebar-backdrop');
+
+  function closeSidebar() { appEl.classList.remove('cva-sidebar-open'); }
+  menuBtn.addEventListener('click', function () {
+    appEl.classList.toggle('cva-sidebar-open');
+  });
+  sidebarBackdrop.addEventListener('click', closeSidebar);
+  document.querySelector('.cva-sidebar-list').addEventListener('click', function (e) {
+    if (e.target.closest('a')) closeSidebar();
+  });
 
   function csrfToken() {
     return document.querySelector('input[name=csrfmiddlewaretoken]').value;
