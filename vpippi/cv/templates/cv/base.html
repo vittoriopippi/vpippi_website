@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CV{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-main: #2b2b2b;
+            --text-muted: #6c757d;
+            --highlight-bg: #e9ecef;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            background-color: #f8f9fa;
+            line-height: 1.5;
+        }
+
+        /* Container designed to emulate a clean A4 resume sheet */
+        .cv-container {
+            max-width: 900px;
+            background-color: #ffffff;
+            margin: 40px auto;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        /* Name Header — applies to any h1 written in plain Markdown too, not just class="name" */
+        .cv-container h1 {
+            font-weight: 500;
+            font-size: 1.43rem;
+            color: #111111;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        /* Section Headings — applies to any h2 written in plain Markdown too, not just class="section-title" */
+        .cv-container h2 {
+            font-weight: 400;
+            font-size: 1.43rem;
+            color: #111111;
+            margin-top: 2.2rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        /* Baseline styling for plain Markdown body text, so a CV written without any
+           custom HTML still looks on-brand. More specific component rules below
+           (.contact-info a, .cv-entry-title a, ...) intentionally come AFTER this
+           block so they win despite having the same specificity. */
+        .cv-container p,
+        .cv-container li {
+            font-size: 0.92rem;
+            color: #3f3f3f;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .cv-container a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .cv-container a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .contact-info a:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        /* Timeline / Alignment Styles */
+        .cv-row {
+            margin-bottom: 0.8rem;
+        }
+
+        .cv-left-col {
+            font-size: 0.92rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            text-align: right;
+            padding-right: 8px;
+            margin-top: 0;
+        }
+
+        .cv-right-col {
+            border-left: 5px solid #dee2e6;
+            padding-left: 8px;
+            padding-bottom: 2px;
+        }
+
+        /* Text Customizations */
+        .cv-entry-title {
+            font-weight: 400;
+            font-size: 0.92rem;
+            color: #111111;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .cv-entry-desc {
+            font-size: 0.92rem;
+            color: #3f3f3f;
+            font-weight: 300;
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            background-color: var(--highlight-bg);
+            padding: 1px 1px;
+            border-radius: 0;
+            font-weight: 300;
+        }
+
+        /* Publication links */
+        .pub-high, .pub-low {
+            position: relative;
+        }
+
+        .pub-high { --bar-highlight: rgba(173, 46, 146, 0.15); }
+        .pub-low { --bar-highlight: rgba(194, 155, 200, 0.25); }
+
+        .cv-entry-title a {
+            color: #111111;
+            text-decoration: none;
+            padding: 1px 1px;
+            border-radius: 0;
+            background: linear-gradient(to right, var(--bar-highlight) 0%, var(--bar-highlight) 100%) no-repeat left;
+            background-size: 0% 100%;
+            transition: background-size 0.3s ease;
+        }
+
+        .cv-entry-title a::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .pub-high:hover .cv-entry-title a,
+        .pub-low:hover .cv-entry-title a {
+            background-size: 100% 100%;
+            color: #111111;
+        }
+
+        /* Section color classes: high = dark/vibrant, mid = medium, low = light */
+        /* Work Experience - Green */
+        .work-high { --bar-color: #0E9547; }
+        .work-mid { --bar-color: #A2CB39; }
+        .work-low { --bar-color: #DBE68D; }
+
+        /* Publications - Purple */
+        .pub-high { --bar-color: #AD2E92; }
+        .pub-low { --bar-color: #C29BC8; }
+
+        /* Education - Orange */
+        .edu-high { --bar-color: #EE5A25; }
+        .edu-mid { --bar-color: #F79F20; }
+        .edu-low { --bar-color: #FFC414; }
+
+        /* Training - Blue */
+        .train-high { --bar-color: #4A4EA1; }
+        .train-mid { --bar-color: #75A7D9; }
+
+        .work-high .cv-right-col, .work-mid .cv-right-col, .work-low .cv-right-col,
+        .pub-high .cv-right-col, .pub-low .cv-right-col,
+        .edu-high .cv-right-col, .edu-mid .cv-right-col, .edu-low .cv-right-col,
+        .train-high .cv-right-col, .train-mid .cv-right-col {
+            border-color: var(--bar-color);
+        }
+
+        .oral-label {
+            display: block;
+        }
+
+        /* Responsive refinements */
+        @media (max-width: 767.98px) {
+            .cv-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            .cv-left-col {
+                text-align: left;
+                padding-right: 0;
+                margin-bottom: 4px;
+            }
+            .cv-right-col {
+                border-left: 5px solid #dee2e6;
+                padding-left: 12px;
+                padding-bottom: 0.6rem;
+            }
+            .oral-label {
+                display: inline;
+            }
+        }
+
+        /* High-quality PDF export print rules */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .cv-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+            a {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+{% block body %}{% endblock body %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block script %}
+<script>
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+</script>
+{% endblock script %}
+</body>
+</html>

@@ -20,11 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", include("main.urls")),
+    path("", include("cv.urls")),
     # path("game/", include("game.urls")),
-    path("party/", include("party.urls")),
+    # path("party/", include("party.urls")),
     path("acknowledgements/", include("acknowledgements.urls")),
-    path("timesup/", include("timesup.urls")),
+    # path("timesup/", include("timesup.urls")),
+    path("assistant/", include("assistant.urls")),
     # path("wrappiantino/", include("tears.urls")),
     # path("user_study/", include("user_study_emuru.urls")),
     path('admin/', admin.site.urls),

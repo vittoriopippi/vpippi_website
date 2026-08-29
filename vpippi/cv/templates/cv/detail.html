@@ -1,0 +1,10 @@
+{% extends 'cv/base.html' %}
+{% load cv_extras %}
+
+{% block title %}{{ variant.page_title|default:variant.label }}{% endblock %}
+
+{% block body %}
+<div class="cv-container">
+    {{ variant.content_md|markdownify }}
+</div>
+{% endblock %}

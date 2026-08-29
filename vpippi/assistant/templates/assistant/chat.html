@@ -1,0 +1,521 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}CV Assistant{% endblock %}
+
+{% block header %}{% endblock %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+  #content { padding: 0; }
+  #content > br.clear { display: none; }
+  .main > .content { max-width: none; }
+
+  .cva-app {
+    --cva-bg: #212121;
+    --cva-sidebar-bg: #171717;
+    --cva-border: #2f2f2f;
+    --cva-text: #ececec;
+    --cva-text-muted: #9b9b9b;
+    --cva-hover: #2a2a2a;
+    --cva-active: #333333;
+    --cva-bubble-user: #2f2f2f;
+    --cva-accent: #ececec;
+    --cva-accent-text: #171717;
+    --cva-warn-border: #6b5400;
+    --cva-warn-bg: #3a2f00;
+    --cva-warn-text: #f3d98b;
+    --cva-danger: #ff6b6b;
+    --cva-scrollbar-thumb: rgba(255, 255, 255, 0.15);
+    --cva-scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background: var(--cva-bg);
+    color: var(--cva-text);
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+
+  .cva-app * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cva-scrollbar-thumb) transparent;
+  }
+  .cva-app *::-webkit-scrollbar { width: 10px; height: 10px; }
+  .cva-app *::-webkit-scrollbar-track { background: transparent; }
+  .cva-app *::-webkit-scrollbar-thumb {
+    background-color: var(--cva-scrollbar-thumb);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .cva-app *::-webkit-scrollbar-thumb:hover { background-color: var(--cva-scrollbar-thumb-hover); }
+
+  .cva-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    min-height: 0;
+    background: var(--cva-sidebar-bg);
+    border-right: 1px solid var(--cva-border);
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+  .cva-sidebar form { display: flex; flex-direction: column; gap: 6px; }
+  .cva-sidebar select {
+    background: var(--cva-hover);
+    color: var(--cva-text);
+    border: 1px solid var(--cva-border);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 0.82rem;
+  }
+  .cva-new-btn {
+    background: var(--cva-accent);
+    color: var(--cva-accent-text);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cva-new-btn:hover { opacity: 0.9; }
+  .cva-history-label {
+    margin: 16px 4px 6px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cva-text-muted);
+  }
+  .cva-sidebar-list { overflow-y: auto; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2px; }
+  .cva-sidebar-list a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--cva-text);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cva-sidebar-list a:hover { background: var(--cva-hover); }
+  .cva-sidebar-list a.active { background: var(--cva-active); font-weight: 600; }
+
+  .cva-account {
+    border-top: 1px solid var(--cva-border);
+    padding-top: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--cva-text-muted);
+  }
+  .cva-account a { color: var(--cva-text-muted); text-decoration: none; }
+  .cva-account a:hover { color: var(--cva-text); text-decoration: underline; }
+
+  .cva-main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+
+  .cva-topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--cva-border);
+    font-size: 0.85rem;
+  }
+  .cva-topbar .cva-title { font-weight: 600; margin-right: auto; }
+  .cva-topbar select {
+    background: var(--cva-hover);
+    color: var(--cva-text);
+    border: 1px solid var(--cva-border);
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 0.82rem;
+  }
+  #cva-model-status { color: var(--cva-text-muted); font-style: italic; font-size: 0.78rem; }
+
+  #cva-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 24px 10%;
+  }
+  .cva-msg { display: flex; gap: 10px; margin-bottom: 18px; align-items: flex-start; }
+  .cva-msg.user { flex-direction: row-reverse; }
+  .cva-avatar {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6ee7b7, #3b82f6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: #0b1220;
+  }
+  .cva-msg.user .cva-avatar { visibility: hidden; width: 0; }
+  .cva-msg .content {
+    white-space: pre-wrap;
+    line-height: 1.5;
+    font-size: 0.92rem;
+    max-width: 80%;
+  }
+  .cva-msg.user .content {
+    background: var(--cva-bubble-user);
+    padding: 9px 14px;
+    border-radius: 18px;
+  }
+  .cva-msg.model .content { max-width: 100%; padding-top: 4px; }
+  .cva-msg.model .content.md { white-space: normal; }
+  .cva-msg.model .content.md > *:first-child { margin-top: 0; }
+  .cva-msg.model .content.md > *:last-child { margin-bottom: 0; }
+  .cva-msg.model .content.md p,
+  .cva-msg.model .content.md ul,
+  .cva-msg.model .content.md ol,
+  .cva-msg.model .content.md pre,
+  .cva-msg.model .content.md blockquote,
+  .cva-msg.model .content.md table { margin: 0 0 10px; }
+  .cva-msg.model .content.md h1,
+  .cva-msg.model .content.md h2,
+  .cva-msg.model .content.md h3,
+  .cva-msg.model .content.md h4 { margin: 14px 0 6px; font-size: 1em; font-weight: 700; }
+  .cva-msg.model .content.md ul,
+  .cva-msg.model .content.md ol { padding-left: 22px; }
+  .cva-msg.model .content.md li { margin-bottom: 4px; }
+  .cva-msg.model .content.md a { color: #8ab4ff; }
+  .cva-msg.model .content.md code {
+    background: var(--cva-hover);
+    border: 1px solid var(--cva-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.85em;
+  }
+  .cva-msg.model .content.md pre {
+    background: var(--cva-hover);
+    border: 1px solid var(--cva-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+  }
+  .cva-msg.model .content.md pre code { background: none; border: none; padding: 0; }
+  .cva-msg.model .content.md blockquote {
+    border-left: 3px solid var(--cva-border);
+    padding-left: 12px;
+    color: var(--cva-text-muted);
+  }
+  .cva-msg.model .content.md table { border-collapse: collapse; }
+  .cva-msg.model .content.md th,
+  .cva-msg.model .content.md td { border: 1px solid var(--cva-border); padding: 4px 8px; }
+
+  .cva-typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .cva-typing span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cva-text-muted);
+    animation: cva-typing-bounce 1.2s infinite ease-in-out;
+  }
+  .cva-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .cva-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes cva-typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  #cva-pending { padding: 0 10% 10px; }
+  .cva-action {
+    border: 1px solid var(--cva-warn-border);
+    background: var(--cva-warn-bg);
+    color: var(--cva-warn-text);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+  }
+  .cva-action .summary { margin-bottom: 8px; }
+  .cva-action button {
+    margin-right: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .cva-action .cva-confirm { background: var(--cva-accent); color: var(--cva-accent-text); font-weight: 600; }
+  .cva-action .cva-cancel { background: transparent; color: var(--cva-warn-text); border: 1px solid var(--cva-warn-border); }
+
+  .cva-composer { padding: 14px 10% 20px; }
+  .cva-composer-inner {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: var(--cva-hover);
+    border: 1px solid var(--cva-border);
+    border-radius: 24px;
+    padding: 8px 8px 8px 18px;
+  }
+  #cva-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: var(--cva-text);
+    font-size: 0.92rem;
+    line-height: 1.4;
+    max-height: 160px;
+    font-family: inherit;
+    padding: 6px 0;
+  }
+  #cva-input::placeholder { color: var(--cva-text-muted); }
+  #cva-send {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cva-accent);
+    color: var(--cva-accent-text);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  #cva-send:disabled { opacity: 0.5; cursor: default; }
+  #cva-send svg { width: 16px; height: 16px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cva-app">
+  <div class="cva-sidebar">
+    <form method="post" action="{% url 'assistant:new_session' %}">
+      {% csrf_token %}
+      <select name="model">
+        {% for m in available_models %}
+          <option value="{{ m }}">{{ m }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="cva-new-btn">+ New conversation</button>
+    </form>
+    <div class="cva-history-label">Recent conversations</div>
+    <div class="cva-sidebar-list">
+      {% for s in sessions %}
+        <a href="?session={{ s.pk }}" class="{% if s.pk == session.pk %}active{% endif %}">{{ s }}</a>
+      {% endfor %}
+    </div>
+    <div class="cva-account">
+      <a href="{% url 'admin:index' %}">&larr; Admin</a>
+      <span>{{ request.user.get_short_name|default:request.user.get_username }}</span>
+      <form method="post" action="{% url 'admin:logout' %}" style="margin:0;">
+        {% csrf_token %}
+        <button type="submit" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:0;text-decoration:underline;">Log out</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="cva-main">
+    {% csrf_token %}
+    <div class="cva-topbar">
+      <span class="cva-title">CV Assistant</span>
+      <select id="cva-model-select">
+        {% for m in available_models %}
+          <option value="{{ m }}" {% if m == current_model %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+      <span id="cva-model-status"></span>
+    </div>
+
+    <div id="cva-messages">
+      {% for m in chat_messages %}
+        <div class="cva-msg {{ m.role }}">
+          <div class="cva-avatar">{% if m.role == 'model' %}AI{% endif %}</div>
+          {% if m.html %}
+            <div class="content md">{{ m.html }}</div>
+          {% else %}
+            <div class="content">{{ m.text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div id="cva-pending">
+      {% for pa in pending_actions %}
+        <div class="cva-action" data-id="{{ pa.id }}">
+          <div class="summary"><strong>{{ pa.tool_name }}</strong>: {{ pa.summary }}</div>
+          <button class="cva-confirm">Confirm</button>
+          <button class="cva-cancel">Cancel</button>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="cva-composer">
+      <div class="cva-composer-inner">
+        <textarea id="cva-input" rows="1" placeholder="Ask the assistant to add a paper, edit your summary, create a new CV variant..."></textarea>
+        <button id="cva-send" title="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const sessionId = {{ session.pk }};
+  const messagesEl = document.getElementById('cva-messages');
+  const pendingEl = document.getElementById('cva-pending');
+  const input = document.getElementById('cva-input');
+  const sendBtn = document.getElementById('cva-send');
+  const modelSelect = document.getElementById('cva-model-select');
+  const modelStatus = document.getElementById('cva-model-status');
+
+  function csrfToken() {
+    return document.querySelector('input[name=csrfmiddlewaretoken]').value;
+  }
+
+  function autoGrow() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+  }
+  input.addEventListener('input', autoGrow);
+  autoGrow();
+
+  modelSelect.addEventListener('change', async function () {
+    const model = modelSelect.value;
+    modelStatus.textContent = 'saving...';
+    try {
+      const resp = await fetch('/assistant/sessions/' + sessionId + '/model/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken() },
+        body: JSON.stringify({ model: model }),
+      });
+      const data = await resp.json();
+      modelStatus.textContent = data.error ? data.error : ('using ' + data.model + ' from now on');
+    } catch (err) {
+      modelStatus.textContent = 'Error: ' + err;
+    }
+  });
+
+  function addMessage(role, text, html) {
+    const div = document.createElement('div');
+    div.className = 'cva-msg ' + role;
+    const avatar = document.createElement('div');
+    avatar.className = 'cva-avatar';
+    if (role === 'model') avatar.textContent = 'AI';
+    const content = document.createElement('div');
+    if (role === 'model' && html) {
+      content.className = 'content md';
+      content.innerHTML = html;
+    } else {
+      content.className = 'content';
+      content.textContent = text;
+    }
+    div.appendChild(avatar);
+    div.appendChild(content);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function addPendingAction(action) {
+    const div = document.createElement('div');
+    div.className = 'cva-action';
+    div.dataset.id = action.id;
+    div.innerHTML =
+      '<div class="summary"><strong>' + action.tool_name + '</strong>: ' + action.summary + '</div>' +
+      '<button class="cva-confirm">Confirm</button>' +
+      '<button class="cva-cancel">Cancel</button>';
+    pendingEl.appendChild(div);
+  }
+
+  async function resolveAction(id, action, cardEl) {
+    cardEl.querySelectorAll('button').forEach(b => b.disabled = true);
+    try {
+      const resp = await fetch('/assistant/actions/' + id + '/' + action + '/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken() },
+      });
+      const data = await resp.json();
+      if (data.success) {
+        cardEl.remove();
+      } else {
+        cardEl.querySelectorAll('button').forEach(b => b.disabled = false);
+        const status = document.createElement('div');
+        status.textContent = data.message;
+        status.style.marginTop = '6px';
+        status.style.fontStyle = 'italic';
+        status.style.color = '#ff6b6b';
+        cardEl.appendChild(status);
+      }
+    } catch (err) {
+      cardEl.querySelectorAll('button').forEach(b => b.disabled = false);
+      const status = document.createElement('div');
+      status.textContent = 'Error: ' + err;
+      status.style.marginTop = '6px';
+      status.style.fontStyle = 'italic';
+      status.style.color = '#ff6b6b';
+      cardEl.appendChild(status);
+    }
+  }
+
+  pendingEl.addEventListener('click', function (e) {
+    const card = e.target.closest('.cva-action');
+    if (!card) return;
+    if (e.target.classList.contains('cva-confirm')) resolveAction(card.dataset.id, 'confirm', card);
+    if (e.target.classList.contains('cva-cancel')) resolveAction(card.dataset.id, 'cancel', card);
+  });
+
+  function addTypingIndicator() {
+    const div = document.createElement('div');
+    div.className = 'cva-msg model';
+    div.innerHTML =
+      '<div class="cva-avatar">AI</div>' +
+      '<div class="content"><span class="cva-typing"><span></span><span></span><span></span></span></div>';
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  async function send() {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    autoGrow();
+    sendBtn.disabled = true;
+    addMessage('user', text);
+    const typingEl = addTypingIndicator();
+    try {
+      const resp = await fetch('{% url "assistant:send" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken() },
+        body: JSON.stringify({ session_id: sessionId, message: text }),
+      });
+      const data = await resp.json();
+      typingEl.remove();
+      if (data.error) {
+        addMessage('model', 'Error: ' + data.error);
+      } else {
+        if (data.reply) addMessage('model', data.reply, data.reply_html);
+        (data.pending_actions || []).forEach(addPendingAction);
+      }
+    } catch (err) {
+      typingEl.remove();
+      addMessage('model', 'Error: ' + err);
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+})();
+</script>
+{% endblock %}

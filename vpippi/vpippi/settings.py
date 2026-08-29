@@ -10,10 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# .env lives at the repo root (alongside requirements.txt), one level above BASE_DIR.
+load_dotenv(BASE_DIR.parent / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,7 +48,8 @@ INSTALLED_APPS = [
     'user_study_emuru.apps.UserStudyEmuruConfig',
     'acknowledgements.apps.AcknowledgementsConfig',
     'party.apps.PartyConfig',
-    'main.apps.MainConfig',
+    'cv.apps.CvConfig',
+    'assistant.apps.AssistantConfig',
     'tears.apps.TearsConfig',
     'timesup.apps.TimesupConfig',
     'django.contrib.admin',
@@ -138,3 +145,14 @@ MEDIA_ROOT =  BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CV Assistant (Gemini chat) — see .env.example. Get a key from https://aistudio.google.com/apikey
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+# Double-check the current model list at https://ai.google.dev/gemini-api/docs/models before relying
+# on this default — override via .env if it's been superseded.
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL') or 'gemini-3.6-flash'
+# Comma-separated list offered in the /assistant/ model dropdown, e.g. "gemini-3.6-flash,gemini-3.6-pro".
+# GEMINI_MODEL is always included even if left out of this list.
+GEMINI_AVAILABLE_MODELS = [m.strip() for m in os.environ.get('GEMINI_MODELS', '').split(',') if m.strip()]
+if GEMINI_MODEL not in GEMINI_AVAILABLE_MODELS:
+    GEMINI_AVAILABLE_MODELS.insert(0, GEMINI_MODEL)
