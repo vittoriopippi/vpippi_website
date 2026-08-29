@@ -148,6 +148,7 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 24px 10%;
   }
   .cva-msg { display: flex; gap: 10px; margin-bottom: 18px; align-items: flex-start; }
@@ -163,6 +164,8 @@
   .cva-msg.user .cva-avatar { visibility: hidden; width: 0; }
   .cva-msg .content {
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     line-height: 1.5;
     font-size: 0.92rem;
     max-width: 80%;
