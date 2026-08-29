@@ -1,6 +1,6 @@
 <div class="row g-0 cv-row">
     <div class="col-md-3 cv-left-col">
-        {{ item.app.created_at|date:"d M Y" }}
+        {% if item.app.applied_date %}{{ item.app.applied_date|date:"d M Y" }}{% else %}{{ item.app.created_at|date:"d M Y" }}{% endif %}
         <br>
         <span class="job-status-badge" style="background-color: {{ item.color }};">{{ item.app.status }}</span>
     </div>
