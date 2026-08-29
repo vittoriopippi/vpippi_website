@@ -1,0 +1,19 @@
+<div class="row g-0 cv-row">
+    <div class="col-md-3 cv-left-col">
+        {{ item.app.created_at|date:"d M Y" }}
+        <br>
+        <span class="job-status-badge" style="background-color: {{ item.color }};">{{ item.app.status }}</span>
+    </div>
+    <div class="col-md-9 cv-right-col" style="border-color: {{ item.color }};">
+        <div class="cv-entry-title">
+            {% if item.app.job_url %}<a href="{{ item.app.job_url }}" target="_blank" rel="noopener">{{ item.app.title }}</a>{% else %}{{ item.app.title }}{% endif %}
+        </div>
+        <div class="cv-entry-desc">
+            <span class="job-meta">{{ item.app.company }} ({{ item.app.location }})</span>
+            {% if item.app.notes %}<br>{{ item.app.notes }}{% endif %}
+        </div>
+        <div class="job-timestamps" title="Last updated {{ item.app.updated_at }}">
+            Last edit: {{ item.app.updated_at|timesince }} ago
+        </div>
+    </div>
+</div>

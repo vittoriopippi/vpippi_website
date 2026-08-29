@@ -26,33 +26,42 @@
         font-size: 0.78rem;
         margin-top: 4px;
     }
+    .job-separator {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 2rem 0 1.2rem;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+    .job-separator::before,
+    .job-separator::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #dee2e6;
+    }
 </style>
 <div class="cv-container">
     <h1>Job Applications</h1>
-    <p class="contact-info" style="margin-bottom: 1.5rem;">{{ applications|length }} application{{ applications|length|pluralize }} tracked</p>
+    <p class="contact-info" style="margin-bottom: 1.5rem;">{{ total_count }} application{{ total_count|pluralize }} tracked</p>
+
+    {% if not applications and not rejected_applications %}
+        <p class="job-empty">No applications tracked yet. Ask the assistant to add one.</p>
+    {% endif %}
 
     {% for item in applications %}
-        <div class="row g-0 cv-row">
-            <div class="col-md-3 cv-left-col">
-                {{ item.app.created_at|date:"d M Y" }}
-                <br>
-                <span class="job-status-badge" style="background-color: {{ item.color }};">{{ item.app.status }}</span>
-            </div>
-            <div class="col-md-9 cv-right-col" style="border-color: {{ item.color }};">
-                <div class="cv-entry-title">
-                    {% if item.app.job_url %}<a href="{{ item.app.job_url }}" target="_blank" rel="noopener">{{ item.app.title }}</a>{% else %}{{ item.app.title }}{% endif %}
-                </div>
-                <div class="cv-entry-desc">
-                    <span class="job-meta">{{ item.app.company }} ({{ item.app.location }})</span>
-                    {% if item.app.notes %}<br>{{ item.app.notes }}{% endif %}
-                </div>
-                <div class="job-timestamps" title="Last updated {{ item.app.updated_at }}">
-                    Last edit: {{ item.app.updated_at|timesince }} ago
-                </div>
-            </div>
-        </div>
-    {% empty %}
-        <p class="job-empty">No applications tracked yet. Ask the assistant to add one.</p>
+        {% include 'jobs/_row.html' %}
     {% endfor %}
+
+    {% if rejected_applications %}
+        <div class="job-separator">Rejected ({{ rejected_applications|length }})</div>
+        {% for item in rejected_applications %}
+            {% include 'jobs/_row.html' %}
+        {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

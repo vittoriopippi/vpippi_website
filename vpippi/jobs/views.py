@@ -11,10 +11,18 @@ STATUS_COLORS = {
 }
 
 
+def _rows(applications):
+    return [{'app': a, 'color': STATUS_COLORS.get(a.status, '#adb5bd')} for a in applications]
+
+
 @staff_member_required
 def board(request):
-    applications = [
-        {'app': a, 'color': STATUS_COLORS.get(a.status, '#adb5bd')}
-        for a in JobApplication.objects.all()
-    ]
-    return render(request, 'jobs/board.html', {'applications': applications})
+    all_applications = JobApplication.objects.order_by('-created_at')
+    active = all_applications.exclude(status=JobApplication.STATUS_REJECTED)
+    rejected = all_applications.filter(status=JobApplication.STATUS_REJECTED)
+    context = {
+        'applications': _rows(active),
+        'rejected_applications': _rows(rejected),
+        'total_count': all_applications.count(),
+    }
+    return render(request, 'jobs/board.html', context)
