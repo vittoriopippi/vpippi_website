@@ -4,6 +4,7 @@ import logging
 from django.conf import settings
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import redirect, render
+from django.utils.html import escape
 
 from .latex import LatexError, latex_to_pdf
 from .models import CVVariant
@@ -42,8 +43,10 @@ def _serve_pdf(request, variant):
     if not cache_path.exists():
         try:
             pdf_bytes = latex_to_pdf(variant.source_content)
-        except LatexError:
+        except LatexError as e:
             logger.exception("Failed to compile PDF for CV variant %r", variant.slug)
+            if request.user.is_staff:
+                return HttpResponse(f'<pre>{escape(str(e))}</pre>', status=503)
             return HttpResponse("Sorry, PDF generation is temporarily unavailable for this CV.", status=503)
         cache_path.write_bytes(pdf_bytes)
 
