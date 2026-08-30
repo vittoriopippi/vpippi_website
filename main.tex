@@ -1,0 +1,172 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{montserrat} % Utilizza il font Montserrat
+\usepackage{geometry}
+% Margini ottimizzati
+\geometry{left=1cm, right=1cm, top=1.2cm, bottom=1.2cm}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{tcolorbox}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{setspace}
+
+% Clean sans-serif font
+\renewcommand{\familydefault}{\sfdefault}
+
+% Base colors from CSS
+\definecolor{textgray}{HTML}{808080}
+\definecolor{darkgray}{HTML}{404040}
+\definecolor{linkgray}{HTML}{7A7A7A}
+\definecolor{boxbg}{HTML}{D9D9D9}
+
+% Work Experience base colors
+\definecolor{workhigh}{HTML}{0E9547}
+\definecolor{workmid}{HTML}{A2CB39}
+\definecolor{worklow}{HTML}{DBE68D}
+
+% Publications base colors
+\definecolor{pubhigh}{HTML}{AD2E92}
+\definecolor{publow}{HTML}{C29BC8}
+
+% Education base colors
+\definecolor{eduhigh}{HTML}{EE5A25}
+\definecolor{edumid}{HTML}{F79F20}
+\definecolor{edulow}{HTML}{FFC414}
+
+% Training base colors
+\definecolor{trainhigh}{HTML}{4A4EA1}
+\definecolor{trainmid}{HTML}{75A7D9}
+
+% Create blended gradients using colorlet
+\colorlet{we1}{workhigh}
+\colorlet{we2}{workhigh!50!workmid}
+\colorlet{we3}{workmid}
+\colorlet{we4}{workmid!50!worklow}
+\colorlet{we5}{worklow}
+
+\colorlet{pub1}{pubhigh}
+\colorlet{pub2}{pubhigh!50!publow}
+\colorlet{pub3}{publow}
+\colorlet{pubpink}{pubhigh}
+
+\colorlet{edu1}{eduhigh}
+\colorlet{edu2}{edumid}
+\colorlet{edu3}{edulow}
+
+\colorlet{stu1}{trainhigh}
+\colorlet{stu2}{trainhigh!50!trainmid}
+\colorlet{stu3}{trainmid}
+
+% Configure hyperlink styling
+\hypersetup{colorlinks=true, urlcolor=linkgray, linkcolor=linkgray}
+
+% Custom inline highlight box
+\newtcbox{\hlbox}{on line, arc=0pt, sharp corners, colback=boxbg, colframe=boxbg,
+boxrule=0pt, boxsep=0pt, left=2pt, right=2pt, top=1pt, bottom=1pt,
+fontupper=\color{darkgray}}
+
+% Section title command
+\newcommand{\cvsection}[1]{
+    \vspace{2.2ex}
+    \noindent{\Large \textcolor{darkgray}{#1}}
+    \vspace{0.8ex}\par
+}
+
+% Timeline entry command
+\newcommand{\cventry}[3]{
+    \par\noindent
+    \begin{minipage}[t]{0.19\textwidth}
+        \raggedleft \footnotesize \textcolor{textgray}{#2}
+    \end{minipage}%
+    \hspace{0.015\textwidth}%
+    \textcolor{#1}{\vrule width 2.5pt}%
+    \hspace{0.015\textwidth}%
+    \begin{minipage}[t]{0.75\textwidth}
+        \footnotesize #3
+    \end{minipage}
+    \par\vspace{0.6ex}
+}
+
+\begin{document}
+\pagestyle{empty}
+\linespread{0.95}\selectfont
+
+% Header
+\noindent{\huge \textcolor{darkgray}{Vittorio Pippi}}\vspace{1.2ex}
+
+\noindent
+\footnotesize
+\textcolor{linkgray}{\faEnvelope} \hspace{0.5ex} \href{mailto:vittorio@vpippi.com}{\underline{\textcolor{linkgray}{vittorio@vpippi.com}}} \hspace{2ex} \\
+\textcolor{linkgray}{\faLinkedin} \hspace{0.5ex} \href{https://www.linkedin.com/in/vittorio-pippi/}{\underline{\textcolor{linkgray}{linkedin.com/in/vittorio-pippi}}} \\
+\textcolor{linkgray}{\faGraduationCap} \hspace{0.5ex} \href{https://scholar.google.com/citations?user=OHmt2vUAAAAJ}{\underline{\textcolor{linkgray}{https://scholar.google.com/citations?user=OHmt2vUAAAAJ}}}
+\vspace{0.5ex}
+
+% Technical Summary
+\cvsection{Technical Summary}
+\noindent\textcolor{textgray}{\footnotesize
+Expert in \hlbox{Document AI} and synthetic data generation, with a focus on \hlbox{vision-language models}, transformers, and \\
+diffusion models. Proficient in \hlbox{PyTorch}, \hlbox{Hugging Face}, and deploying large-scale multimodal systems.}
+
+% Work Experience
+\cvsection{Work Experience}
+
+\cventry{we1}{Mar 2026 - Aug 2026}{\textcolor{darkgray}{Research Scientist} \\ \textcolor{textgray}{Design Handwritten Text Generation models to improve downstream HTR for VLLMs \\ Docling Team at IBM, Zürich (Switzerland)}}
+
+\cventry{we1}{May 2024 - Nov 2024}{\textcolor{darkgray}{Applied Scientist Intern} \\ \textcolor{textgray}{Research on Multimodal Large Language Models \\ CVNA at Amazon, Berlin (Germany)}}
+
+\cventry{we2}{Feb 2020 - Jun 2025}{\textcolor{darkgray}{Chief Technical Officer} \\ \textcolor{textgray}{Programmed XR/VR applications in C\# in Unity on HoloLens 2, Magic Leap 2, and Meta Quest 2/3 \\ PPXR, Foligno (Italy)}}
+
+\cventry{we3}{Apr 2021 - Jun 2021}{\textcolor{darkgray}{Research Assistant} \\ \textcolor{textgray}{Study and analysis of 3D images in the medical field \\ Ostfalia University, Wolfenbüttel (Germany)}}
+
+\cventry{we4}{Apr 2020 - Dec 2020}{\textcolor{darkgray}{Research Intern} \\ \textcolor{textgray}{Development of Self-supervised pre-training strategies for object detection \\ AImageLab at Enzo Ferrari Engineering Department, Modena (Italy)}}
+
+\cventry{we5}{Jan 2020 - Jun 2020}{\textcolor{darkgray}{Freelance Website Developer} \\ \textcolor{textgray}{Development of websites and webapps, made in Django \\ Studionilo, Bologna (Italy) - Tectra, Udine (Italy)}}
+
+% Selected Publications
+\cvsection{Selected Publications}
+
+\cventry{pub1}{CVPR 2025}{\textcolor{darkgray}{Zero-Shot Styled Text Image Generation, but Make It Autoregressive} \\ \textcolor{textgray}{\hlbox{V. Pippi}, F. Quattrini, S. Cascianelli, A. Tonioni, R. Cucchiara}}
+
+\cventry{pub1}{CVPR 2023}{\textcolor{darkgray}{Handwritten Text Generation from Visual Archetypes} \\ \textcolor{textgray}{\hlbox{V. Pippi}, S. Cascianelli, R. Cucchiara}}
+
+\cventry{pub1}{ARXIV 2025 \\ \textcolor{pubpink}{Amazon restriction}}{\textcolor{darkgray}{ToFu: Visual Tokens Reduction via Fusion for Multi-modal, Multi-patch, Multi-image Tasks} \\ \textcolor{textgray}{\hlbox{V. Pippi}, M. Guillaumin, S. Cascianelli, R. Cucchiara, M. Jaritz, L. Bazzani}}
+
+\cventry{pub1}{TPAMI 2024}{\textcolor{darkgray}{VATr++: Choose Your Words Wisely for Handwritten Text Generation} \\ \textcolor{textgray}{B. Vanherle, \hlbox{V. Pippi}, S. Cascianelli, N. Michiels, F. Van Reeth, R. Cucchiara}}
+
+\cventry{pub1}{ECCV 2024}{\textcolor{darkgray}{Semantically Coherent Montages by Merging and Splitting Diffusion Paths} \\ \textcolor{textgray}{F. Quattrini, \hlbox{V. Pippi}, S. Cascianelli, R. Cucchiara}}
+
+\cventry{pub2}{ICDAR 2024 \\ \textcolor{pub2}{Oral}}{\textcolor{darkgray}{Binarizing Documents by Leveraging both Space and Frequency} \\ \textcolor{textgray}{F. Quattrini, \hlbox{V. Pippi}, S. Cascianelli, R. Cucchiara}}
+
+\cventry{pub2}{ICDAR 2023 \\ \textcolor{pub2}{Oral}}{\textcolor{darkgray}{How to Choose Pretrained Handwriting Recognition Models for Single Writer Fine-Tuning} \\ \textcolor{textgray}{\hlbox{V. Pippi}, S. Cascianelli, C. Kermorvant, R. Cucchiara}}
+
+\cventry{pub3}{BMVC 2023}{\textcolor{darkgray}{HWD: A Novel Evaluation Score for Styled Handwritten Text Generation} \\ \textcolor{textgray}{\hlbox{V. Pippi}, F. Quattrini, S. Cascianelli, R. Cucchiara}}
+
+\cventry{pub3}{PRL 2022}{\textcolor{darkgray}{Evaluating Synthetic Pre-Training for Handwriting Processing Tasks} \\ \textcolor{textgray}{\hlbox{V. Pippi}, S. Cascianelli, L. Baraldi, R. Cucchiara}}
+
+\cventry{pub3}{ICPR 2022}{\textcolor{darkgray}{The LAM dataset: a novel benchmark for line-level handwritten text recognition} \\ \textcolor{textgray}{S. Cascianelli, \hlbox{V. Pippi}, M. Maarand, M. Cornia, L. Baraldi, C. Kermorvant, R. Cucchiara}}
+
+% Education
+\cvsection{Education}
+
+\cventry{edu1}{Nov 2021 - Jun 2025}{\textcolor{darkgray}{National PhD student in AI for Society} \\ \textcolor{textgray}{University of Pisa - University of Modena and Reggio Emilia (host) \\ Project title: Generative and Discriminative AI for Document and Text Images \\ Tutors: Prof. Rita Cucchiara, Dr. Silvia Cascianelli}}
+
+\cventry{edu2}{Sep 2018 - Dec 2020}{\textcolor{darkgray}{Master of Science in Computer Engineering} \\ \textcolor{textgray}{University of Modena and Reggio Emilia}}
+
+\cventry{edu3}{Sep 2015 - Oct 2018}{\textcolor{darkgray}{Bachelor of Science in Computer Engineering} \\ \textcolor{textgray}{University of Modena and Reggio Emilia}}
+
+% Studies and Training Experiences
+\cvsection{Studies and Training Experiences}
+
+\cventry{stu1}{Sep 2023}{\textcolor{darkgray}{ELLIS Summer School on Large-Scale AI for Research and Industry} \\ \textcolor{textgray}{University of Modena and Reggio Emilia}}
+
+\cventry{stu1}{Jul 2023}{\textcolor{darkgray}{ICVSS 2023 - International Computer Vision Summer School} \\ \textcolor{textgray}{University of Catania}}
+
+\cventry{stu2}{Jun 2022}{\textcolor{darkgray}{National PhD student in AI for Society - Summer School} \\ \textcolor{textgray}{University of Pisa}}
+
+\cventry{stu3}{Sep 2019 - Feb 2020}{\textcolor{darkgray}{European Union Erasmus Program} \\ \textcolor{textgray}{Akademia Górniczo-Hutnicza, Krakow (Poland)}}
+
+\cventry{stu3}{Sep 2019}{\textcolor{darkgray}{European Union Erasmus+ “BEAST - BE Aware STudent”} \\ \textcolor{textgray}{Rzeszów University of Technology, Rzeszów (Poland)}}
+
+\end{document}

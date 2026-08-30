@@ -158,3 +158,9 @@ GEMINI_MODEL = os.environ.get('GEMINI_MODEL') or 'gemini-3.6-flash'
 GEMINI_AVAILABLE_MODELS = [m.strip() for m in os.environ.get('GEMINI_MODELS', '').split(',') if m.strip()]
 if GEMINI_MODEL not in GEMINI_AVAILABLE_MODELS:
     GEMINI_AVAILABLE_MODELS.insert(0, GEMINI_MODEL)
+
+# LaTeX CV support (cv.latex) — override in .env if these binaries aren't on $PATH,
+# e.g. a PythonAnywhere-style host with no root/apt: point these at a portable pandoc
+# binary and a TinyTeX install under $HOME instead. See DEPLOY.md.
+PANDOC_BIN = os.environ.get('PANDOC_BIN') or 'pandoc'
+LATEXMK_BIN = os.environ.get('LATEXMK_BIN') or 'latexmk'

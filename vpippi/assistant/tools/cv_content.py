@@ -1,8 +1,9 @@
-"""Tools for CVVariant — the whole CV is one self-contained Markdown/HTML
-document (content_md). Each write operation is split into a `validate_*`
-function (called immediately when the model invokes the tool — checks input
-and returns a human-readable summary plus normalized arguments, but touches
-no data) and an `apply_*` function (called only once the user confirms —
+"""Tools for CVVariant — the whole CV is one self-contained document
+(source_content), either raw HTML or a full LaTeX document depending on
+source_type. Each write operation is split into a `validate_*` function
+(called immediately when the model invokes the tool — checks input and
+returns a human-readable summary plus normalized arguments, but touches no
+data) and an `apply_*` function (called only once the user confirms —
 performs the actual write).
 """
 from cv.models import CVVariant
@@ -40,10 +41,11 @@ def list_cv_variants():
             'slug': v.slug,
             'label': v.label,
             'page_title': v.page_title,
+            'source_type': v.source_type,
             'is_default': v.is_default,
             'is_published': v.is_published,
             'is_locked': v.is_locked,
-            'content_length': len(v.content_md),
+            'content_length': len(v.source_content),
         }
         for v in CVVariant.objects.all()
     ]
@@ -55,29 +57,35 @@ def get_cv_variant(slug):
         'slug': v.slug,
         'label': v.label,
         'page_title': v.page_title,
+        'source_type': v.source_type,
         'is_default': v.is_default,
         'is_published': v.is_published,
         'is_locked': v.is_locked,
-        'content_md': v.content_md,
+        'source_content': v.source_content,
     }
 
 
 # --- write tools ------------------------------------------------------------
 
-def validate_create_cv_variant(slug, label, page_title='', is_default=False):
+def validate_create_cv_variant(slug, label, page_title='', source_type='html', is_default=False):
     if CVVariant.objects.filter(slug=slug).exists():
         raise ValueError(f"A CVVariant with slug {slug!r} already exists. Use update_cv_variant or write_cv_content instead.")
+    if source_type not in ('html', 'latex'):
+        raise ValueError(f"source_type must be 'html' or 'latex', got {source_type!r}.")
     if is_default:
         _check_default_swap_unlocked()
-    args = dict(slug=slug, label=label, page_title=page_title, is_default=bool(is_default))
-    text = f"Create a new, empty CV variant '{label}' (slug: {slug})"
+    args = dict(slug=slug, label=label, page_title=page_title, source_type=source_type, is_default=bool(is_default))
+    text = f"Create a new, empty {source_type.upper()} CV variant '{label}' (slug: {slug})"
     if is_default:
         text += ' and make it the default CV served at the site root'
     return text, args
 
 
-def apply_create_cv_variant(slug, label, page_title, is_default):
-    v = CVVariant.objects.create(slug=slug, label=label, page_title=page_title, is_default=is_default, content_md='')
+def apply_create_cv_variant(slug, label, page_title, source_type, is_default):
+    v = CVVariant.objects.create(
+        slug=slug, label=label, page_title=page_title, source_type=source_type,
+        is_default=is_default, source_content='',
+    )
     return f"Created empty CVVariant '{v.label}' (slug: {v.slug})."
 
 
@@ -102,43 +110,44 @@ def validate_create_cv_variant_from(new_slug, new_label, source_slug=None, page_
 def apply_create_cv_variant_from(new_slug, new_label, source_slug, page_title, is_default):
     source = CVVariant.objects.get(slug=source_slug)
     v = CVVariant.objects.create(
-        slug=new_slug, label=new_label, page_title=page_title, is_default=is_default, content_md=source.content_md,
+        slug=new_slug, label=new_label, page_title=page_title, is_default=is_default,
+        source_type=source.source_type, source_content=source.source_content,
     )
     return f"Created CVVariant '{v.label}' (slug: {v.slug}) as a copy of '{source.label}'."
 
 
-def validate_write_cv_content(slug, content_md):
+def validate_write_cv_content(slug, source_content):
     v = _get_variant(slug)
     _check_unlocked(v)
-    if not content_md.strip():
+    if not source_content.strip():
         raise ValueError(
-            "content_md is empty. If you really mean to blank out this CV, confirm that explicitly "
+            "source_content is empty. If you really mean to blank out this CV, confirm that explicitly "
             "with the user first before calling this — an empty page is almost certainly a mistake."
         )
-    args = dict(slug=slug, content_md=content_md)
-    text = f"Overwrite the full content of '{v.label}' ({slug}) with {len(content_md)} characters of new Markdown/HTML"
+    args = dict(slug=slug, source_content=source_content)
+    text = f"Overwrite the full {v.source_type.upper()} source of '{v.label}' ({slug}) with {len(source_content)} characters"
     return text, args
 
 
-def apply_write_cv_content(slug, content_md):
+def apply_write_cv_content(slug, source_content):
     v = _get_variant(slug)
-    v.content_md = content_md
-    v.save(update_fields=['content_md'])
+    v.source_content = source_content
+    v.save(update_fields=['source_content', 'rendered_html'])
     return f"Updated content for '{v.label}' ({v.slug})."
 
 
 def validate_edit_cv_content(slug, old_text, new_text):
     v = _get_variant(slug)
     _check_unlocked(v)
-    count = v.content_md.count(old_text)
+    count = v.source_content.count(old_text)
     if count == 0:
         raise ValueError(
-            "old_text was not found verbatim in the current content_md. Call get_cv_variant to see the "
+            "old_text was not found verbatim in the current source_content. Call get_cv_variant to see the "
             "exact current content and copy the text precisely (including exact whitespace/markup)."
         )
     if count > 1:
         raise ValueError(
-            f"old_text appears {count} times in content_md — it must match exactly once. Include more "
+            f"old_text appears {count} times in source_content — it must match exactly once. Include more "
             "surrounding context to make it unique, or use write_cv_content to replace the whole document."
         )
     args = dict(slug=slug, old_text=old_text, new_text=new_text)
@@ -148,8 +157,8 @@ def validate_edit_cv_content(slug, old_text, new_text):
 
 def apply_edit_cv_content(slug, old_text, new_text):
     v = _get_variant(slug)
-    v.content_md = v.content_md.replace(old_text, new_text, 1)
-    v.save(update_fields=['content_md'])
+    v.source_content = v.source_content.replace(old_text, new_text, 1)
+    v.save(update_fields=['source_content', 'rendered_html'])
     return f"Edited content for '{v.label}' ({v.slug})."
 
 

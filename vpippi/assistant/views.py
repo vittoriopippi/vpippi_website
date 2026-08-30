@@ -18,9 +18,8 @@ def _display_text(message):
 
 
 def _render_reply(text):
-    """Render a model reply's Markdown to HTML, same as CVVariant.content_md
-    (see cv.templatetags.cv_extras.markdownify). Trusted like that content is —
-    only staff can reach this chat, and the text comes from our own Gemini call."""
+    """Render a model reply's Markdown to HTML. Trusted content — only staff
+    can reach this chat, and the text comes from our own Gemini call."""
     if not text:
         return ''
     return mark_safe(markdown.markdown(text, extensions=['extra']))

@@ -1,10 +1,14 @@
 {% extends 'cv/base.html' %}
-{% load cv_extras %}
 
 {% block title %}{{ variant.page_title|default:variant.label }}{% endblock %}
 
 {% block body %}
 <div class="cv-container">
-    {{ variant.content_md|markdownify }}
+    {{ variant.rendered_html|safe }}
 </div>
+{% if variant.source_type == 'latex' and user.is_staff %}
+<a class="btn btn-secondary cv-pdf-download" href="{% if variant.is_default %}{% url 'cv:default_pdf' %}{% else %}{% url 'cv:variant_pdf' variant.slug %}{% endif %}" title="Download PDF">
+    <i class="bi bi-file-earmark-pdf"></i>
+</a>
+{% endif %}
 {% endblock %}

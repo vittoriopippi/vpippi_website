@@ -25,22 +25,23 @@ FUNCTION_DECLARATIONS = [
     # --- read tools ---------------------------------------------------
     {
         'name': 'list_cv_variants',
-        'description': 'List every CV variant (slug, label, page_title, whether it is the default/site-root CV, published/locked state, and content length). Does not include the full content.',
+        'description': 'List every CV variant (slug, label, page_title, source_type, whether it is the default/site-root CV, published/locked state, and content length). Does not include the full content.',
         'parameters': _obj({}, []),
     },
     {
         'name': 'get_cv_variant',
-        'description': 'Get one CV variant in full, including its entire content_md. Call this before edit_cv_content — you need the exact current text to match against.',
+        'description': 'Get one CV variant in full, including its entire source_content. Call this before edit_cv_content — you need the exact current text to match against.',
         'parameters': _obj({'slug': _prop('string', 'The CVVariant slug.')}, ['slug']),
     },
     # --- write tools ------------------------------------------------------
     {
         'name': 'create_cv_variant',
-        'description': 'Create a new, empty CV variant, served at /cv/<slug>/ (or at the site root if is_default is true). Its content_md starts blank — use write_cv_content afterwards to author it.',
+        'description': 'Create a new, empty CV variant, served at /cv/<slug>/ (or at the site root if is_default is true). Its source_content starts blank — use write_cv_content afterwards to author it.',
         'parameters': _obj({
             'slug': _prop('string', "URL slug, e.g. 'apple' for /cv/apple/."),
             'label': _prop('string', 'Internal name shown in the admin.'),
             'page_title': _prop('string', 'Browser tab title. Falls back to label if omitted.'),
+            'source_type': _prop('string', "'html' (raw HTML, shown as-is) or 'latex' (a full standalone .tex document, compiled to HTML and PDF server-side). Defaults to 'html'.", enum=['html', 'latex']),
             'is_default': _prop('boolean', 'Make this the CV served at the site root. Unsets any previous default.'),
         }, ['slug', 'label']),
     },
@@ -57,18 +58,18 @@ FUNCTION_DECLARATIONS = [
     },
     {
         'name': 'write_cv_content',
-        'description': 'Overwrite the ENTIRE content_md of a CV variant. Use for first-time authoring or large rewrites. For a small, precise change to an existing document prefer edit_cv_content instead.',
+        'description': 'Overwrite the ENTIRE source_content of a CV variant (HTML or LaTeX, whatever its source_type already is). Use for first-time authoring or large rewrites. For a small, precise change to an existing document prefer edit_cv_content instead.',
         'parameters': _obj({
             'slug': _prop('string', 'The CVVariant slug to write.'),
-            'content_md': _prop('string', 'The full new page content: Markdown, with raw HTML allowed for custom layouts.'),
-        }, ['slug', 'content_md']),
+            'source_content': _prop('string', "The full new page source — raw HTML if source_type is 'html', or a full standalone LaTeX document if source_type is 'latex'."),
+        }, ['slug', 'source_content']),
     },
     {
         'name': 'edit_cv_content',
-        'description': 'Replace one exact, unique occurrence of old_text with new_text inside a CV variant\'s content_md — a targeted find-and-replace, cheaper and safer than resending the whole document. old_text must match the CURRENT content_md exactly (call get_cv_variant first) and must occur exactly once; include enough surrounding context to make it unique.',
+        'description': 'Replace one exact, unique occurrence of old_text with new_text inside a CV variant\'s source_content — a targeted find-and-replace, cheaper and safer than resending the whole document. old_text must match the CURRENT source_content exactly (call get_cv_variant first) and must occur exactly once; include enough surrounding context to make it unique.',
         'parameters': _obj({
             'slug': _prop('string', 'The CVVariant slug to edit.'),
-            'old_text': _prop('string', 'Exact substring to find in the current content_md (must be unique).'),
+            'old_text': _prop('string', 'Exact substring to find in the current source_content (must be unique).'),
             'new_text': _prop('string', 'Text to replace it with.'),
         }, ['slug', 'old_text', 'new_text']),
     },
