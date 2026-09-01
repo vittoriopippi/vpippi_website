@@ -134,6 +134,27 @@
             margin-bottom: 0;
         }
 
+        /* Bullet lists inside CV content (e.g. a \begin{itemize} in a LaTeX
+           entry's description): pandoc wraps each item in its own <p> when
+           there are blank lines between \item's in the source ("loose"
+           lists), and the browser default paragraph margin then stacks up
+           between items. Zero it out and tighten the list itself so bullets
+           read as compact as the rest of the CV regardless of how the
+           source was spaced. */
+        .cv-container ul,
+        .cv-container ol {
+            margin: 0.2rem 0 0.4rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .cv-container li {
+            margin-bottom: 0.15rem;
+        }
+
+        .cv-container li > p {
+            margin: 0;
+        }
+
         .highlight {
             background-color: var(--highlight-bg);
             padding: 1px 1px;
