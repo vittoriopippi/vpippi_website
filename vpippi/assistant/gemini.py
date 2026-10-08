@@ -8,15 +8,47 @@ Verified against the installed google-genai==2.20.0 source directly
 plain JSON Schema via `parameters_json_schema`; GenerateContentResponse
 exposes `.function_calls` and `.text`).
 """
+import logging
+
+import httpx
 from django.conf import settings
 from google import genai
-from google.genai import types
+from google.genai import errors as genai_errors, types
 
 from . import executor
 from .models import ChatMessage, PendingAction
 from .tools import FUNCTION_DECLARATIONS, READ_HANDLERS, WRITE_VALIDATORS
 
+logger = logging.getLogger(__name__)
+
 MAX_TOOL_ITERATIONS = 25
+
+
+class GeminiError(Exception):
+    """The Gemini API (or the connection to it) failed. The message is safe to show to the user."""
+
+
+def _describe_api_error(exc, model_name):
+    """Turn a google-genai / network exception into a short, user-facing message."""
+    if isinstance(exc, genai_errors.APIError):
+        code = exc.code
+        detail = exc.message or str(exc)
+        if code == 429:
+            return f"Gemini quota or rate limit reached (429). Wait a moment and try again, or check your plan/billing. Details: {detail}"
+        if code in (401, 403):
+            return f"Gemini rejected the API key ({code}). Check GEMINI_API_KEY and that the key can use '{model_name}'. Details: {detail}"
+        if code == 404:
+            return f"Gemini model '{model_name}' was not found (404). Pick another model. Details: {detail}"
+        if code == 400:
+            return f"Gemini rejected the request (400). Details: {detail}"
+        if code in (500, 502, 503, 504):
+            return f"Gemini is temporarily unavailable or overloaded ({code}). Please try again in a moment. Details: {detail}"
+        return f"Gemini API error ({code} {exc.status or ''}): {detail}"
+    if isinstance(exc, httpx.TimeoutException):
+        return "The request to Gemini timed out. Please try again."
+    if isinstance(exc, httpx.TransportError):
+        return f"Could not reach the Gemini API (network error: {exc}). Please try again."
+    return None
 
 # Only these tools stage a PendingAction and wait for an explicit Confirm click in the
 # chat UI. Every other write executes immediately once the model calls it.
@@ -164,6 +196,8 @@ def _pending_notes(session):
 
 
 def run_turn(session, user_text):
+    if not settings.GEMINI_API_KEY:
+        raise GeminiError("GEMINI_API_KEY is not configured on the server.")
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     model_name = session.model or settings.GEMINI_MODEL
     history = _load_history(session)
@@ -178,7 +212,14 @@ def run_turn(session, user_text):
     new_pending_actions = []
 
     for _ in range(MAX_TOOL_ITERATIONS):
-        response = client.models.generate_content(model=model_name, contents=history, config=config)
+        try:
+            response = client.models.generate_content(model=model_name, contents=history, config=config)
+        except Exception as exc:
+            message = _describe_api_error(exc, model_name)
+            if message is None:
+                raise
+            logger.warning("Gemini call failed: %r", exc)
+            raise GeminiError(message) from exc
         if not response.candidates or not response.candidates[0].content:
             feedback = getattr(response, 'prompt_feedback', None)
             return {'reply': f"Gemini returned no response (possibly blocked: {feedback}).", 'pending_actions': new_pending_actions}

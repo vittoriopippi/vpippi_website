@@ -1,4 +1,5 @@
 import json
+import logging
 
 import markdown
 from django.conf import settings
@@ -10,6 +11,8 @@ from django.views.decorators.http import require_POST
 
 from . import executor, gemini
 from .models import ChatMessage, ChatSession, PendingAction
+
+logger = logging.getLogger(__name__)
 
 
 def _display_text(message):
@@ -31,8 +34,10 @@ def chat_view(request):
     if session_id:
         session = get_object_or_404(ChatSession, pk=session_id)
     else:
+        # Visiting /assistant/ without a session starts a new chat. Reuse the latest
+        # one if it's still empty so repeated visits don't pile up blank sessions.
         session = ChatSession.objects.first()
-        if session is None:
+        if session is None or session.messages.exists():
             session = ChatSession.objects.create()
 
     display_messages = []
@@ -85,7 +90,13 @@ def send_message(request):
     if not message:
         return JsonResponse({'error': 'Empty message.'}, status=400)
 
-    result = gemini.run_turn(session, message)
+    try:
+        result = gemini.run_turn(session, message)
+    except gemini.GeminiError as exc:
+        return JsonResponse({'error': str(exc)}, status=502)
+    except Exception as exc:
+        logger.exception("Assistant turn failed")
+        return JsonResponse({'error': f"Unexpected server error: {exc}"}, status=500)
     session.save()  # bump updated_at
 
     return JsonResponse({

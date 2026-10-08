@@ -557,6 +557,21 @@
     return div;
   }
 
+  // Parse a JSON response; if the server sent something else (HTML error page,
+  // login redirect, gateway timeout), turn it into a readable { error }.
+  async function readJson(resp) {
+    const type = resp.headers.get('content-type') || '';
+    if (type.includes('application/json')) return resp.json();
+    if (resp.redirected && resp.url.includes('login')) {
+      return { error: 'Your session has expired. Reload the page and log in again.' };
+    }
+    if (resp.status === 403) return { error: 'Request rejected (403). Reload the page and try again.' };
+    if (resp.status === 502 || resp.status === 504) {
+      return { error: 'The server timed out waiting for the AI (' + resp.status + '). Please try again.' };
+    }
+    return { error: 'The server returned an unexpected response (' + resp.status + ' ' + resp.statusText + '). Check the server logs.' };
+  }
+
   async function send() {
     const text = input.value.trim();
     if (!text) return;
@@ -571,7 +586,7 @@
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken() },
         body: JSON.stringify({ session_id: sessionId, message: text }),
       });
-      const data = await resp.json();
+      const data = await readJson(resp);
       typingEl.remove();
       if (data.error) {
         addMessage('model', 'Error: ' + data.error);
