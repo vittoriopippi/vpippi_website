@@ -1,7 +1,7 @@
 """Gemini agent loop: turns a user chat message into a reply. Read tools run
 inline. Write tools run immediately too — except delete_cv_variant, which
 stages a PendingAction and waits for an explicit Confirm click in the UI (see
-REQUIRES_CONFIRMATION below).
+REQUIRES_CONFIRMATION in dispatch.py).
 
 Verified against the installed google-genai==2.20.0 source directly
 (Content.role is 'user'/'model' only — not 'tool'; FunctionDeclaration takes
@@ -15,9 +15,9 @@ from django.conf import settings
 from google import genai
 from google.genai import errors as genai_errors, types
 
-from . import executor
+from .dispatch import run_tool
 from .models import ChatMessage, PendingAction
-from .tools import FUNCTION_DECLARATIONS, READ_HANDLERS, WRITE_VALIDATORS
+from .tools import FUNCTION_DECLARATIONS
 
 logger = logging.getLogger(__name__)
 
@@ -49,10 +49,6 @@ def _describe_api_error(exc, model_name):
     if isinstance(exc, httpx.TransportError):
         return f"Could not reach the Gemini API (network error: {exc}). Please try again."
     return None
-
-# Only these tools stage a PendingAction and wait for an explicit Confirm click in the
-# chat UI. Every other write executes immediately once the model calls it.
-REQUIRES_CONFIRMATION = {'delete_cv_variant', 'delete_job_application'}
 
 SYSTEM_INSTRUCTION = """You help maintain Vittorio Pippi's CV and job application tracker, published as a \
 Django site with multiple CV "variants" (one per URL: the default variant is served at the site root, \
@@ -233,7 +229,7 @@ def run_turn(session, user_text):
 
         response_parts = []
         for call in calls:
-            result = _dispatch(session, call, new_pending_actions)
+            result = run_tool(session, call.name, call.args or {}, new_pending_actions)
             response_parts.append(types.Part.from_function_response(name=call.name, response=result))
 
         function_response_content = types.Content(role='user', parts=response_parts)
@@ -248,36 +244,3 @@ def run_turn(session, user_text):
         ),
         'pending_actions': new_pending_actions,
     }
-
-
-def _dispatch(session, call, new_pending_actions):
-    name = call.name
-    args = call.args or {}
-
-    if name in READ_HANDLERS:
-        try:
-            return {'output': READ_HANDLERS[name](**args)}
-        except Exception as exc:
-            return {'error': str(exc)}
-
-    if name in WRITE_VALIDATORS:
-        try:
-            summary, normalized_args = WRITE_VALIDATORS[name](**args)
-        except Exception as exc:
-            return {'error': str(exc)}
-
-        pending = PendingAction.objects.create(
-            session=session, tool_name=name, arguments=normalized_args, summary=summary,
-        )
-
-        if name in REQUIRES_CONFIRMATION:
-            new_pending_actions.append(pending)
-            return {'output': {'status': 'pending_confirmation', 'action_id': pending.id, 'summary': summary}}
-
-        # Everything else applies immediately — no confirm click needed.
-        success, message = executor.confirm(pending)
-        if not success:
-            return {'error': message}
-        return {'output': {'status': 'applied', 'summary': summary, 'result': message}}
-
-    return {'error': f"Unknown tool '{name}'."}

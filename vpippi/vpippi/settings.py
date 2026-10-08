@@ -159,6 +159,12 @@ GEMINI_AVAILABLE_MODELS = [m.strip() for m in os.environ.get('GEMINI_MODELS', ''
 if GEMINI_MODEL not in GEMINI_AVAILABLE_MODELS:
     GEMINI_AVAILABLE_MODELS.insert(0, GEMINI_MODEL)
 
+# Bearer token for the HTTP tool API (assistant.api, served at /api/). Lets a trusted client —
+# e.g. Claude Code on the owner's PC — run the same tools as the chat assistant. Empty or shorter
+# than 32 characters disables the API entirely (every /api/ request 404s). Generate one with:
+#   python -c "import secrets; print(secrets.token_urlsafe(48))"
+ASSISTANT_API_TOKEN = os.environ.get('ASSISTANT_API_TOKEN', '')
+
 # LaTeX CV support (cv.latex) — override in .env if these binaries aren't on $PATH,
 # e.g. a PythonAnywhere-style host with no root/apt: point these at a portable pandoc
 # binary and a TinyTeX install under $HOME instead. See DEPLOY.md.

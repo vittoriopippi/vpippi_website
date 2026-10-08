@@ -43,7 +43,10 @@ class PendingAction(models.Model):
         (STATUS_CANCELLED, 'Cancelled'),
     ]
 
-    session = models.ForeignKey(ChatSession, on_delete=models.CASCADE, related_name='pending_actions')
+    session = models.ForeignKey(
+        ChatSession, on_delete=models.CASCADE, related_name='pending_actions', null=True, blank=True,
+        help_text='Blank for actions staged through the HTTP API (assistant.api), which has no chat session.',
+    )
     tool_name = models.CharField(max_length=100)
     arguments = models.JSONField(help_text='Normalized arguments, frozen at proposal time and replayed verbatim on confirm.')
     summary = models.TextField(help_text='Human-readable description shown in the chat UI and used as the audit trail.')

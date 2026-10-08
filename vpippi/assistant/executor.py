@@ -69,7 +69,8 @@ def confirm(pending_action: PendingAction):
     pending_action.resolved_at = timezone.now()
     pending_action.result = message
     pending_action.save(update_fields=['status', 'resolved_at', 'result'])
-    _note_touched_variant(pending_action.session, label)
+    if pending_action.session is not None:
+        _note_touched_variant(pending_action.session, label)
     return True, message
 
 

@@ -27,6 +27,7 @@ urlpatterns = [
     # path("timesup/", include("timesup.urls")),
     path("jobs/", include("jobs.urls")),
     path("assistant/", include("assistant.urls")),
+    path("api/", include("assistant.api_urls")),
     # path("wrappiantino/", include("tears.urls")),
     # path("user_study/", include("user_study_emuru.urls")),
     path('admin/', admin.site.urls),
