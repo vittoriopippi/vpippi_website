@@ -7,7 +7,7 @@ touching the (separate) local db.sqlite3.
 
 Config (environment variables, or a .env file in the repo root):
     SITE_API_TOKEN   required — must match ASSISTANT_API_TOKEN on the server
-    SITE_API_URL     optional — defaults to https://vpippi.com
+    SITE_API_URL     optional — defaults to https://www.vpippi.com
 
 Usage:
     site_api.py tools                       list tools and their parameters
@@ -39,7 +39,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-DEFAULT_URL = 'https://vpippi.com'
+DEFAULT_URL = 'https://www.vpippi.com'  # the bare domain 301-redirects here
 
 
 def load_dotenv():
@@ -59,6 +59,13 @@ def die(message, code=1):
     sys.exit(code)
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Never follow redirects: urllib would turn the POST into a GET (-> 405) and could
+    forward the bearer token to another host. Surface it instead."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        die(f'{req.full_url} redirected ({code}) to {newurl}. Set SITE_API_URL to the final base URL.')
+
+
 def request(method, path, body=None):
     token = os.environ.get('SITE_API_TOKEN')
     if not token:
@@ -75,7 +82,7 @@ def request(method, path, body=None):
         },
     )
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.build_opener(_NoRedirect).open(req, timeout=120) as resp:
             return resp.status, json.loads(resp.read().decode('utf-8'))
     except urllib.error.HTTPError as exc:
         raw = exc.read().decode('utf-8', 'replace')
